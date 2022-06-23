@@ -89,7 +89,12 @@ export default {
         name: "geostory",
         path: "/geostory/shared/:gid/section/:sectionId/column/:columnId",
         component: require('./pages/GeoStory').default
-    }],
+    },
+    {
+        name: "importer",
+        path: "/importer",
+        component: require('./pages/Importer').default
+      }],
     initialState: {
         defaultState: {
             mousePosition: {enabled: false},

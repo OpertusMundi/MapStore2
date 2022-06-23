@@ -23,6 +23,10 @@
     display: none;
 }
 
+#mapstore-topiodrivemenu > div > div:nth-child(2) {
+    display: none;
+}
+
 .nav-content #background-switcher .thumbnail {
     border-radius: 0 !important;
     margin-bottom: 40px;

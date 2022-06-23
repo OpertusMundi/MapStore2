@@ -25,7 +25,7 @@ export default {
                     }
                 }
             }
-        }, "DrawerMenu", "Annotations", "BackgroundSelector",
+        }, "DrawerMenu", "TopioDriveMenu", "Annotations", "BackgroundSelector",
         {
             "name": "Identify",
             "cfg": {

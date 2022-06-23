@@ -301,11 +301,7 @@ module.exports = (...args) => mapArgumentsToObject(args, ({
         publicPath: "/dist/",
         proxy: proxy || {
             '/rest': {
-                target: "https://dev-mapstore.geosolutionsgroup.com/mapstore",
-                secure: false,
-                headers: {
-                    host: "dev-mapstore.geosolutionsgroup.com"
-                }
+                target: "http://localhost:8090/mapstore",
             },
             '/pdf': {
                 target: "https://dev-mapstore.geosolutionsgroup.com/mapstore",
@@ -322,11 +318,8 @@ module.exports = (...args) => mapArgumentsToObject(args, ({
                 }
             },
             '/proxy': {
-                target: "https://dev-mapstore.geosolutionsgroup.com/mapstore",
+                target: "http://localhost:8090/mapstore",
                 secure: false,
-                headers: {
-                    host: "dev-mapstore.geosolutionsgroup.com"
-                }
             },
             '/docs': {
                 target: "http://localhost:8081",

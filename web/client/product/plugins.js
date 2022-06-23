@@ -41,6 +41,7 @@ export default {
         DeleteMapPlugin: require('../plugins/DeleteMap').default,
         DetailsPlugin: require('../plugins/Details').default,
         DrawerMenuPlugin: require('../plugins/DrawerMenu').default,
+        TopioDriveMenuPlugin: require('../plugins/TopioDriveMenu').default,
         ExpanderPlugin: require('../plugins/Expander').default,
         FeatureEditorPlugin: require('../plugins/FeatureEditor').default,
         FeaturedMaps: require('../plugins/FeaturedMaps').default,

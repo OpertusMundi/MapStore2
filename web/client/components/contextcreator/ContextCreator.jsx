@@ -199,6 +199,7 @@ export default class ContextCreator extends React.Component {
             },
             "TOCItemsSettings",
             "DrawerMenu",
+            "TopioDriveMenu",
             "OmniBar",
             "BurgerMenu",
             "AddGroup",

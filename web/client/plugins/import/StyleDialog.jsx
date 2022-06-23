@@ -62,6 +62,7 @@ class StyleDialog extends React.Component {
     };
 
     render() {
+        console.log("style dialog");
         const stylers = {
             Polygon: <StylePolygon/>,
             MultiPolygon: <StylePolygon/>,

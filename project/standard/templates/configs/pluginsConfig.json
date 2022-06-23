@@ -168,7 +168,7 @@
     {
       "name": "Annotations",
       "glyph": "comment",
-      "title": "plugins.Annotations.title",
+      "title": "plugins.Annotations.titleee",
       "description": "plugins.Annotations.description",
       "dependencies": [
         "BurgerMenu"

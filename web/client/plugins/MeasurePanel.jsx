@@ -59,7 +59,7 @@ export default {
                 tooltip: "toc.measure"
             },
             priority: 2
-        }
+        },
     }),
     reducers: {measurement: require('../reducers/measurement').default}
 };
