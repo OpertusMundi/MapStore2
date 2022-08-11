@@ -11,15 +11,14 @@ import { Glyphicon, Tooltip } from 'react-bootstrap';
 import Sidebar from 'react-sidebar';
 
 import OverlayTrigger from '../../components/misc/OverlayTrigger';
-import { Resizable } from 'react-resizable';
 import Message from '../../components/I18N/Message';
 import Button from '../../components/misc/Button';
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 
 
 import FileGrid from './FileGrid';
-import FileItem from './FileItem';
+
+import Tab from "./Tab";
+
 
 class MenuTopio extends React.Component {
     static propTypes = {
@@ -38,9 +37,13 @@ class MenuTopio extends React.Component {
         layout: PropTypes.object,
         resizable: PropTypes.bool,
         onResize: PropTypes.func,
-        files: PropTypes.array,
+        fileSystem: PropTypes.object,
     };
 
+    state = {
+        activeFolder: this.props.fileSystem
+    }
+    
     static defaultProps = {
         docked: false,
         single: false,
@@ -50,6 +53,11 @@ class MenuTopio extends React.Component {
         resizable: false,
         onResize: () => { }
     };
+
+    constructor (props){
+        super(props);
+        this.changeFolder = this.changeFolder.bind(this);
+    }
 
     componentDidMount() {
         if (!this.props.overlapMap && this.props.show) {
@@ -100,10 +108,60 @@ class MenuTopio extends React.Component {
     handleChange(event, newValue) {
         //setValue(newValue);
         console.log('in handle change')
-      }
+    }
+
+    browseFiles(element, path) {
+
+        if (element.name == path || path == 'My files') {
+            return element;
+        } else if (element.folders != null) {
+            var i;
+            var result = null;
+            for (i = 0; i < element.folders.length; i++) {
+                if (result == null) {
+                    result = this.browseFiles(element.folders[i], path);
+                }
+            }
+            return result;
+        }
+        return null;
+    }
+
+    changeFolder(newFolder) {
+        let activeFolder = this.browseFiles(this.props.fileSystem, newFolder);
+        this.setState({
+            activeFolder
+            } 
+        );
+    }
 
     renderContent = () => {
-        const value = 1;
+        let paths = ["My files"];
+        if (this.state.activeFolder.path!='/')
+            paths.push(...this.state.activeFolder.path.slice(1).split('/'))
+        const breadcrumbs = paths.map(path => <li><a  onClick={() => this.changeFolder(path)} >{path}</a></li>);
+        const tabContent = [
+            {
+                title: "Topio Drive",
+                content:
+                    <div className={"nav-body topio-drive-grid"}>
+                        <nav className="nav-bar">
+                            <ul>
+                                {breadcrumbs}
+                            </ul>
+                        </nav>
+                        <FileGrid activeFolder={this.state.activeFolder} changeFolder={this.changeFolder}/>
+                    </div>,
+            },
+            {
+                title: "Bought Datasets",
+                content: `Bought Datasets from Topio.`,
+            },
+            {
+                title: "Open Datasets",
+                content: `Open datasets available for use.`,
+            },
+        ];
         const header = this.props.single ?
             (<div className="navHeader" style={{ width: "100%", minHeight: "35px" }}>
                 <Glyphicon glyph="1-close" className="no-border btn-default" onClick={this.props.onToggle} style={{ cursor: "pointer" }} />
@@ -115,14 +173,19 @@ class MenuTopio extends React.Component {
                 <span className="title">{this.props.title}</span>
                 <Glyphicon glyph="1-close" className="no-border btn-default" onClick={this.props.onToggle} style={{ cursor: "pointer" }} />
             </div>);
-
+        const tabs =
+            (<div className="titles text-left">
+                <Tab>
+                    {tabContent.map((tab, idx) => (
+                        <Tab.TabPane key={`Tab-${idx}`} tab={tab.title}>
+                            {tab.content}
+                        </Tab.TabPane>
+                    ))}
+                </Tab>
+            </div>)
         const content = (<div className={"nav-content"}>
             {header}
-            <div className={"nav-body"}>
-                <FileGrid files={this.props.files}>
-
-                </FileGrid>
-            </div>
+            {tabs}
         </div>);
         //return this.props.resizable ? <Resizable axis="x" resizeHandles={['e']} width={this.getWidth()} onResize={this.resize}>{content}</Resizable> : content;
         return content;

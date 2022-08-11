@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import SideCard from '../../components/misc/cardgrids/SideCard';
 import Toolbar from '../../components/misc/toolbar/Toolbar';
 import Moment from 'moment';
+import Button from '../../components/misc/Button';
 
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 //const Button =  tooltip(ButtonRB);
 
@@ -14,47 +15,44 @@ class FileItem extends React.Component {
         name: PropTypes.string,
         path: PropTypes.string,
         size: PropTypes.number,
-        modified: PropTypes.string
+        modified: PropTypes.string,
+        type: PropTypes.string,
+        changeFolder: PropTypes.func
     };
 
-    addToMap(path){
+    addToMap(path) {
         console.log(path);
     }
 
+    convertToMB(size) {
+        return (size / Math.pow(1024, 2))
+    }
     render() {
-
+        var date_options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        let button = this.props.type=='file' ? <Button
+            onClick={() => this.addToMap(this.props.path)}
+            tooltipId="backgroundDialog.removeAdditionalParameterTooltip"
+            className="square-button-md"
+            style={{ borderColor: 'transparent' }}>
+            <Glyphicon glyph="plus" />
+                </Button> : null
         return (
             <div>
-                <SideCard
-                title={this.props.name}
-                description={<span><div className ref={sideCardDesc => {
-                    this.sideCardDesc = sideCardDesc;
-                }}></div></span>}
-                caption={
-                    <div>
-                        <div className="identifier">Modified: {Moment(this.props.modified).format('MMM Do YYYY')} </div>
-                    </div>
-                }
-                tools={
-                    <Toolbar
-                        btnDefaultProps={{
-                            className: 'square-button-md',
-                            bsStyle: 'primary'
-                        }}
-                        btnGroupProps={{
-                            style: {
-                                margin: 10
-                            }
-                        }}
-                        buttons={[ {
-                            glyph: 'plus',
-                            tooltipId: "backgroundSelector.addTooltip",
-                            onClick: () => this.addToMap(this.props.path)
-                        }
-                        ]}
-                    />
-                }
-                />
+                <Row className='row-content'>
+                    <Col xs={4} className="col-name">
+                    {button}
+                        <div className="col-content" onClick={this.props.type=='folder'? () => this.props.changeFolder(this.props.name) : undefined}>
+                            <Glyphicon className='icon' glyph={this.props.type=='folder'? 'folder-close': 'file'}/>{this.props.name}
+                        </div>
+                    </Col>
+                    <Col xs={4}>
+                        <div className="col-content">{this.convertToMB(this.props.size).toFixed(2)}&nbsp;MB</div>
+                    </Col>
+                    <Col xs={4}>
+                        <div className="col-content">{new Date(this.props.modified).toLocaleDateString("en-UK", date_options)}</div>
+                    </Col>
+                </Row>
+
             </div>
         );
     }

@@ -8,10 +8,11 @@ import FileItem from './FileItem';
 class FileGrid extends React.Component {
     static propTypes = {
         fileItem: PropTypes.element,
-        files: PropTypes.array,
+        activeFolder: PropTypes.object,
         column: PropTypes.object,
         currentLocale: PropTypes.string,
         style: PropTypes.object,
+        changeFolder: PropTypes.func
     }
 
     static defaultProps = {
@@ -20,7 +21,6 @@ class FileGrid extends React.Component {
         //onLayerAdd: () => { },
         //onPropertiesChange: () => { },
         //onError: () => { },
-        files: [],
         //zoomToLayer: true,
         //layerBaseConfig: {},
         //crs: "EPSG:3857"
@@ -29,14 +29,16 @@ class FileGrid extends React.Component {
     renderFileItem = (file) => {
         let Item = this.props.fileItem || FileItem;
         return (
-            
+
             <Col {...this.props.column} >
                 <Item
                     name={file.name}
                     path={file.path}
                     modified={file.modified}
                     size={file.size}
-                    style={{height: "215px", maxHeight: "215px"}}
+                    type={file.type}
+                    changeFolder={this.props.changeFolder}
+                    style={{ height: "215px", maxHeight: "215px" }}
                 />
             </Col>
         );
@@ -44,16 +46,37 @@ class FileGrid extends React.Component {
 
 
     render() {
-        if (this.props.files) {
-            let mapsList = this.props.files instanceof Array ? this.props.files : [this.props.files];
-            
+        if (this.props.activeFolder) {
+            let contents = []
+            this.props.activeFolder.files.forEach(file=> {
+                let fileJson = file
+                fileJson['type'] = 'file';
+                contents.push(fileJson);
+            })
+            this.props.activeFolder.folders.forEach(folder=> {
+                let folderJson = folder
+                folderJson['type'] = 'folder';
+                contents.push(folderJson);
+            })
+            /*
+                <Col xs={12} className="mapstore-topioDrive-head-title-container text-center no-border">
+                    <div className="mapstore-topioDrive-head-title" title='Topio Drive'>&nbsp;&nbsp;Topio Drive</div>
+                </Col> */
             return (
-                <Grid className="record-grid" fluid >
-                    <Col xs={12} className="mapstore-topioDrive-head-title-container text-center no-border">
-                        <div className="mapstore-topioDrive-head-title" title='Topio Drive'>&nbsp;&nbsp;Topio Drive</div>
-                    </Col>
+                <Grid className="folder-grid" fluid >
+                    <Row >
+                        <Col xs={4}>
+                            <div className="col-title name">Name</div>
+                        </Col>
+                        <Col xs={4}>
+                            <div className="col-title">Size</div>
+                        </Col>
+                        <Col xs={4}>
+                            <div className="col-title">Modified</div>
+                        </Col>
+                    </Row>
                     <Row>
-                        {mapsList.map(this.renderFileItem)}
+                        {contents.map(this.renderFileItem)}
                     </Row>
                 </Grid>
             );

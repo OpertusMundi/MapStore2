@@ -32,7 +32,7 @@ const menuSelector = createSelector([
     state => state.controls.topioDrive && state.controls.topioDrive.enabled,
     state => state.controls.topioDrive && state.controls.topioDrive.menu || "1",
     state => state.controls.queryPanel && state.controls.queryPanel.enabled && state.controls.topioDrive && state.controls.topioDrive.width || state.controls.topioDrive && state.controls.topioDrive.resizedWidth || undefined,
-    state => mapLayoutValuesSelector(state, {height: true})
+    state => mapLayoutValuesSelector(state, { height: true })
 ], (show, activeKey, dynamicWidth, layout) => ({
     show,
     activeKey,
@@ -56,7 +56,7 @@ const DrawerButton = connect(state => ({
     menuButtonStyle = {},
     buttonStyle = 'primary',
     buttonClassName = 'square-button ms-topiodrivemenu-menu-button',
-    toggleMenu = () => {},
+    toggleMenu = () => { },
     disabled = false,
     glyph = 'folder-open',
     tooltipId = 'topioDrive.drawerButton',
@@ -72,7 +72,7 @@ const DrawerButton = connect(state => ({
         disabled={disabled}
         tooltipId={tooltipId}
         tooltipPosition={tooltipPosition}>
-        <Glyphicon glyph={glyph}/>
+        <Glyphicon glyph={glyph} />
     </Button>
 );
 
@@ -98,7 +98,7 @@ const DrawerButton = connect(state => ({
  * }
  */
 
- const SAMPLE_ITEM = {
+const SAMPLE_ITEM = {
     plugin: "TEST",
     name: 'topio-drive',
     position: 1,
@@ -132,15 +132,15 @@ class TopioDriveMenu extends React.Component {
     };
 
     static testItem = {
-            name: 'settings',
-            position: 3,
-            title: 'settings',
-            priority: 2
+        name: 'settings',
+        position: 3,
+        title: 'settings',
+        priority: 2
     }
     static defaultProps = {
         id: "mapstore-topiodrivemenu",
         items: [],
-        toggleMenu: () => {},
+        toggleMenu: () => { },
         glyph: "folder-open",
         buttonStyle: "primary",
         menuOptions: {},
@@ -149,7 +149,7 @@ class TopioDriveMenu extends React.Component {
         disabled: false
     };
 
-    
+
 
     getTools = () => {
         var testItems = [{
@@ -163,45 +163,105 @@ class TopioDriveMenu extends React.Component {
                 buttonClassName: "square-button no-border",
                 tooltip: "toc.layers"
             },
-            icon: <Glyphicon glyph="folder-open"/>
-    }];
+            icon: <Glyphicon glyph="folder-open" />
+        }];
         const unsorted = testItems
-            .map((item, index) => assign({}, item, {position: item.position || index}));
+            .map((item, index) => assign({}, item, { position: item.position || index }));
         //return unsorted.sort((a, b) => a.position - b.position);
         return testItems;
     };
 
     renderItems = () => {
         return this.getTools().map((tool, index) => {
-            const Plugin =  tool.plugin;
+            const Plugin = tool.plugin;
             const plugin = (<Plugin
                 isPanel
                 //{...tool.cfg}
                 items={SAMPLE_ITEM || []}
-                groupStyle={{style: {
-                    marginBottom: "0px",
-                    cursor: "pointer"
-                }}}
+                groupStyle={{
+                    style: {
+                        marginBottom: "0px",
+                        cursor: "pointer"
+                    }
+                }}
             />);
-            const header = tool.title ? <div className={'drawer-menu-head drawer-menu-head-' + tool.name}><Message msgId={tool.title}/></div> : null;
+            const header = tool.title ? <div className={'drawer-menu-head drawer-menu-head-' + tool.name}><Message msgId={tool.title} /></div> : null;
 
             return <Panel icon={tool.icon} glyph={tool.glyph} buttonConfig={tool.buttonConfig} key={tool.name} eventKey={index + 1 + ""} header={header}>
-                       {plugin}
-                </Panel>
+                {plugin}
+            </Panel>
         });
     };
 
     render() {
-        const files = [
-            {"size": 33328,"path": "/csv/DKV_Berlin.csv", "name": "DKV_Berlin.csv","modified": "2022-04-19T05:49:19.976Z"},
-            {"size": 3084452,"path": "/shapefile/rivers.zip","name": "rivers.zip","modified": "2022-03-29T10:46:52.95Z"},
-            {"size": 3084452,"path": "/shapefile/lakes.zip","name": "lakes.zip","modified": "2022-06-15T08:31:52.49Z"}
-        ];
+        const response = {
+            "messages": [],
+            "result": {
+                "size": 3117780,
+                "path": "/",
+                "name": "/",
+                "files": [],
+                "folders": [
+                    {
+                        "size": 33328,
+                        "path": "/csv",
+                        "name": "csv",
+                        "files": [
+                            {
+                                "size": 33328,
+                                "path": "/csv/DKV_Berlin.csv",
+                                "name": "DKV_Berlin.csv",
+                                "modified": "2022-04-19T05:49:19.976Z"
+                            }
+                        ],
+                        "folders": [],
+                        "count": 1,
+                        "modified": "2022-04-19T05:49:19.976Z"
+                    },
+                    {
+                        "size": 3084452,
+                        "path": "/shapefile",
+                        "name": "shapefile",
+                        "files": [
+                            {
+                                "size": 3084452,
+                                "path": "/shapefile/rivers.zip",
+                                "name": "rivers.zip",
+                                "modified": "2022-03-29T10:46:52.95Z"
+                            }
+                        ],
+                        "folders": [
+                            {
+                                "size": 2084452,
+                                "path": "/shapefile/extra",
+                                "name": "extra",
+                                "files": [
+                                    {
+                                        "size": 3084452,
+                                        "path": "/shapefile/extra/lakes.zip",
+                                        "name": "lakes.zip",
+                                        "modified": "2022-03-29T10:46:52.95Z"
+                                    }
+                                ],
+                                "folders": [],
+                                "count": 1,
+                                "modified": "2022-03-29T10:46:52.95Z"
+                            }
+                        ],
+                        "count": 1,
+                        "modified": "2022-03-29T10:46:52.95Z"
+                    }
+                ],
+                "count": 2,
+                "modified": "2022-04-19T05:49:19.976Z"
+            },
+            "success": true
+        }
         //toggleMenu = () => {},
         return this.getTools().length > 0 ? (
             <div id={this.props.id}>
-                <DrawerButton {...this.props} id="topiodrivemenu-menu-button"/>
-                <Menu files={files} single={this.props.singleSection} {...this.props.menuOptions} title={<Message msgId="menu" />} alignment="left">
+                <DrawerButton {...this.props} id="topiodrivemenu-menu-button" />
+                <Menu fileSystem={response.result} single={this.props.singleSection} {...this.props.menuOptions} title={<Message msgId="menu" />} alignment="left">
                     {this.renderItems()}
                 </Menu>
             </div>

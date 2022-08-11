@@ -1,0 +1,236 @@
+#ms-components-theme(@theme-vars) {
+    #mapstore-topiodrivemenu {
+        .navHeader {
+            &>.glyphicon {
+                &:hover {
+                    background-color: transparent;
+                    .color-var(@theme-vars[primary]);
+                }
+            }
+        }
+
+        .mapstore-topioDrive-head-title {
+            font-weight: bold;
+            margin: 10px;
+        }
+    }
+}
+
+
+#topiodrivemenu-menu-button {
+    position: absolute;
+    left: 0;
+    top: 50px;
+    .shadow;
+    left: 0;
+    top: 60;
+}
+
+#mapstore-topiodrivemenu>div>div:nth-child(2) {
+    display: none;
+}
+
+#mapstore-topiodrivemenu {
+
+
+
+    display: block;
+
+    .nav-menu {
+        width: 700px !important;
+
+        background-color: #F2F2F2;
+
+        .nav-item {
+
+            width: 33%;
+
+            :hover {
+                cursor: pointer;
+            }
+
+            .nav-link {
+                color: #333;
+                font-size: 1.30em;
+            }
+
+            .active {
+                color: var(--ms-link-color, #078aa3) !important;
+            }
+        }
+
+        .tab-content {
+            border: none !important;
+
+            .col-title {
+                font-size: 1.10em;
+                font-weight: 700;
+                padding-bottom: 10px;
+                &.name{
+                    padding-left:30px;
+                }
+            }
+
+            .col-name{
+                padding-left: 0;
+            }
+
+            .col-content {
+                display: inline-block;
+                align-items: center;
+                position: relative;
+                padding: 10px 0;
+                text-align: left;
+                vertical-align: middle;
+                font-weight: 500;
+                cursor: pointer;
+
+                .icon {
+                    margin-right: 5px;
+                    color: #190AFF;
+                }
+                .glyphicon-folder-close{
+                    padding-left: 32px;
+                }
+            }
+
+            .row-content {
+                background-color: #fff;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                margin: 10px 0;
+            }
+
+
+        }
+    }
+
+    .nav-body {
+        overflow: hidden;
+
+        .nav-bar {
+            display: block;
+
+            ul {
+                padding: 0;
+            }
+            li:not(:last-child):after {
+                position: absolute;
+                top: 57%;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+                right: -12px;
+                height: 35px;
+                content: url(https://beta.topio.market/assets/img/left_small.45e9edcf.svg);
+            }
+            :not(:first-child){
+                padding-left: 20px;
+            }
+            li:last-child {
+                opacity: 0.5;
+            }
+            li {
+                font-size: 1.3888888889em;
+                font-weight: 700;
+                //opacity: .5;
+                position: relative;
+                //padding-left: 20px;
+                display: inline-block;
+
+                
+
+                a {
+                    cursor: pointer;
+                    color: #333;
+                    margin: 0;
+                    padding: 0;
+                    font-size: 100%;
+                    vertical-align: baseline;
+                    background: transparent;
+
+                    :focus,
+                    :visited {
+                        text-decoration: none;
+                        -webkit-transition: color .2s ease;
+                        transition: color .2s ease;
+                    }
+                }
+            }
+        }
+        .folder-grid{
+            margin-top: 20px;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+    }
+
+    .panel-heading {
+        border: none;
+        padding: 0;
+    }
+
+    .panel-body {
+        border: none;
+        padding: 0;
+    }
+
+    .navHeader {
+        &>.glyphicon {
+            display: block;
+            float: left;
+            background-color: transparent;
+            font-size: @icon-size;
+            margin: floor(((@padding-left-square - 1) / 1.230769231)
+                    /* font ratio height/width */
+                ) (@padding-left-square - 1);
+        }
+    }
+
+    .react-resizable-handle {
+        position: absolute;
+        width: 10px;
+        height: 100%;
+        bottom: 0;
+        right: 0;
+        background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+');
+        background-position: bottom right;
+        padding: 0 3px 3px 0;
+        background-repeat: no-repeat;
+        background-origin: content-box;
+        box-sizing: border-box;
+        cursor: e-resize;
+    }
+
+
+    .titles {
+        margin: 0 !important;
+    }
+}
+
+.custom-tab .tab-content {
+    min-height: 100px;
+    border: 1px solid #dcdcdc;
+    border-top: none;
+}
+
+.nav-bar {
+    display: flex;
+
+    @media screen and (max-width: 768px) {
+        display: block;
+    }
+}
+
+
+.tab-content {
+    margin: 20px !important;
+    min-height: 50px !important;
+}
+
+.topio-drive-sidecard {
+    .ms-head {
+        height: @square-btn-size *(3/2);
+    }
+}
