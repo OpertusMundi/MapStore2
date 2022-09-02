@@ -35,7 +35,12 @@
             "message": "The layer failed to reload with a changed name"
         },
         "version": {
-            "label": "Version"
+          "title": "MapStore Version",
+          "label": "Version",
+          "message": "Message",
+          "commit": "Commit",
+          "date": "Date",
+          "githubUrl": "Open github tree in a new tab"
         },
         "errorPage": {
             "title":"Oops, something has gone wrong...",
@@ -160,7 +165,8 @@
                     "title": "Error",
                     "message": "Failed to fetch format"
                 }
-            }
+            },
+            "forceProxy": "Force proxy"
         },
         "longitude": "Lon",
         "latitude": "Lat",
@@ -421,6 +427,13 @@
             "renderingErrorTitle": "Rendering error",
             "renderingErrorMessage": "<p>The map rendering has stopped and this could be due for different reasons: </p><ul><li>The applied style contains some rules or variables not supported by the features</li><li>The layer is not properly configured</li></ul><p>You can apply changes to the layer style and then click on 'Reload map' button. <br/> See the message below for addition information:</p>",
             "reloadMap": "Reload map",
+            "settings": {
+              "title": "Map settings",
+              "skyAtmosphere": "Show sky atmosphere",
+              "groundAtmosphere": "Show ground atmosphere",
+              "fog": "Show fog",
+              "depthTest": "Enable depth test against terrain"
+            },
             "thumbnailError": {
                 "error403": "You are not allowed to update the thumbnail",
                 "error404": "An error occurred while creating the thumbnail",
@@ -486,6 +499,8 @@
             "toggleGroupVisibility": "Toggle group visibility",
             "displayLegendAndTools": "Display legend",
             "zoomToLayerExtent": "Zoom to layer extent",
+            "addAnnotations": "Add annotations",
+            "editAnnotations": "Edit annotations",
             "addLayer": "Add layer",
             "addLayerToGroup": "Add layer to selected group",
             "addGroup": "Add group",
@@ -535,6 +550,7 @@
             "filterIconDisabled": "Enable layer filter",
             "notVisibleZoomIn": "The layer is not visible because it is outside the resolution limits. Zoom in to show the layer",
             "notVisibleZoomOut": "The layer is not visible because it is outside the resolution limits. Zoom out to show the layer",
+            "notVisibleSwitchTo3D": "Switch to 3D map mode in order to see this layer",
             "refreshOptions": {
                 "bbox": "Update BBOX",
                 "search": "Update search options",
@@ -653,7 +669,8 @@
             "previewFormatUnsupported": "Unsupported format for preview",
             "projection": "Coordinates System",
             "projectionmismatch": "Coordinate system mismatch among printed and screen map",
-            "graticule": "add grid with labels"
+            "graticule": "add grid with labels",
+            "additionalLayers": "Include overlays"
         },
         "backgroundSwitcher":{
             "tooltip": "Select Background"
@@ -724,7 +741,25 @@
             "selectTool": "Select a measurement tool",
             "exportToGeoJSON": "Export to GeoJSON",
             "resetTooltip": "Clear measures",
-            "addAsLayer": "Add as layer"
+            "addAsLayer": "Add as layer",
+            "polylineDistance3DMeasure": "Measure distance in 3D space",
+            "area3DMeasure": "Measure area in 3D space",
+            "pointCoordinatesMeasure": "Measure point coordinates",
+            "heightFromTerrainMeasure": "Measure height from terrain",
+            "angle3DMeasure": "Measure angle in 3D space",
+            "slopeMeasure": "Measure slope",
+            "tooltipPolylineDistance3DStart": "Click to start measurement",
+            "tooltipPolylineDistance3DEnd": "Single click to add a segment\nor double click to end",
+            "tooltipArea3DStart": "Click to start measurement",
+            "tooltipArea3DMissingVertex": "Area needs at least 3 vertices, \nsingle click to add a vertex",
+            "tooltipArea3DEnd": "Single click to add a vertex\nor double click to end",
+            "tooltipPointCoordinatesStart": "Click to add an altitude point measurement",
+            "tooltipHeightFromTerrainStart": "Click to add the distance value from terrain surface",
+            "tooltipAngle3DStart": "Single click to draw 3 points that represent the angle vertices",
+            "tooltipSlopeStart": "Single click to draw 3 points that represent a triangle surface.\nThe slope value is computed based on the drawn triangle surface",
+            "altitude": "Altitude",
+            "latitude": "Latitude",
+            "longitude": "Longitude"
         },
         "search":{
             "layerMustBeVisible": "The target layer is inactive",
@@ -1189,6 +1224,8 @@
             "passwordChanged": "Password changed",
             "passwordError": "Error changing password",
             "signIn":"Sign-in",
+            "signInWith": "Sign in with",
+            "orSignInWith": "Or sign in with",
             "loginFail":"Login Fail",
             "loginFailedStatusMessages": {
                 "usernamePwdInsert": "Please insert username and password",
@@ -1429,7 +1466,7 @@
             "showPreview": "Show preview",
             "advancedSettings": "Advanced settings",
             "templateMetadataAvailable": "Metadata available from Dublin Core format: abstract, boundingBox, contributor, creator, description, format, identifier, references, rights, source, subject, temporal, title, type, uri",
-            "invalidUrlHttpProtocol": "Thìs catalog cannot be added to the available ones because it uses an http protocol. Please provide a catalog url that uses https protocol",
+            "invalidUrlHttpProtocol": "This catalog cannot be added to the available ones because it uses an http protocol. Please provide a catalog url that uses https protocol",
             "notification": {
                 "errorTitle": "Error",
                 "errorSearchingRecords": "Some records have not been found: {records} Please check the query URL and its parameters.",
@@ -1463,6 +1500,10 @@
            "autoSetVisibilityLimits": {
                 "label": "Set Visibility Limit",
                 "tooltip": "Automatically applies the visibility limits suggested by the server"
+           },
+           "allowUnsecureLayers": {
+                "label": "Allow not secure layers",
+                "tooltip": "Adding layer to map with this option enabled, forces the application to apply proxy"
            },
           "domainAliases": {
             "title": "Domain aliases",
@@ -1676,6 +1717,7 @@
                 "syncOnMap": "Sync map with filter",
                 "enableTimeSync": "Synchronize with the selected time or time interval",
                 "disableTimeSync": "Do not synchronize with the selected time or interval",
+                "createNewChart": "Create chart for the selected level",
                 "enableSnapping": "Activate snapping",
                 "disableSnapping": "Deactivate snapping",
                 "snapToLayer": "Snap to the layer",
@@ -1764,7 +1806,8 @@
                 },
                 "emptyMap": {
                     "title": "Empty Map",
-                    "description": "Start from an empty map"
+                    "description": "Start from an empty map",
+                    "noNameDescription": "The selection has an empty map. Add a name to the empty map to proceed with map configuration"
                 }
             },
             "title": "Title",
@@ -1794,7 +1837,7 @@
                     "backToPreview": "Back to Preview",
                     "backToChartOptions": "Back to chart options",
                     "selectALayer": "Select a layer",
-                    "selectAMap": "Select a map",
+                    "selectAMap": "Select one or more maps",
                     "configureChartOptions": "Configure chart options",
                     "configureWidgetOptions": "Configure widget options",
                     "backToTableOptions": "Back to table options",
@@ -1805,6 +1848,7 @@
                     "titlePlaceholder": "Insert title...",
                     "textPlaceholder": "Insert text...",
                     "useThisMap": "Use this map",
+                    "useTheseMap": "Use these maps",
                     "configureMapOptions": "Configure map options",
                     "enableIdentifyTool": "Enable identify tool",
                     "disableIdentifyTool": "Disable identify tool",
@@ -1868,6 +1912,13 @@
                     "unhide": "Unhide",
                     "unhideDescription": "Unhide the widget to other users"
                 }
+            },
+            "mapSwitcher": {
+                "noResults": "No map found",
+                "placeholder": "Enter map name",
+                "selectLabel": "Select a map",
+                "infoOnHide": "Expand widget to see map switcher",
+                "subTitle": "<p>For multi-selection,<br>on windows use CTRL + click <br> and on Mac use control + click</p>"
             },
             "chartType": {
                 "bar": {
@@ -2000,6 +2051,14 @@
         },
         "dashboard": {
             "loadingSpinner": "Loading Dashboard",
+            "importDialog": {
+                "selectFiles": "Select a file",
+                "heading": "Drop a previously exported dashboard .json file",
+                "note": "The data in the imported file will replace the data in the current dashboard"
+            },
+            "exportDialog": {
+              "heading": "Export dashboard as a .json file"
+            },
             "errors":{
                 "loading": {
                     "title": "Error loading dashboard",
@@ -2020,7 +2079,8 @@
                 "showConnections": "Show connections",
                 "hideConnections": "HideConnections"
             },
-            "emptyTitle": "The dashboard is empty"
+            "emptyTitle": "The dashboard is empty",
+            "delete": "Delete dashboard"
         },
         "dashboardEmbedded": {
             "loadingSpinner": "Loading Dashboard",
@@ -2168,10 +2228,16 @@
             "addMarkRule": "Add mark rule",
             "shape": "Shape",
             "fill": "Fill color",
+            "clampToGround": "Clamp to ground",
+            "msBringToFront": "Bring to front",
             "strokeColor": "Stroke color",
             "strokeWidth": "Stroke width",
             "radius": "Radius",
             "rotation": "Rotation",
+            "classificationtype": "Polygon type",
+            "3dTile": "3D",
+            "terrain": "Terrain",
+            "both": "Both",
             "addIconSymbolizer": "Add icon symbolizer",
             "addIconRule": "Add icon rule",
             "image": "Image",
@@ -2356,8 +2422,12 @@
         "timeline": {
             "settings": {
                 "title": "Timeline Settings",
+                "snapType": "Time interval snap point",
+                "snapTypeTooltip": "When Snap to Guide Layer is active and time data is protracted the cursor will snap to the respective edges of the time interval (start/end)",
                 "snapToGuideLayer": "Snap to guide layer",
-                "snapToGuideLayerTooltip": "Forces the time cursor to snap to the selected layer's data. Disable this option to unlock the time cursors and enable the customization of animation step"
+                "snapToGuideLayerTooltip": "Forces the time cursor to snap to the selected layer's data. Disable this option to unlock the time cursors and enable the customization of animation step",
+                "snapToEnd": "End",
+                "snapToStart": "Start"
             },
             "hide": "Hide timeline",
             "show": "Show timeline",
@@ -2487,6 +2557,7 @@
             "addMediaContent": "Add Media Content",
             "addWebPageContent": "Add Web Page Content",
             "zoomToContent": "Zoom to content",
+            "delete": "Delete geostory",
             "emptyTitle": "This story is empty",
             "emptyDescription": "Start creating an awesome geostory by adding new content",
             "closeFullscreenMap": "Close fullscreen map",
@@ -2599,6 +2670,14 @@
                     "overlay": "Overlay",
                     "templateTooltip":"This setting allows you to enable the Identify function on the map by defining a generic format for all the layers. It is possible to configure a different format for each single layer using the advanced map editor (pencil icon). For more information, see the <a href='https://mapstore.readthedocs.io/en/latest/user-guide/layer-settings/#templates' target='_blank'> user guide </a>. If a layer has defined its own Identify format, it will be used instead of the generic one set at the map level."
                 }
+            },
+            "importDialog": {
+              "selectFiles": "Select a file",
+              "heading": "Drop a previously exported geostory .json file",
+              "note": "The data in the imported file will replace the data in the current geostory"
+            },
+            "exportDialog": {
+              "heading": "Export geostory as a .json file"
             },
             "errors": {
                 "loading": {
@@ -3473,6 +3552,9 @@
             "noDataForPosition": "no street-view data for this position",
             "unknownError": "unknown error, see console"
           }
+        },
+        "sidebarMenu": {
+          "showMoreItems": "Show more items"
         }
     }
 }

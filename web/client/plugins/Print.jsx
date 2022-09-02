@@ -32,6 +32,7 @@ import { getMessageById } from '../utils/LocaleUtils';
 import { defaultGetZoomForExtent, getResolutions, mapUpdated, dpi2dpu, DEFAULT_SCREEN_DPI } from '../utils/MapUtils';
 import { isInsideResolutionsLimits } from '../utils/LayersUtils';
 import { has, includes } from 'lodash';
+import {additionalLayersSelector} from "../selectors/additionallayers";
 
 /**
  * Print plugin. This plugin allows to print current map view. **note**: this plugin requires the  **printing module** to work.
@@ -94,6 +95,12 @@ import { has, includes } from 'lodash';
  * @prop {boolean} cfg.mapPreviewOptions.enableScalebox if true a combobox to select the printing scale is shown over the preview
  * this is particularly useful if useFixedScales is also true, to show the real printing scales
  * @prop {boolean} cfg.mapPreviewOptions.enableRefresh true by default, if false the preview is not updated if the user pans or zooms the main map
+ * @prop {object} cfg.outputFormatOptions options for the output formats
+ * @prop {object[]} cfg.outputFormatOptions.allowedFormats array of allowed formats, e.g. [{"name": "PDF", "value": "pdf"}]
+ * @prop {object} cfg.projectionOptions options for the projections
+ * @prop {object[]} cfg.projectionOptions.projections array of available projections, e.g. [{"name": "EPSG:3857", "value": "EPSG:3857"}]
+ * @prop {object} cfg.overlayLayersOptions options for overlay layers
+ * @prop {boolean} cfg.overlayLayersOptions.enabled if true a checkbox will be shown to exclude or include overlay layers to the print
  *
  * @example
  * // printing in geodetic mode
@@ -337,7 +344,10 @@ export default {
                     UNSAFE_componentWillReceiveProps(nextProps) {
                         const hasBeenOpened = nextProps.open && !this.props.open;
                         const mapHasChanged = this.props.open && this.props.syncMapPreview && mapUpdated(this.props.map, nextProps.map);
-                        const specHasChanged = nextProps.printSpec.defaultBackground !== this.props.printSpec.defaultBackground;
+                        const specHasChanged = (
+                            nextProps.printSpec.defaultBackground !== this.props.printSpec.defaultBackground ||
+                                nextProps.printSpec.additionalLayers !== this.props.printSpec.additionalLayers
+                        );
                         if (hasBeenOpened || mapHasChanged || specHasChanged) {
                             this.configurePrintMap(nextProps);
                         }
@@ -608,18 +618,28 @@ export default {
                     (state) => state.print && state.print.error,
                     mapSelector,
                     layersSelector,
+                    additionalLayersSelector,
                     scalesSelector,
                     (state) => state.browser && (!state.browser.ie || state.browser.ie11),
                     currentLocaleSelector,
                     mapTypeSelector
-                ], (open, capabilities, printSpec, pdfUrl, error, map, layers, scales, usePreview, currentLocale, mapType) => ({
+                ], (open, capabilities, printSpec, pdfUrl, error, map, layers, additionalLayers, scales, usePreview, currentLocale, mapType) => ({
                     open,
                     capabilities,
                     printSpec,
                     pdfUrl,
                     error,
                     map,
-                    layers: layers.filter(l => !l.loadingError),
+                    layers: [
+                        ...layers.filter(l => !l.loadingError),
+                        ...(printSpec?.additionalLayers ? additionalLayers.map(l => l.options).filter(
+                            l => {
+                                const isVector = l.type === 'vector';
+                                const hasFeatures = Array.isArray(l.features) && l.features.length > 0;
+                                return !l.loadingError && (!isVector || (isVector && hasFeatures));
+                            }
+                        ) : [])
+                    ],
                     scales,
                     usePreview,
                     currentLocale,
@@ -659,8 +679,19 @@ export default {
             text: <Message msgId="printbutton"/>,
             icon: <Glyphicon glyph="print"/>,
             action: toggleControl.bind(null, 'print', null),
-            priority: 2,
+            priority: 3,
             doNotHide: true
+        },
+        SidebarMenu: {
+            name: "print",
+            position: 3,
+            tooltip: "printbutton",
+            text: <Message msgId="printbutton"/>,
+            icon: <Glyphicon glyph="print"/>,
+            action: toggleControl.bind(null, 'print', null),
+            doNotHide: true,
+            toggle: true,
+            priority: 2
         }
     }),
     reducers: {print: printReducers}

@@ -83,7 +83,6 @@ export default {
             resolve(ImportPlugin);
         });
     }, enabler: (state) => state.mapimport && state.mapimport.enabled || state.toolbar && state.toolbar.active === 'import'}, {
-        disablePluginIf: "{state('mapType') === 'cesium'}",
         BurgerMenu: {
             name: 'import',
             position: 4,
@@ -92,6 +91,17 @@ export default {
             icon: <Glyphicon glyph="upload"/>,
             action: toggleControl.bind(null, 'mapimport', null),
             priority: 2,
+            doNotHide: true
+        },
+        SidebarMenu: {
+            name: "mapimport",
+            position: 4,
+            tooltip: "mapImport.tooltip",
+            text: <Message msgId="mapImport.title"/>,
+            icon: <Glyphicon glyph="upload"/>,
+            action: toggleControl.bind(null, 'mapimport', null),
+            toggle: true,
+            priority: 1,
             doNotHide: true
         }
     }),

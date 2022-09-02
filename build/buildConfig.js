@@ -9,6 +9,10 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const castArray = require('lodash/castArray');
+const {
+    VERSION_INFO_DEFINE_PLUGIN
+} = require('./BuildUtils');
+
 /**
  * Webpack configuration builder.
  * Returns a webpack configuration object for the given parameters.
@@ -157,6 +161,7 @@ module.exports = (...args) => mapArgumentsToObject(args, ({
             }
         }),
         new DefinePlugin({ '__MAPSTORE_PROJECT_CONFIG__': JSON.stringify(projectConfig) }),
+        VERSION_INFO_DEFINE_PLUGIN,
         new DefinePlugin({
             // Define relative base path in cesium for loading assets
             'CESIUM_BASE_URL': JSON.stringify(cesiumBaseUrl ? cesiumBaseUrl : path.join('dist', 'cesium'))
@@ -164,7 +169,8 @@ module.exports = (...args) => mapArgumentsToObject(args, ({
         new CopyWebpackPlugin([
             { from: path.join(getCesiumPath({ paths, prod }), 'Workers'), to: path.join(paths.dist, 'cesium', 'Workers') },
             { from: path.join(getCesiumPath({ paths, prod }), 'Assets'), to: path.join(paths.dist, 'cesium', 'Assets') },
-            { from: path.join(getCesiumPath({ paths, prod }), 'Widgets'), to: path.join(paths.dist, 'cesium', 'Widgets') }
+            { from: path.join(getCesiumPath({ paths, prod }), 'Widgets'), to: path.join(paths.dist, 'cesium', 'Widgets') },
+            { from: path.join(getCesiumPath({ paths, prod }), 'ThirdParty'), to: path.join(paths.dist, 'cesium', 'ThirdParty') }
         ]),
         new ProvidePlugin({
             Buffer: ['buffer', 'Buffer']

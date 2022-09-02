@@ -70,6 +70,7 @@ class CesiumMap extends React.Component {
         hookRegister: {
             registerHook
         },
+        orientate: undefined,
         viewerOptions: {
             orientation: {
                 heading: 0,
@@ -113,7 +114,10 @@ class CesiumMap extends React.Component {
             // to avoid error on mount
             creditContainer: creditContainer
                 ? creditContainer
-                : undefined
+                : undefined,
+            requestRenderMode: true,
+            maximumRenderTimeChange: Infinity,
+            skyBox: false
         }, this.getMapOptions(this.props.mapOptions)));
 
         if (this.props.errorPanel) {
@@ -159,9 +163,10 @@ class CesiumMap extends React.Component {
         scene.globe.showGroundAtmosphere = this.props.mapOptions?.showGroundAtmosphere ?? false;
 
         // this is needed to display correctly intersection between terrain and primitives
-        scene.globe.depthTestAgainstTerrain = this.props.mapOptions?.depthTestAgainstTerrain ?? true;
+        scene.globe.depthTestAgainstTerrain = this.props.mapOptions?.depthTestAgainstTerrain ?? false;
 
         this.forceUpdate();
+        map.scene.requestRender();
     }
 
     UNSAFE_componentWillReceiveProps(newProps) {
@@ -189,6 +194,19 @@ class CesiumMap extends React.Component {
                 }
             };
             this.setView(position);
+        }
+
+        if (prevProps && (this.props.mapOptions.showSkyAtmosphere !== prevProps?.mapOptions?.showSkyAtmosphere)) {
+            this.map.scene.skyAtmosphere.show = this.props.mapOptions.showSkyAtmosphere;
+        }
+        if (prevProps && (this.props.mapOptions.showGroundAtmosphere !== prevProps?.mapOptions?.showGroundAtmosphere)) {
+            this.map.scene.globe.showGroundAtmosphere = this.props.mapOptions.showGroundAtmosphere;
+        }
+        if (prevProps && (this.props.mapOptions.enableFog !== prevProps?.mapOptions?.enableFog)) {
+            this.map.scene.fog.enabled = this.props.mapOptions.enableFog;
+        }
+        if (prevProps && (this.props.mapOptions.depthTestAgainstTerrain !== prevProps?.mapOptions?.depthTestAgainstTerrain)) {
+            this.map.scene.globe.depthTestAgainstTerrain = this.props.mapOptions.depthTestAgainstTerrain;
         }
     }
 
@@ -227,7 +245,8 @@ class CesiumMap extends React.Component {
                         lng: longitude
                     },
                     crs: "EPSG:4326",
-                    intersectedFeatures
+                    intersectedFeatures,
+                    resolution: getResolutions()[Math.round(this.props.zoom)]
                 });
             }
         }

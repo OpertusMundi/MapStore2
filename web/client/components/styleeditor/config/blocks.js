@@ -12,14 +12,37 @@ import includes from 'lodash/includes';
 import isObject from 'lodash/isObject';
 import {SUPPORTED_MIME_TYPES} from "../../../utils/StyleEditorUtils";
 
-const getBlocks = (/* config = {} */) => {
+const vector3dStyleOptions = {
+    msClampToGround: property.msClampToGround({
+        label: 'styleeditor.clampToGround'
+    })
+};
+
+const billboard3dStyleOptions = {
+    msBringToFront: property.msBringToFront({
+        label: 'styleeditor.msBringToFront'
+    })
+};
+
+const polygon3dStyleOptions = {
+    msClassificationType: property.msClassificationType({
+        label: 'styleeditor.classificationtype'
+    })
+};
+
+const getBlocks = ({
+    exactMatchGeometrySymbol,
+    enable3dStyleOptions
+} = {}) => {
     const symbolizerBlock = {
         Mark: {
             kind: 'Mark',
             glyph: '1-point',
             glyphAdd: '1-point-add',
             tooltipAddId: 'styleeditor.addMarkRule',
-            supportedTypes: ['point', 'linestring', 'polygon', 'vector'],
+            supportedTypes: exactMatchGeometrySymbol
+                ? ['point', 'vector']
+                : ['point', 'linestring', 'polygon', 'vector'],
             params: {
                 wellKnownName: property.shape({
                     label: 'styleeditor.shape'
@@ -45,7 +68,8 @@ const getBlocks = (/* config = {} */) => {
                 }),
                 rotate: property.rotate({
                     label: 'styleeditor.rotation'
-                })
+                }),
+                ...(enable3dStyleOptions ? billboard3dStyleOptions : {})
             },
             defaultProperties: {
                 kind: 'Mark',
@@ -56,7 +80,8 @@ const getBlocks = (/* config = {} */) => {
                 strokeOpacity: 1,
                 strokeWidth: 1,
                 radius: 16,
-                rotate: 0
+                rotate: 0,
+                msBringToFront: false
             }
         },
         Icon: {
@@ -64,7 +89,9 @@ const getBlocks = (/* config = {} */) => {
             glyph: 'point',
             glyphAdd: 'point-plus',
             tooltipAddId: 'styleeditor.addIconRule',
-            supportedTypes: ['point', 'linestring', 'polygon', 'vector'],
+            supportedTypes: exactMatchGeometrySymbol
+                ? ['point', 'vector']
+                : ['point', 'linestring', 'polygon', 'vector'],
             hideMenu: true,
             params: {
                 image: property.image({
@@ -90,14 +117,16 @@ const getBlocks = (/* config = {} */) => {
                 }),
                 rotate: property.rotate({
                     label: 'styleeditor.rotation'
-                })
+                }),
+                ...(enable3dStyleOptions ? billboard3dStyleOptions : {})
             },
             defaultProperties: {
                 kind: 'Icon',
                 image: '',
                 opacity: 1,
                 size: 32,
-                rotate: 0
+                rotate: 0,
+                msBringToFront: false
             }
         },
         Line: {
@@ -105,7 +134,9 @@ const getBlocks = (/* config = {} */) => {
             glyph: 'line',
             glyphAdd: 'line-plus',
             tooltipAddId: 'styleeditor.addLineRule',
-            supportedTypes: ['linestring', 'polygon', 'vector'],
+            supportedTypes: exactMatchGeometrySymbol
+                ? ['linestring', 'vector']
+                : ['linestring', 'polygon', 'vector'],
             params: {
                 color: property.color({
                     label: 'styleeditor.strokeColor',
@@ -140,7 +171,8 @@ const getBlocks = (/* config = {} */) => {
                 join: property.join({
                     label: 'styleeditor.lineJoin',
                     key: 'join'
-                })
+                }),
+                ...(enable3dStyleOptions ? vector3dStyleOptions : {})
             },
             defaultProperties: {
                 kind: 'Line',
@@ -148,7 +180,8 @@ const getBlocks = (/* config = {} */) => {
                 width: 1,
                 opacity: 1,
                 cap: 'round',
-                join: 'round'
+                join: 'round',
+                msClampToGround: true
             }
         },
         Fill: {
@@ -186,14 +219,17 @@ const getBlocks = (/* config = {} */) => {
                 outlineWidth: property.width({
                     key: 'outlineWidth',
                     label: 'styleeditor.outlineWidth'
-                })
+                }),
+                ...(enable3dStyleOptions ? {...polygon3dStyleOptions, ...vector3dStyleOptions} : {})
             },
             defaultProperties: {
                 kind: 'Fill',
                 color: '#dddddd',
                 fillOpacity: 1,
                 outlineColor: '#777777',
-                outlineWidth: 1
+                outlineWidth: 1,
+                msClassificationType: 'both',
+                msClampToGround: true
             }
         },
         PointCloud: {
@@ -264,7 +300,9 @@ const getBlocks = (/* config = {} */) => {
             kind: 'Text',
             glyph: 'font',
             tooltipAddId: 'styleeditor.addTextRule',
-            supportedTypes: ['point', 'linestring', 'polygon', 'vector'],
+            supportedTypes: exactMatchGeometrySymbol
+                ? ['point', 'vector']
+                : ['point', 'linestring', 'polygon', 'vector'],
             params: {
                 label: property.select({
                     key: 'label',

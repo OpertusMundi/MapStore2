@@ -35,7 +35,12 @@
         },
         "expand": "Ausklappen",
         "version": {
-            "label": "Version"
+          "title": "Mapstore Version",
+          "label": "Version",
+          "message": "Botschaft",
+          "commit": "Commit",
+          "date": "Datum",
+          "githubUrl": "Öffnen Sie den Github-Baum in einem neuen Tab"
         },
         "errorPage": {
             "title":"Ups, etwas ist schief gelaufen...",
@@ -160,7 +165,8 @@
                     "title": "Error",
                     "message": "Format konnte nicht abgerufen werden"
                 }
-            }
+            },
+            "forceProxy": "Proxy erzwingen"
         },
         "longitude": "Längengrad",
         "latitude": "Breitengrad",
@@ -459,6 +465,13 @@
             "renderingErrorTitle": "Renderfehler",
             "renderingErrorMessage": "<p>Das Rendern der Karte wurde gestoppt und dies kann verschiedene Gründe haben: </p><ul><li>Der angewendete Stil enthält einige Regeln oder Variablen, die von den Funktionen nicht unterstützt werden</li>< li>Die Ebene ist nicht richtig konfiguriert</li></ul><p>Sie können Änderungen am Ebenenstil vornehmen und dann auf die Schaltfläche 'Karte neu laden' klicken. <br/> Weitere Informationen finden Sie in der folgenden Meldung:< /p>",
             "reloadMap": "Karte neu laden",
+            "settings": {
+              "title": "Karteneinstellungen",
+              "skyAtmosphere": "Himmelsatmosphäre zeigen",
+              "groundAtmosphere": "Atmosphäre auf dem Gelände anzeigen",
+              "fog": "Nebel anzeigen",
+              "depthTest": "Tiefentest gegen Gelände aktivieren"
+            },
             "thumbnailError": {
                 "error403": "Sie haben keine Berechtigung um Miniaturansichten hochzuladen",
                 "error404": "Es gab einen Fehler während der Erstellung der Miniaturansicht",
@@ -524,6 +537,8 @@
             "toggleGroupVisibility": "Gruppensichtbarkeit umschalten",
             "displayLegendAndTools": "Legende einblenden",
             "zoomToLayerExtent": "Zoome auf Ausdehung der Ebene",
+            "addAnnotations": "Anmerkungen hinzufügen",
+            "editAnnotations": "Anmerkungen bearbeiten",
             "addLayer": "Ebene hinzufügen",
             "addLayerToGroup": "Ebene zur ausgewählten Gruppe hinzufügen",
             "addGroup": "Gruppe hinzufügen",
@@ -574,6 +589,7 @@
             "filterIconDisabled": "Ebenenfilter aktivieren",
             "notVisibleZoomIn": "Die Ebene ist nicht sichtbar, da sie außerhalb der Auflösungsgrenzen liegt. Zoomen Sie hinein, um die Ebene anzuzeigen",
             "notVisibleZoomOut": "Die Ebene ist nicht sichtbar, da sie außerhalb der Auflösungsgrenzen liegt. Verkleinern Sie die Ansicht, um die Ebene anzuzeigen",
+            "notVisibleSwitchTo3D": "Wechseln Sie in den 3D-Kartenmodus, um diesen Layer anzuzeigen",
             "refreshOptions": {
                 "bbox": "BBOX aktualisieren",
                 "search": "Suchoptionen aktualisieren",
@@ -692,7 +708,8 @@
             "previewFormatUnsupported": "Nicht unterstütztes Format für die Vorschau",
             "projection": "Koordinatensystem",
             "projectionmismatch": "Nichtübereinstimmung des Koordinatensystems zwischen gedruckter und Bildschirmkarte",
-            "graticule": "Raster mit Etiketten hinzufügen"
+            "graticule": "Raster mit Etiketten hinzufügen",
+            "additionalLayers": "Überlagerungen einschließen"
         },
         "backgroundSwitcher":{
             "tooltip": "Wähle Hintergrund"
@@ -763,7 +780,25 @@
             "exportToGeoJSON": "Export als GeoJSON",
             "saveMeasure": "Speichern Sie die Messungen in Notizen / Zeichnungen",
             "resetTooltip": "Messung entfernen",
-            "addAsLayer": "Als Ebene hinzufügen"
+            "addAsLayer": "Als Ebene hinzufügen",
+            "polylineDistance3DMeasure": "Entfernung im 3D-Raum messen",
+            "area3DMeasure": "Fläche im 3D-Raum messen",
+            "pointCoordinatesMeasure": "Punktkoordinaten messen",
+            "heightFromTerrainMeasure": "Höhe vom Gelände messen",
+            "angle3DMeasure": "Winkel im 3D-Raum messen",
+            "slopeMeasure": "Gefälle messen",
+            "tooltipPolylineDistance3DStart": "Zum Starten der Messung klicken",
+            "tooltipPolylineDistance3DEnd": "Klicken Sie einmal, um ein Segment hinzuzufügen,\noder doppelklicken Sie, um es zu beenden",
+            "tooltipArea3DStart": "Zum Starten der Messung klicken",
+            "tooltipArea3DMissingVertex": "Fläche benötigt mindestens 3 Scheitelpunkte, \nKlicken Sie einmal, um einen Scheitelpunkt hinzuzufügen",
+            "tooltipArea3DEnd": "Klicken Sie einmal, um einen Scheitelpunkt hinzuzufügen, \noder doppelklicken Sie, um ihn zu beenden",
+            "tooltipPointCoordinatesStart": "Klicken, um eine Höhenpunktmessung hinzuzufügen",
+            "tooltipHeightFromTerrainStart": "Klicken, um den Entfernungswert von der Geländeoberfläche hinzuzufügen",
+            "tooltipAngle3DStart": "Klicken Sie einmal, um 3 Punkte zu zeichnen, die die Eckpunkte der Winkel darstellen",
+            "tooltipSlopeStart": "Klicken Sie einmal, um 3 Punkte zu zeichnen, die eine Dreiecksfläche darstellen.\nDer Neigungswert wird basierend auf der gezeichneten Dreiecksfläche berechnet",
+            "altitude": "Höhe",
+            "latitude": "Breitengrad",
+            "longitude": "Längengrad"
         },
         "search":{
             "layerMustBeVisible": "Die Zielebene ist inaktiv",
@@ -1228,6 +1263,8 @@
             "passwordChanged": "Passwort geändert",
             "passwordError": "Fehler beim Ändern des Passworts",
             "signIn":"Anmelden",
+            "signInWith": "Anmelden mit",
+            "orSignInWith": "Oder anmelden mit",
             "loginFail":"Anmeldung gescheitert",
             "loginFailedStatusMessages": {
                 "usernamePwdInsert": "Bitte gib Benutzernamen und Password ein",
@@ -1393,7 +1430,7 @@
                 }
             },
         "mapExport": {
-            "title": "Karte exportieren",
+            "title": "Exportieren",
             "tooltip": "Exportieren Sie die aktuelle Karte",
             "exportPanel": {
                 "title": "<p><h4>Wählen Sie ein Format</h4></p>",
@@ -1507,6 +1544,10 @@
             "helpTooltip": "Diese Option wird verwendet, um Inhalte auf mehrere Subdomains aufzuteilen",
             "addAliasTooltip": "Alias hinzufügen",
             "removeAliasTooltip": "Alias entfernen"
+          },
+          "allowUnsecureLayers": {
+              "label": "Nicht sichere Ebenen zulassen",
+              "tooltip": "Das Hinzufügen einer Ebene zur Karte mit aktivierter Option zwingt die Anwendung, Proxy anzuwenden"
           }
         },
         "uploader": {
@@ -1803,7 +1844,8 @@
                  },
                  "emptyMap": {
                     "title": "Leere Karte",
-                    "description": "Mit leerer Karte beginnen"
+                    "description": "Mit leerer Karte beginnen",
+                    "noNameDescription": "Die Auswahl hat eine leere Karte. Fügen Sie der leeren Karte einen Namen hinzu, um mit der Kartenkonfiguration fortzufahren"
                 }
             },
             "title": "Titel",
@@ -1832,7 +1874,7 @@
                     "backToPreview": "Zurück zur Vorschau",
                     "backToChartOptions": "Zurück zu den Diagrammoptionen",
                     "selectALayer": "Wähle eine Ebene",
-                    "selectAMap": "Wählen Sie eine Karte",
+                    "selectAMap": "Wählen Sie eine oder mehrere Karten aus",
                     "configureChartOptions": "Diagrammoptionen konfigurieren",
                     "configureWidgetOptions": "Widget-Optionen konfigurieren",
                     "backToTableOptions": "Zurück zu den Tabellenoptionen",
@@ -1842,7 +1884,8 @@
                     "addTheWidget": "Hinzufügen des Widget",
                     "titlePlaceholder": "Gib den Titel ein...",
                     "textPlaceholder": "Text eingeben...",
-                    "useThisMap": "Benutze diese Karte",
+                    "useThisMap": "Verwenden Sie diese Karte",
+                    "useTheseMap": "Verwenden Sie diese Karten",
                     "configureMapOptions": "Kartenoptionen konfigurieren",
                     "enableIdentifyTool": "Identifizierungswerkzeug aktivieren",
                     "disableIdentifyTool": "Identifizierungswerkzeug deaktivieren",
@@ -1906,6 +1949,13 @@
                     "unhide": "Einblenden",
                     "unhideDescription": "Blenden Sie das Widget für andere Benutzer ein"
                 }
+            },
+            "mapSwitcher": {
+                "noResults": "Keine Karte gefunden",
+                "placeholder": "Kartennamen eingeben",
+                "selectLabel": "Wählen Sie eine Karte aus",
+                "infoOnHide": "Erweitern Sie das Widget, um den Kartenwechsler anzuzeigen",
+                "subTitle": "<p>Für die Mehrfachauswahl<br>verwenden Sie unter Windows STRG + Klicken <br> und unter Mac verwenden Sie Strg + Klicken</p>"
             },
             "chartType": {
                 "bar": {
@@ -2038,6 +2088,14 @@
         },
         "dashboard": {
             "loadingSpinner": "Dashboard wird geladen",
+            "importDialog": {
+                "selectFiles": "Wählen Sie eine Datei aus",
+                "heading": "Löschen einer zuvor exportierten JSON-Dashboarddatei",
+                "note": "Die Daten in der importierten Datei ersetzen die Daten im aktuellen Dashboard"
+            },
+            "exportDialog": {
+              "heading": "Dashboard als JSON-Datei exportieren"
+            },
             "errors":{
                 "loading": {
                     "title": "Fehler beim Laden des Dashboards",
@@ -2058,7 +2116,8 @@
                 "showConnections": "Verbindungen anzeigen",
                 "hideConnections": "Verbindungen ausblenden"
             },
-            "emptyTitle": "Das Dashboard ist leer"
+            "emptyTitle": "Das Dashboard ist leer",
+            "delete": "Dashboard löschen"
         },
         "dashboardEmbedded": {
             "loadingSpinner": "Dashboard wird geladen",
@@ -2206,10 +2265,16 @@
             "addMarkRule": "Markerregel hinzufügen",
             "shape": "Form",
             "fill": "Füllfarbe",
+            "clampToGround": "Klemme an Masse",
+            "msBringToFront": "In den Vordergrund bringen",
             "strokeColor": "Linienfarbe",
             "strokeWidth": "Linienbreite",
             "radius": "Radius",
             "rotation": "Rotation",
+            "classificationtype": "Polygon-Typ",
+            "3dTile": "3D",
+            "terrain": "Gelände",
+            "both": "Beide",
             "addIconSymbolizer": "Symbol-Symbologie hinzufügen",
             "addIconRule": "Symbolregel hinzufügen",
             "image": "Bild",
@@ -2384,8 +2449,12 @@
         "timeline": {
             "settings": {
                 "title": "Zeitleisten-Einstellungen",
+                "snapType": "Fangpunkt Zeitintervall",
+                "snapTypeTooltip": "Wenn das Einrasten an Führungsebene aktiv ist und Zeitdaten verlängert werden, rastet der Cursor an den jeweiligen Rändern des Zeitintervalls (Start/Ende) ein.",
                 "snapToGuideLayer": "Auf Führungsebene ausrichten",
-                "snapToGuideLayerTooltip": "Zwingt den Zeitcursor, sich an den Daten der ausgewählten Ebene zu fangen. Deaktivieren Sie diese Option, um die Zeitcursor zu entsperren und die Anpassung des Animationsschritts zu aktivieren."
+                "snapToGuideLayerTooltip": "Zwingt den Zeitcursor, sich an den Daten der ausgewählten Ebene zu fangen. Deaktivieren Sie diese Option, um die Zeitcursor zu entsperren und die Anpassung des Animationsschritts zu aktivieren.",
+                "snapToEnd": "Ende",
+                "snapToStart": "Start"
             },
             "hide": "Zeitleiste ausblenden",
             "show": "Zeitleiste anzeigen",
@@ -2516,6 +2585,7 @@
             "zoomToContent": "Zum Inhalt zoomen",
             "addWebPageContent": "Webseitenabschnitt hinzufügen",
             "emptyTitle": "Diese GeoStory ist leer",
+            "delete": "Löschen geostory",
             "emptyDescription": "Erstellen Sie eine fantastische Geostory, indem Sie neuen Inhalt hinzufügen",
             "closeFullscreenMap": "Schließen der Vollbild-Karte",
             "showFullscreenMap": "Karte als Vollbild öffnen",
@@ -2627,6 +2697,14 @@
                     "overlay": "Überlagerung",
                     "templateTooltip":"Mit dieser Einstellung können Sie die Identifizierungsfunktion auf der Karte aktivieren, indem Sie ein generisches Format für alle Ebenen definieren. Mit dem erweiterten Karteneditor (Stiftsymbol) kann für jede Ebene ein anderes Format konfiguriert werden. Weitere Informationen finden Sie im <a href='https://mapstore.readthedocs.io/en/latest/user-guide/layer-settings/#templates' target='_blank'> Benutzerhandbuch </a>. Wenn ein Layer sein eigenes Identifizierungsformat definiert hat, wird er anstelle des auf Kartenebene festgelegten generischen Formats verwendet."
                 }
+            },
+            "importDialog": {
+                "selectFiles": "Wählen Sie eine Datei aus",
+                "heading": "Löschen einer zuvor exportierten JSON-Geostory-Datei",
+                "note": "Die Daten in der importierten Datei ersetzen die Daten in der aktuellen Geostory"
+            },
+            "exportDialog": {
+              "heading": "Geostory als JSON-Datei exportieren"
             },
             "errors": {
                 "loading": {
@@ -3500,6 +3578,9 @@
             "noDataForPosition": "keine Street-View-Daten für diese Position",
             "unknownError": "Unbekannter Fehler, siehe Konsole"
           }
+        },
+        "sidebarMenu": {
+          "showMoreItems": "Weitere Elemente anzeigen"
         }
     }
 }

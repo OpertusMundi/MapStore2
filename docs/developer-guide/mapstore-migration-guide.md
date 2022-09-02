@@ -20,9 +20,114 @@ This is a list of things to check if you want to update from a previous version 
 - Optionally check also accessory files like `.eslinrc`, if you want to keep aligned with lint standards.
 - Follow the instructions below, in order, from your version to the one you want to update to.
 
-## Migration from 2022.01.00 to 2022.02.00
+## Migration from 2022.01.02 to 2022.02.00
+
+### Version plugin has been removed
+
+We no longer maintain the Version plugin since we have moved its content inside the About plugin (see [here](https://github.com/geosolutions-it/MapStore2/issues/7934#issuecomment-1201433942) for more details)
+
+We suggest you to clean up your project as well:
+
+- remove Version entry it from a local list of plugins.js
+- remove Version entries it from a localConfig
+- add About entry into other pages of mapstore plugins array, suggest list is:
+  - dashboard
+  - geostory
+  - mobile
+- remove Define plugins in webpack-config.js or prod.webpack-config.js, since we have moved these definition to a more general *build/buildConfig.js* file
+- check that in your package.json you have this extends rule
+
+```js
+"eslintConfig": {
+    "extends": [
+      "@mapstore/eslint-config-mapstore"
+    ],
+    ...
+```
+
+- edit the version of the *@mapstore/eslint-config-mapstore* to **1.0.5** in your package.json so that the new globals config will be inherited
+
+!!! note
+    this may fail on gha workflows, in that case we suggest to edit directly your package.json with globals taken from mapstore framework
+
+### Support for OpenID
+
+MapStore introduced support for OpenID for google and keycloak. In order to have this functionalities and to be aligned with the latest version of MapStore you have to update the following files in your projects:
+
+- `geostore-spring-security.xml` (your custom spring security context) have to be updated adding the beans and the `security:custom-filter` entry in the `<security:http>` entry, as here below:
+
+```diff
+        <security:csrf disabled="true"/>
+        <security:custom-filter ref="authenticationTokenProcessingFilter" before="FORM_LOGIN_FILTER"/>
+        <security:custom-filter ref="sessionTokenProcessingFilter" after="FORM_LOGIN_FILTER"/>
++        <security:custom-filter ref="keycloakFilter" before="BASIC_AUTH_FILTER"/>
++        <security:custom-filter ref="googleOpenIdFilter" after="BASIC_AUTH_FILTER"/>
+        <security:anonymous />
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider ref='geoStoreUserServiceAuthenticationProvider' />
+    </security:authentication-manager>
++
++
++    <bean id="preauthenticatedAuthenticationProvider" class="it.geosolutions.geostore.services.rest.security.PreAuthenticatedAuthenticationProvider">
++    </bean>
++
++    <!-- OAuth2 beans -->
++    <context:annotation-config/>
++
++    <bean id="googleSecurityConfiguration" class="it.geosolutions.geostore.services.rest.security.oauth2.google.OAuthGoogleSecurityConfiguration"/>
++
++    <!-- Keycloak -->
++
++   <bean id="keycloakConfig" class="it.geosolutions.geostore.services.rest.security.keycloak.KeyCloakSecurityConfiguration"/>
++
++    <!-- END OAuth2 beans-->
++
++    <!--  security integration inclusions  -->
++    <import resource="classpath*:security-integration-${security.integration:default}.xml"/>
+
+</beans>
+
+```
+
+- `web.xml`: add the following content to the file:
+
+```diff
+@@ -34,6 +34,17 @@
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
++    <!-- Allow to use RequestContextHolder -->
++    <filter>
++        <filter-name>springRequestContextFilter</filter-name>
++        <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
++    </filter>
++    <filter-mapping>
++        <filter-name>springRequestContextFilter</filter-name>
++        <url-pattern>/*</url-pattern>
++    </filter-mapping>
++
++
+    <!-- Spring Security Servlet -->
+    <filter>
+```
+
+- `applicationContext.xml` for consistency, we added `mapstore-ovr.properties` files to be searched in class-path and in the data-dir, as for the other properties files:
+
+```diff
+@@ -49,6 +49,7 @@
+         <property name="order" value="10"/>
+         <property name="locations">
+             <list>
++                 <value>classpath:mapstore-ovr.properties</value>
+                 <value>file:${datadir.location:}/geostore-datasource-ovr.properties</value>
+                 <value>file:${datadir.location:}/mapstore-ovr.properties</value>
+             </list>
+```
 
 ### Upgrading the printing engine
+
 The mapfish-print based printing engine has been upgraded to align to the latest official 2.1.5 in term of functionalities.
 
 An update to the MapStore printing engine context file (`applicationContext-print.xml`) is needed for all projects built with the printing profile enabled. The following sections should be added to the file:
@@ -47,8 +152,8 @@ An update to the MapStore printing engine context file (`applicationContext-prin
 
 Also, remember to update your project pom.xml with the updated dependency:
 
- - locate the print-lib dependency in the pom.xml file
- - replace the dependency with the following snippet
+- locate the print-lib dependency in the pom.xml file
+- replace the dependency with the following snippet
 
 ```xml
 <dependency>
@@ -91,11 +196,151 @@ formats:
   - '*'
 ```
 
+### Replacing BurgerMenu with SidebarMenu
+
+There were several changes applied to the application layout, one of them is the Sidebar Menu that comes to replace Burger menu on map viewer and in contexts.
+Following actions need to be applied to make a switch:
+
+- Update localConfig.json and add "SidebarMenu" entry to the "desktop" section:
+
+```json
+{
+    "desktop": [
+        ...
+        "SidebarMenu",
+        ...
+    ]
+}
+```
+
+- Remove "BurgerMenu" entry from "desktop" section.
+
+#### Using Sidebar Menu in new contexts
+
+Contents of your `pluginsConfig.json` need to be reviewed to allow usage of new "SidebarMenu" in new contexts.
+Existing contexts need to be updated separately, please refer to the next chapter for instructions.
+
+- Find "BurgerMenu" plugin configuration in `pluginsConfig.json` and remove `"hidden": true` line from it:
+
+```json
+    {
+    "name": "BurgerMenu",
+    "glyph": "menu-hamburger",
+    "title": "plugins.BurgerMenu.title",
+    "description": "plugins.BurgerMenu.description",
+    "dependencies": [
+        "OmniBar"
+    ]
+}
+```
+
+- Add `SidebarMenu` entry to the "plugins" array:
+
+```json
+{
+    "plugins": [
+        ...
+        {
+            "name": "SidebarMenu",
+            "hidden": true
+        }
+        ...
+    ]
+}
+```
+
+- Go through all plugins definitions and replace `BurgerMenu` dependency with `SidebarMenu`, e.g.:
+
+```json
+    {
+      "name": "MapExport",
+      "glyph": "download",
+      "title": "plugins.MapExport.title",
+      "description": "plugins.MapExport.description",
+      "dependencies": [
+        "SidebarMenu"
+      ]
+    }
+```
+
+- Also the `StreetView` plugin needs to depend from `SidebarMenu`.
+
+```json
+{
+      "name": "StreetView",
+      "glyph": "road",
+      "title": "plugins.StreetView.title",
+      "description": "plugins.StreetView.description",
+      "dependencies": [
+        "SidebarMenu"
+      ]
+}
+```
+
+#### Updating existing contexts to use Sidebar Menu
+
+Contexts created in previous versions of MapStore will maintain old Burger Menu. There are two options allowing to replace it with the new Sidebar Menu:
+- Using manual update.
+- Using SQL query to update all contexts at once.
+
+Before going with one of the approaches, please make sure that changes to `pluginsConfig.json` from previous chapter are applied.
+
+**To update context manually:**
+1. Go to the context manager (#/context-manager) and edit context you want to update.
+2. Move to the step 3: Configure Plugins.
+3. Find "Burger Menu" on the right side (enabled plugins) and move it to the left column.
+4. Save context
+
+**Note:** "Burger Menu" has higher priority over the "Sidebar Menu", so it will always be used if it's added to the list of enabled plugins of the context.
+
+**To update all contexts at once:**
+
+This is a sample SQL query that can be executed against the MapStore DB to replace the Burger Menu with the new Sidebar for existing application contexts previously created:
+```sql
+UPDATE geostore.gs_stored_data SET stored_data = regexp_replace(gs_stored_data.stored_data,'{"name":"BurgerMenu"},','{"name":"SidebarMenu"},')
+FROM geostore.gs_resource
+WHERE gs_stored_data.resource_id = gs_resource.id AND
+        gs_resource.category_id = (SELECT id FROM geostore.gs_category WHERE name = 'CONTEXT') AND
+        gs_stored_data.stored_data ~ '.*{"name":"BurgerMenu"},.*';
+```
+
+**Note:** Schema name could vary depending on your installation configuration.
+
+### Updating extensions
+
+Please refer to the [extensions](../extensions/#managing-drawing-interactions-conflict-in-extension) documentation to know how to update your extensions.
+
+### Using `terrain` layer type to define 3D map elevation profile
+A new `terrain` layer type has been created in order to provide more options and versatility when defining an elevation profile for the 3D map terrain.
+This `terrain` layer will substitute the former `wms` layer (with `useForElevation` attribute) used to define the elevation profile.
+
+The `additionalLayers` object on the `localConfig.json` file should adhere now to the [terrain layer configuration](../maps-configuration/#terrain).
+Serve the following code as an example:
+
+```json
+{
+    "name": "Map",
+    "cfg": {
+        "additionalLayers": [{
+            "type": "terrain",
+            "provider": "wms",
+            "url": "https://host-sample/geoserver/wms",
+            "name": "workspace:layername",  // name of the geoserver resource
+            "littleendian": false,
+            "visibility": true
+        }]
+    }
+}
+```
+!!! note
+    When using `terrain` layer with `wms` provider, the format option in layer configuration is not needed anymore as Mapstore supports only `image/bil` format and is used by default
+
 ## Migration from 2022.01.00 to 2022.01.01
 
 ### MailingLists plugin has been removed
 
 `MailingLists` plugin has ben removed from the core of MapStore. This means you can remove it from your `localConfig.json` (if present, it will be anyway ignored by the plugin system).
+
 
 ## Migration from 2021.02.02 to 2022.01.00
 

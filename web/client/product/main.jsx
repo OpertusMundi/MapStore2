@@ -16,7 +16,7 @@ import StandardRouter from '../components/app/StandardRouter';
 import { loadVersion } from '../actions/version';
 import { themeLoaded } from '../actions/theme';
 
-import { updateMapLayoutEpic } from '../epics/maplayout';
+import { updateMapLayoutEpic, updateActiveDockEpic } from '../epics/maplayout';
 import { setSupportedLocales } from '../epics/localconfig';
 import { readQueryParamsOnMapEpic } from '../epics/queryparams';
 
@@ -25,6 +25,11 @@ import maps from '../reducers/maps';
 import maplayout from '../reducers/maplayout';
 import version from '../reducers/version';
 import mapPopups from '../reducers/mapPopups';
+import catalog from '../reducers/catalog';
+import security from '../reducers/security';
+import mousePosition from "../reducers/mousePosition";
+import annotations from "../reducers/annotations";
+
 
 import { versionSelector } from '../selectors/version';
 import { loadAfterThemeSelector } from '../selectors/config';
@@ -72,6 +77,10 @@ export default (config = {}, pluginsDef, overrideConfig = cfg => cfg) => {
                 maplayout,
                 version,
                 mapPopups,
+                catalog,
+                security,
+                mousePosition,
+                annotations,
                 ...configAppReducers
             }),
 
@@ -83,6 +92,7 @@ export default (config = {}, pluginsDef, overrideConfig = cfg => cfg) => {
             ? baseEpics
             : {
                 updateMapLayoutEpic,
+                updateActiveDockEpic,
                 setSupportedLocales,
                 readQueryParamsOnMapEpic,
                 ...configAppEpics

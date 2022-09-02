@@ -34,7 +34,7 @@ http://localhost:8081/#viewer/openlayers/new
 This page uses the `new.json` file as a template configuration to start creating a new map. You can find this file in `web/client/configs` directory for standard MapStore or in `configs/` folder for a custom projects.
 You can edit `new.json` to customize this initial template. It typically contains the map backgrounds you want to use for all the new maps (identified by the special property `"group": "background"`).
 
-If you have enabled the datadir, then you can externalize the new.json or config.json files. (see [here](../externalized-configuration) for more details)
+If you have enabled the datadir, then you can externalize the new.json or config.json files. (see [here](externalized-configuration.md#externalized-configuration) for more details)
 
 `new.json` and `config.json` are special cases, but you can configure your own static map context creating these json files in the root of the project, for instance `mycontext.json` and accessing them at the URL:
 
@@ -187,6 +187,7 @@ title: {
 - `graticule`: Vector layer that shows a coordinates grid over the map, with optional labels
 - `empty`: special type for empty background
 - `3dtiles`: 3d tiles layers
+- `terrain`: layers that define the elevation profile of the terrain
 
 #### WMS
 
@@ -257,7 +258,10 @@ Some other feature will break, for example the layer properties will stop workin
 },
 ```
 
-##### special case - The Elevation layer
+##### special case - The Elevation layer (deprecated)
+
+!!! note
+    See the `terrain` layer section for a more versatile way of handling elevation.
 
 WMS layers can be configured to be used as a source for elevation related functions.
 
@@ -761,7 +765,162 @@ This is the typical fields of a vector layer
 - `styleName`: name of a style to use (e.g. "marker").
 - `hideLoading`: boolean. if true, the loading will not be taken into account.
 
+#### WFS Layer
+
+A vector layer, whose data source is a WFS service. The configuration has properties in common with both WMS and vector layers. it contains the search entry that allows to browse the data on the server side. The styling system is the same of the vector layer.
+
+This layer differs from the "vector" because all the loading/filtering/querying operations are applied directly using the WFS service, without storing anything locally.
+
+```json
+{
+    "type":"wfs",
+    "search":{
+        "url":"https://myserver.org/geoserver/wfs",
+        "type":"wfs"
+    },
+    "name":"workspace:layer",
+    "styleName":"marker",
+    "url":"https://myserver.org/geoserver/wfs"
+}
+```
+
 #### Vector Style
+
+The `vector` and `wfs` layer types are rendered by the client as GeoJSON features and it possible to apply specific symbolizer using the `style` property available in the layer options. The style object is composed by these properties
+
+- `format` the format encoding used by style body
+- `body` the actual style rules and symbolizers
+
+example:
+```json
+{
+  "type": "vector",
+  "features": [],
+  "style": {
+    "format": "geostyler",
+    "body": {
+      "name": "My Style",
+      "rules": [
+        {
+          "name": "My Rule",
+          "symbolizers": [
+            {
+              "kind": "Line",
+              "color": "#3075e9",
+              "opacity": 1,
+              "width": 2
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+The default format used by MapStore is "geostyler" that is an encoding based on the [geostyler-style](https://github.com/geostyler/geostyler-style) specification that could include some variations or limitations related to the map libraries used by MapStore app.
+We suggest to refer to following doc for the rule/symbolizer properties available in MapStore.
+
+Ths style `body` is composed by following properties:
+
+- `name` style name
+- `rules` list of rule object that describe the style
+
+A `rule` object is composed by following properties:
+
+- `name` rule name that could be used to generate a legend
+- `filter` filter expression
+- `symbolizers` list of symbolizer object that describe the rule (usually one per rule)
+
+The `filter` expression define with features should be rendered with the symbolizers listed in the rule
+
+example:
+```js
+// simple comparison condition structure
+// [operator, property key, value]
+{
+  "filter": ["==", "count", 10]
+}
+
+// mulitple condition with logical operato
+// [logical operator, [condition], [condition]]
+{
+  "filter": [
+    "||",
+    [">", "height", 10],
+    ["==", "category", "building"]
+  ]
+}
+```
+
+Available logical operators:
+
+- `||` OR operator
+- `&&` AND operator
+
+Available comparison operators:
+
+- `==` equal to
+- `*=` like (for string type)
+- `!=` is not
+- `<` less than
+- `<=` less and equal than
+- `>` grater than
+- `>=` grater and equal than
+
+The `symbolizer` could be of following `kinds`:
+
+- `Mark` symbolizer properties
+  - `kind` must be equal to `Mark`
+  - `color` fill color of the mark
+  - `fillOpacity` fill opacity of the mark
+  - `strokeColor` stroke color of the mark
+  - `strokeOpacity` stroke opacity of the mark
+  - `strokeWidth` stroke width of the mark
+  - `radius` radius size in px of the mark
+  - `msBringToFront` this boolean will allow setting the `disableDepthTestDistance` value for the feature. This would only apply on Cesium maps.
+  - `wellKnownName` rendered shape, one of Circle, Square, Triangle, Star, Cross, X, shape://vertline, shape://horline, shape://slash, shape://backslash, shape://dot, shape://plus, shape://times, shape://oarrow or shape://carrow
+
+- `Icon` symbolizer properties
+  - `kind` must be equal to `Icon`
+  - `image` url of the image to use as icon
+  - `size` size of the icon
+  - `opacity` opacity of the icon
+  - `rotate` rotation of the icon
+  - `msBringToFront` this boolean will allow setting the `disableDepthTestDistance` value for the feature. This would only apply on Cesium maps.
+
+- `Line` symbolizer properties
+  - `kind` must be equal to `Line`
+  - `color` stroke color of the line
+  - `opacity` stroke opacity of the line
+  - `width` stroke width of the line
+  - `dasharray` array that represent the dashed line intervals
+  - `msClampToGround` this boolean will allow setting the `clampToGround` value for the feature. This would only apply on Cesium maps.
+
+- `Fill` symbolizer properties
+  - `kind` must be equal to `Fill`
+  - `color` fill color of the polygon
+  - `fillOpacity` fill opacity of the polygon
+  - `outlineColor` outline color of the polygon
+  - `outlineOpacity` outline opacity of the polygon
+  - `outlineWidth` outline width of the polygon
+  - `msClassificationType` allow setting `classificationType` value for the feature. This would only apply on polygon graphics in Cesium maps.
+  - `msClampToGround` this boolean will allow setting the `clampToGround` value for the feature. This would only apply on Cesium maps.
+
+- `Text` symbolizer properties
+  - `kind` must be equal to `Text`
+  - `label` text to show in the label, the {{propertyKey}} notetion allow to access feature properties (eg. 'feature name is {{name}}')
+  - `font` array of font family names
+  - `size` font size of the label
+  - `fontStyle` font style of the label: normal or italic
+  - `fontWeight` font style of the label: normal or bold
+  - `color` font color of the label
+  - `haloColor` halo color of the label
+  - `haloWidth` halo width of the label
+  - `offset` array of x and y values offset of the label
+
+
+#### Legacy Vector Style (deprecated)
 
 The `style` or `styleName` properties of vector layers (wfs, vector...) allow to apply a style to the local data on the map.
 
@@ -776,14 +935,14 @@ The `style` or `styleName` properties of vector layers (wfs, vector...) allow to
 
 In case of `vector` layer, style can be added also to the specific features. Other ways of defining the style for a vector layer have to be documented.
 
-#### Advanced Vector Styles
+#### Advanced Vector Styles (deprecated)
 
 To support advanced styles (like multiple rules, symbols, dashed lines, start point, end point) the style can be configured also in a different format, as an array of objects and you can define them feature by feature, adding a "style" property.
 
 !!!warning
     This advanced style functionality has been implemented to support annotations, at the moment this kind of advanced style options is supported **only** as a property of the single feature object, not as global style.
 
-##### SVG Symbol
+##### SVG Symbol (deprecated)
 
 The following options are available for a SVG symbol.
 
@@ -794,7 +953,7 @@ The following options are available for a SVG symbol.
   - `size`: the size in pixel of the square that contains the symbol to draw. The size is used to center and to cut the original svg, so it must fit the svg.
 - `dashArray`: Array of line, space size, in pixels. ["6","6"] Will draw the border of the symbol dashed. It is applied also to a generic line or polygon geometry.
 
-##### Markers and glyphs
+##### Markers and glyphs (deprecated)
 
 These are the available options for makers. These are specific of annotations for now, so allowed values have to be documented.
 
@@ -803,14 +962,14 @@ These are the available options for makers. These are specific of annotations fo
 - `iconColor`: e.g. "red"
 - `iconAnchor`: [0.5,0.5]
 
-##### Multiple rules and filtering
+##### Multiple rules and filtering (deprecated)
 
 In order to support start point and end point symbols, you could find in the style these entries:
 
 - `geometry`: "endPoint"|"startPoint", identify how to get the geometry from
 - `filtering`: if true, the geometry filter is applied.
 
-#### Example
+#### Example (deprecated)
 
 Here an example of a layer with:
 
@@ -914,25 +1073,6 @@ Here an example of a layer with:
 
 <img src="../img/vector-style-annotations.jpg" class="ms-docimage"  style="max-width:600px;"/>
 
-#### WFS Layer
-
-A vector layer, whose data source is a WFS service. The configuration has properties in common with both WMS and vector layers. it contains the search entry that allows to browse the data on the server side. The styling system is the same of the vector layer.
-
-This layer differs from the "vector" because all the loading/filtering/querying operations are applied directly using the WFS service, without storing anything locally.
-
-```json
-{
-    "type":"wfs",
-    "search":{
-        "url":"https://myserver.org/geoserver/wfs",
-        "type":"wfs"
-    },
-    "name":"workspace:layer",
-    "styleName":"marker",
-    "url":"https://myserver.org/geoserver/wfs"
-}
-```
-
 #### Graticule
 
 i.e.
@@ -1001,6 +1141,111 @@ i.e.
 ```
 
 The style body object for the format 3dtiles accepts rules described in the 3d tiles styling specification version 1.0 available [here](https://github.com/CesiumGS/3d-tiles/tree/1.0/specification/Styling).
+
+#### Terrain
+
+`terrain` layer allows the customization of the elevation profile of the globe mesh in the Cesium 3d viewer. Currently Mapstore supports three different types of [terrain providers](https://cesium.com/learn/cesiumjs/ref-doc/TerrainProvider.html). If no `terrain` layer is defined the default elevation profile for the globe would be the [ellipsoid](https://cesium.com/learn/cesiumjs/ref-doc/EllipsoidTerrainProvider.html) that provides a rather flat profile.
+
+The other two available terrain providers are the `wms` (that supports `DDL/BIL` types of assets) and the `cesium` (that support resources compliant with the Cesium terrain format).
+
+In order to create a `wms` based mesh there are some requirements that need to be fulfilled:
+
+- a GeoServer WMS service with the [DDS/BIL plugin](https://docs.geoserver.org/stable/en/user/community/dds/index.html)
+- A WMS layer configured with **BIL 16 bit** output in **big endian mode** and **-9999 nodata value**
+  - BILTerrainProvider is used to parse `wms` based mesh. Supports three ways in parsing the metadata of the layer
+    1. Layer configuration with **sufficient metadata** of the layer. This prevents a call to `getCapabilities` eventually improving performance of the parsing of the layer.
+        Mandatory fields are `url`, `name`, `crs`.
+    ```json
+    {
+      "type": "terrain",
+      "provider": "wms",
+      "url": "http://hot-sample/geoserver/wms",
+      "name": "workspace:layername", 
+      "littleEndian": false,
+      "visibility": true,
+      "crs": "CRS:84" // Supports only CRS:84 | EPSG:4326 | EPSG:3857 | OSGEO:41001
+    }
+    ```
+    2. Layer configuration of `geoserver` layer with layer name _prefixed with workspace_, then the `getCapabilities` is requested only for that layer
+    ```json
+    {
+    "type": "terrain",
+    "provider": "wms",
+    "url": "https://host-sample/geoserver/wms", // 'geoserver' url
+    "name": "workspace:layername", // name of the geoserver resource with workspace prefixed
+    "littleEndian": false
+    }
+    ```
+    3. Layer configuration of geoserver layer with layer name _not prefixed with workspace_ then `getCapabilities` is requested in global scope.
+    ```json
+    { 
+      "type": "terrain",
+      "provider": "wms",
+      "url": "https://host-sample/geoserver/wms",
+      "name": "layername",
+      "littleEndian": false
+    }
+    ```
+!!! note
+With `wms` as provider, the format option is not needed, as Mapstore supports only `image/bil` format and is used by default
+
+Generic layer configuration of type `terrain` and provide `wms` as follows. 
+The layer configuration needs to point to the geoserver resource and define the type of layer and the type of provider, here all available properties:
+```json
+{ 
+  "type": "terrain",
+  "provider": "wms",
+  "url": "https://host-sample/geoserver/wms",
+  "name": "workspace:layername", // name of the geoserver resource
+  "littleEndian": false, // defines whether buffer is in little or big endian
+  "visibility": true,
+  // optional properties
+  "crs": "CRS:84", // projection of the layer, support only CRS:84 | EPSG:4326 | EPSG:3857 | OSGEO:41001
+  "version": "1.3.0", // version used for the WMS request
+  "heightMapWidth": 65, // width  of a tile in pixels, default value 65
+  "heightMapHeight": 65, // height of a tile in pixels, default value 65
+  "waterMask": false,
+  "offset": 0, // offset of the tiles (in meters)
+  "highest": 12000, // highest altitude in the tiles (in meters)
+  "lowest": -500, // lowest altitude in the tiles
+  "sampleTerrainZoomLevel": 18 // zoom level used to perform sampleTerrain and get the height value given a point, used by measure components
+  
+}
+```
+
+The `terrain` layer of `cesium` type allows using Cesium terrain format compliant services (like Cesium Ion resources or [MapTiler meshes](https://cloud.maptiler.com/tiles/terrain-quantized-mesh-v2/)). The options attributte allows for further customization of the terrain properties (see available options on the Cesium documentation for the [cesium terrain provider](https://cesium.com/learn/cesiumjs/ref-doc/CesiumTerrainProvider.html))
+
+```json
+{
+  "type": "terrain",
+  "provider": "cesium",
+  "url": "https://terrain-provider-service-url/?key={apiKey}",
+  "visibility": true,
+  "options": {
+    // requestVertexNormals, requestWatermask, credit...
+  }
+}
+```
+
+In order to use these layers they need to be added to the `additionalLayers` in `localConfig.json`. The globe only accepts one terrain provider so in case of adding more than one the last one will take precedence and be used to create the elevation profile.
+
+```json
+{
+    "name": "Map",
+    "cfg": {
+        "additionalLayers": [{
+            "type": "terrain",
+            "provider": "wms",
+            "url": "https://host-sample/geoserver/wms",
+            "name": "workspace:layername",  // name of the geoserver resource
+            "littleEndian": false,
+            "visibility": true,
+            "crs": "CRS:84"
+        }]
+    }
+}
+```
+
 
 ## Layer groups
 

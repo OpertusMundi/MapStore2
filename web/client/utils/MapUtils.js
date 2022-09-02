@@ -38,6 +38,8 @@ import {
 } from './LayersUtils';
 import assign from 'object-assign';
 
+export const DEFAULT_MAP_LAYOUT = {left: {sm: 300, md: 500, lg: 600}, right: {md: 548}, bottom: {sm: 30}};
+
 export const DEFAULT_SCREEN_DPI = 96;
 
 export const METERS_PER_UNIT = {
@@ -52,6 +54,8 @@ export const GOOGLE_MERCATOR = {
     TILE_WIDTH: 256,
     ZOOM_FACTOR: 2
 };
+
+export const EMPTY_MAP = 'EMPTY_MAP';
 
 import proj4 from "proj4";
 
@@ -874,6 +878,7 @@ export const reprojectZoom = (zoom, mapProjection, printProjection) => {
     return printResolutions.indexOf(printResolution);
 };
 
+
 export default {
     createRegisterHooks,
     EXTENT_TO_ZOOM_HOOK,
@@ -885,6 +890,7 @@ export default {
     DEFAULT_SCREEN_DPI,
     ZOOM_TO_EXTENT_HOOK,
     CLICK_ON_MAP_HOOK,
+    EMPTY_MAP,
     registerHook,
     getHook,
     dpi2dpm,

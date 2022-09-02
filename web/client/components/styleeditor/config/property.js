@@ -276,6 +276,66 @@ const property = {
             };
         }
     }),
+    msClampToGround: ({ key = 'msClampToGround', label = 'Clamp to ground' }) => ({
+        type: 'toolbar',
+        label,
+        config: {
+            options: [{
+                labelId: 'styleeditor.boolTrue',
+                value: true
+            }, {
+                labelId: 'styleeditor.boolFalse',
+                value: false
+            }]
+        },
+        getValue: (value) => {
+            return {
+                [key]: value
+            };
+        },
+        setValue: (value) => !!value
+    }),
+    msBringToFront: ({ key = 'msBringToFront', label = 'Arrange' }) => ({
+        type: 'toolbar',
+        label,
+        config: {
+            options: [{
+                labelId: 'styleeditor.boolTrue',
+                value: true
+            }, {
+                labelId: 'styleeditor.boolFalse',
+                value: false
+            }]
+        },
+        getValue: (value) => {
+            return {
+                [key]: value
+            };
+        },
+        setValue: (value) => !!value
+    }),
+    msClassificationType: ({ key = 'msClassificationType', label = 'PolygonType' }) => ({
+        type: 'toolbar',
+        label,
+        config: {
+            options: [{
+                labelId: 'styleeditor.3dTile',
+                value: '3d'
+            }, {
+                labelId: 'styleeditor.terrain',
+                value: 'terrain'
+            }, {
+                labelId: 'styleeditor.both',
+                value: 'both'
+            }]
+        },
+        getValue: (value) => {
+            return {
+                [key]: value
+            };
+        },
+        setValue: (value) => !!value
+    }),
     shape: ({ label, key = 'wellKnownName' }) => ({
         type: 'mark',
         label,
