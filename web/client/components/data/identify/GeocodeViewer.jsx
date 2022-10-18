@@ -36,7 +36,7 @@ export default ({latlng, enableRevGeocode, hideRevGeocode = () => {}, showModalR
                 buttons={[{
                     text: <Message msgId="close"/>,
                     onClick: hideRevGeocode,
-                    bsStyle: 'primary'
+                    bsStyle: 'primary-decline'
                 }]}>
                 <div className="ms-alert" style={{padding: 15}}>
                     <div className="ms-alert-center text-center">

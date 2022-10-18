@@ -87,6 +87,7 @@
     #mapstore-navbar-container {
         display: flex;
         flex-direction: row-reverse;
+        box-shadow: none;
 
         .nav {
             &.pull-left {
@@ -105,25 +106,58 @@
     }
 
     .ms-home-description {
-        padding: @square-btn-size 0 0 0;
+        //padding: @square-btn-size 0 0 0;
+        //font-family: @font-family-roboto !important;
+        padding: 140px 0 0 0;
         background-position: center;
+        background-color: transparent !important;
 
         .container {
+            background-color: inherit !important;
             width: 100%;
         }
     }
+
+    .ms-home-footer {
+        width: 97px;
+        height: 36px;
+        text-align: middle;
+    }
+
+    .ms-footer-logo {
+        display: inline-block;
+        margin-right: 15px;
+    }
+
+    .ms-footer-desc {
+        width: 30px;
+        display: inline-block;
+        vertical-align: middle;
+        text-align: left;
+        font-family: @font-family-space-grotesk;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 1;
+
+        //font: normal normal 600 12px/12px Space Grotesk;
+        letter-spacing: 0.3px;
+        color: #190AFF;
+        opacity: 1;
+    }
+
 
     .navbar-home {
         position: fixed;
         width: 100%;
         margin-bottom: 0;
         z-index: 1000;
+        box-shadow: none;
     }
 
     >.container {
         +.container {
-            border-top-width: 1px;
-            border-top-style: solid;
+            //border-top-width: 1px;
+            //border-top-style: solid;
         }
 
         &:last-child {
@@ -136,7 +170,8 @@
         }
     }
 }
-.lang-button{
+
+.lang-button {
     margin-left: 10px;
 }
 
@@ -147,3 +182,75 @@
         }
     }
 }
+
+.btn-success,
+.btn-primary {
+    //background-color: #f2f2f2 !important;
+    border: none !important
+}
+
+.btn-default {
+    color: #333 !important;
+}
+
+.btn-group {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.btn-primary-create {
+    border: 2px solid @ms-main-topio-color;
+    padding: 10px 20px;
+    margin: 15px;
+    font-weight: 400;
+    border-radius: 20px;
+    color: @ms-main-topio-color;
+}
+
+.btn-primary-accept {
+    border: 2px solid @ms-main-topio-color;
+    padding: 5px 15px;
+    margin-right: 10px;
+    font-weight: 600;
+    border-radius: 20px;
+    color: @ms-main-topio-color;
+}
+
+.btn-primary-decline {
+    padding: 5px 15px;
+    border-radius: 20px;
+    background-color: @ms-main-topio-color  !important;
+    font-weight: 600;
+    color: #fff;
+}
+
+// pagination
+
+.pagination-toolbar {
+    .pagination-info {
+        margin-bottom: 0px !important;
+        color: #6c6c6c;
+        letter-spacing: 0.21px;
+    }
+
+    .pagination {
+        margin: 10px 0px !important;
+
+        .active {
+            a {
+                color: @ms-main-topio-color !important;
+            }
+        }
+
+        a {
+            color: #333 !important;
+            background-color: inherit !important;
+            border: none !important;
+        }
+    }
+}
+
+#loginButton, #mapstore-manager-menu-container{
+    background-color: #f2f2f2;
+}
+

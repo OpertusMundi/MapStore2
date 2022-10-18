@@ -4,6 +4,7 @@ import { Glyphicon } from 'react-bootstrap';
 import Message from '../../I18N/Message';
 import popoverTooltip from '../../misc/enhancers/popover';
 import Button from '../../misc/Button';
+import filterIcon from '../../../themes/default/svg/filter-topio.svg';
 
 const AlertIcon = popoverTooltip((props) => (<div className="square-button pull-right no-border" style={{display: 'flex'}} {...props}><Glyphicon glyph="exclamation-mark" className="text-danger"/></div>));
 
@@ -17,5 +18,5 @@ export default ({loadingError, onToggleQuery = () => {}, buttonStyle = "default"
         <Glyphicon glyph="arrow-left"/>
     </Button>
     {loadingError && (<AlertIcon popover={{text: (<Message msgId="queryform.loadingError"/>)}}/>) || (
-        <div className="square-button pull-right no-border" style={{display: 'flex'}}><Glyphicon glyph="filter" className="text-primary"/></div>)}
+        <div className="square-button pull-right no-border" style={{display: 'flex'}}><img src={filterIcon} /></div>)}
 </div>);

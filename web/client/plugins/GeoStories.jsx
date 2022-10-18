@@ -27,6 +27,11 @@ import GeostoryGrid from './geostories/GeostoriesGrid';
 import PaginationToolbar from './geostories/PaginationToolbar';
 import {GEOSTORY_DEFAULT_SHARE_OPTIONS} from "../utils/ShareUtils";
 
+import ButtonB from '../components/misc/Button';
+import tooltip from '../components/misc/enhancers/tooltip';
+
+const Button = tooltip(ButtonB);
+
 const geostoriesCountSelector = createSelector(
     totalCountSelector,
     count => ({ count })
@@ -88,17 +93,18 @@ class Geostories extends React.Component {
     }
 
     render() {
-        return (<GeostoryGrid
+        return (<div><Button className="btn-primary-create" bsStyle="primary" onClick={() => { this.context.router.history.push("/geostory/newgeostory"); }}>
+        <Message msgId="resources.geostories.create" />
+    </Button><GeostoryGrid
             resources={this.props.resources}
             fluid={this.props.fluid}
-            title={this.props.title}
             colProps={this.props.colProps}
             viewerUrl={(geostory) => {this.context.router.history.push(`geostory/${geostory.id}`); }}
             getShareUrl={(geostory) => `geostory/${geostory.id}`}
             shareOptions={this.props.shareOptions}
             shareToolEnabled={this.props.shareToolEnabled}
             bottom={<PaginationToolbar />}
-        />);
+        /></div>);
     }
 }
 

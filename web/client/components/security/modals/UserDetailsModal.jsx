@@ -88,7 +88,7 @@ class UserDetails extends React.Component {
                     buttons={this.props.includeCloseButton ? [{
                         text: <Message msgId="close"/>,
                         onClick: this.props.onClose,
-                        bsStyle: 'primary'
+                        bsStyle: 'primary-decline'
                     }] : [] }>
                     {this.renderAttributes()}
                 </ResizableModal>

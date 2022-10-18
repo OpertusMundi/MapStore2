@@ -134,7 +134,7 @@ const StyleTemplates = ({
                 buttons={[
                     {
                         text: <Message msgId="save"/>,
-                        bsStyle: 'primary',
+                        bsStyle: 'primary-accept',
                         disabled: !validateAlphaNumeric(styleSettings),
                         onClick: () => onSave(styleSettings)
                     }

@@ -71,6 +71,7 @@ class Metadata extends React.Component {
             <FormGroup validationState={this.isMapNameValid}>
                 <ControlLabel>{this.props.nameFieldText}</ControlLabel>
                 <FormControl ref="mapName"
+                    className="map-name"
                     key="mapName"
                     type="text"
                     onChange={this.changeName}
@@ -82,6 +83,7 @@ class Metadata extends React.Component {
             <FormGroup>
                 <ControlLabel>{this.props.descriptionFieldText}</ControlLabel>
                 <FormControl ref="mapDescription"
+                    className="map-description"
                     key="mapDescription"
                     type="text"
                     onChange={this.changeDescription}

@@ -10,6 +10,7 @@ import { getApi } from '../../../../api/userPersistedStorage';
 import TSplitButtonComp from "./TSplitButton";
 import Spinner from "react-spinkit";
 import Select from "react-select";
+import filterIcon from '../../../../themes/default/svg/filter-topio.svg';
 
 const TButton = withHint(TButtonComp);
 const TSplitButton = withHint(TSplitButtonComp);
@@ -42,7 +43,7 @@ const standardButtons = {
         disabled={disabled || !isSearchAllowed}
         visible={mode === "VIEW" && showAdvancedFilterButton}
         onClick={events.showQueryPanel}
-        glyph="filter"/>),
+        icon="<img src={filterIcon}/>"/>),
     zoomAll: ({disabled, disableZoomAll = false, mode, events = {}}) => (<TButton
         id="zoom-all"
         keyProp="zoom-all"

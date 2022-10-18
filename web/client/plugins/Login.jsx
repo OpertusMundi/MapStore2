@@ -20,6 +20,7 @@ import {connect} from "../utils/PluginsUtils";
 import {Glyphicon} from "react-bootstrap";
 import {burgerMenuSelector} from "../selectors/controls";
 import {sidebarIsActiveSelector} from "../selectors/sidebarmenu";
+import accountIcon from '../themes/default/svg/account-topio.svg';
 
 /**
   * Login Plugin. Allow to login/logout or show user info and reset password tools.
@@ -82,7 +83,7 @@ export default {
             position: 3,
             tool: connect((state) => ({
                 hidden: sidebarIsActiveSelector(state),
-                renderButtonContent: () => {return <Glyphicon glyph="user" />; },
+                renderButtonContent: () => {return <span><img src={accountIcon} /></span>; },
                 bsStyle: 'primary'
             }))(LoginNav),
             tools: [UserDetails, PasswordReset, Login],
@@ -94,7 +95,7 @@ export default {
             tool: connect(() => ({
                 bsStyle: 'tray',
                 tooltipPosition: 'left',
-                renderButtonContent: (props) => [<Glyphicon glyph="user" />, props.renderButtonText ? props.user && <span>props.user[props.displayName]</span> || <span>"Guest"</span> : null],
+                renderButtonContent: (props) => [<span><img src={accountIcon} /></span>, props.renderButtonText ? props.user && <span>props.user[props.displayName]</span> || <span>"Guest"</span> : null],
                 renderButtonText: true,
                 menuProps: {
                     noCaret: true

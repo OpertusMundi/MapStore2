@@ -152,10 +152,12 @@ class SaveModal extends React.Component {
                 fitContent={this.props.disablePermission}
                 dialogClassName={this.props.dialogClassName}
                 buttons={[{
+                    bsStyle: "primary-decline",
                     text: <Message msgId="close"/>,
                     onClick: this.onCloseMapPropertiesModal,
                     disabled: this.props.resource.loading
                 }, {
+                    bsStyle: "primary-accept",
                     text: <span><Message msgId={this.props.saveButtonLabel}/></span>,
                     onClick: () => { this.onSave(); },
                     disabled: !this.isValidForm() || this.props.loading || !this.props.canSave

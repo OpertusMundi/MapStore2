@@ -23,6 +23,8 @@ import { mapLayoutValuesSelector } from '../selectors/maplayout';
 import MenuTopioComp from './topioDrive/MenuTopio';
 import Message from './locale/Message';
 import ButtonB from '../components/misc/Button';
+import catalogIcon from '../themes/default/svg/catalog-fill.svg';
+import catalogIconWhite from '../themes/default/svg/catalog-fill-white.svg';
 
 
 const Button = tooltip(ButtonB);
@@ -58,7 +60,6 @@ const DrawerButton = connect(state => ({
     buttonClassName = 'square-button ms-topiodrivemenu-menu-button',
     toggleMenu = () => { },
     disabled = false,
-    glyph = 'folder-open',
     tooltipId = 'topioDrive.drawerButton',
     tooltipPosition = 'bottom'
 }) =>
@@ -72,7 +73,8 @@ const DrawerButton = connect(state => ({
         disabled={disabled}
         tooltipId={tooltipId}
         tooltipPosition={tooltipPosition}>
-        <Glyphicon glyph={glyph} />
+        <span><img src={catalogIcon}/></span>
+        <span>Catalogs</span>
     </Button>
 );
 
@@ -158,12 +160,11 @@ class TopioDriveMenu extends React.Component {
             title: 'TopioDrive',
             priority: 2,
             panel: true,
-            glyph: "folder-open",
             buttonConfig: {
                 buttonClassName: "square-button no-border",
                 tooltip: "toc.layers"
             },
-            icon: <Glyphicon glyph="folder-open" />
+            icon:  <span><img src={catalogIconWhite}/></span>
         }];
         const unsorted = testItems
             .map((item, index) => assign({}, item, { position: item.position || index }));

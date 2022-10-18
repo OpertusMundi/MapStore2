@@ -14,6 +14,7 @@ import GridCard from '../../misc/GridCard';
 
 import Message from '../../../components/I18N/Message';
 import Button from '../../misc/Button';
+import accountIcon from '../../../themes/default/svg/account-topio.svg';
 
 
 import './style/usercard.css';
@@ -89,7 +90,7 @@ class UserCard extends React.Component {
 
     renderAvatar = () => {
         return (<div key="avatar" className="avatar-containter" style={this.props.avatarStyle} ><Button bsStyle="primary" type="button" className="square-button">
-            <Glyphicon glyph="user" />
+            <span><img src={accountIcon} /></span>
         </Button></div>);
     };
 

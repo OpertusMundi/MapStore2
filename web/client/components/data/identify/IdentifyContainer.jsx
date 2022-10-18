@@ -187,7 +187,7 @@ export default props => {
                         buttons={[{
                             text: <Message msgId="close"/>,
                             onClick: clearWarning,
-                            bsStyle: 'primary'
+                            bsStyle: 'primary-decline'
                         }]}>
                         <div className="ms-alert" style={{padding: 15}}>
                             <div className="ms-alert-center text-center">

@@ -14,6 +14,7 @@ import { DropdownButton, MenuItem, NavDropdown, Glyphicon } from 'react-bootstra
 import Message from '../I18N/Message';
 import ConfirmModal from '../misc/ResizableModal';
 import tooltip from "../misc/enhancers/tooltip";
+import accountIcon from '../../themes/default/svg/account-topio.svg';
 
 const TNavDropdown = tooltip(NavDropdown);
 const TDropdownButton = tooltip(DropdownButton);
@@ -118,7 +119,7 @@ class UserMenu extends React.Component {
         let DropDown = this.props.nav ? TNavDropdown : TDropdownButton;
         let itemArray = [];
         if (this.props.showAccountInfo) {
-            itemArray.push(<MenuItem key="accountInfo" onClick={this.props.onShowAccountInfo}> <Glyphicon glyph="user" /><Message msgId="user.info"/></MenuItem>);
+            itemArray.push(<MenuItem key="accountInfo" onClick={this.props.onShowAccountInfo}> <img src={accountIcon} /><Message msgId="user.info"/></MenuItem>);
         }
         if (this.props.showPasswordChange) {
             itemArray.push(<MenuItem key="passwordChange" onClick={this.props.onShowChangePassword}> <Glyphicon glyph="asterisk" /> <Message msgId="user.changePwd"/></MenuItem>);
@@ -150,10 +151,11 @@ class UserMenu extends React.Component {
                     onClose={this.props.onCloseUnsavedDialog}
                     title={<Message msgId="resources.maps.unsavedMapConfirmTitle" />}
                     buttons={[{
-                        bsStyle: "primary",
+                        bsStyle: "primary-accept",
                         text: <Message msgId="resources.maps.unsavedMapConfirmButtonText" />,
                         onClick: this.props.onLogoutConfirm
                     }, {
+                        bsStyle: "primary-decline",
                         text: <Message msgId="resources.maps.unsavedMapCancelButtonText" />,
                         onClick: this.props.onCloseUnsavedDialog
                     }]}
@@ -172,7 +174,7 @@ class UserMenu extends React.Component {
 
         return this.props.renderButtonContent ?
             this.props.renderButtonContent(this.props) :
-            [<Glyphicon glyph="user" />, this.props.renderButtonText ? this.props.user && this.props.user[this.props.displayName] || "Guest" : null];
+            [<span><img src={accountIcon} /></span>, this.props.renderButtonText ? this.props.user && this.props.user[this.props.displayName] || "Guest" : null];
     };
 
     render() {

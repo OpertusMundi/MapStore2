@@ -565,7 +565,9 @@ export const DEFAULT_FONT_FAMILIES = [
     'Impact',
     'Tahoma',
     'Times New Roman',
-    'Verdana'
+    'Verdana',
+    'Roboto',
+    'Space Grotesk'
 ];
 
 /**

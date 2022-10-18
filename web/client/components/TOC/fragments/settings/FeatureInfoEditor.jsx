@@ -69,7 +69,7 @@ class FeatureInfoEditor extends React.Component {
                     onClose={() => this.close()}
                     buttons={[
                         {
-                            bsStyle: 'primary',
+                            bsStyle: 'primary-decline',
                             text: <Message msgId="close"/>,
                             onClick: () => this.close()
                         }

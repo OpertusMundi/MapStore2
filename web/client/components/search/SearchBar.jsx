@@ -14,6 +14,7 @@ import SearchBarInput from './SearchBarInput';
 import SearchBarToolbar from './SearchBarToolbar';
 
 import { defaultSearchWrapper } from './SearchBarUtils';
+import searchIcon from '../../themes/default/svg/search-topio.svg';
 
 export default ({
     className,
@@ -23,7 +24,7 @@ export default ({
     typeAhead,
     placeholderMsgId,
     removeIcon = '1-close',
-    searchIcon = 'search',
+    //searchIcon = 'search',
     searchText = '',
     searchOptions,
     maxResults,
@@ -54,7 +55,7 @@ export default ({
                         visible: searchText !== "",
                         onClick: () => onSearchReset()
                     }, {
-                        glyph: searchIcon,
+                        icon:  <img src={searchIcon} /> ,
                         className: "square-button-md no-border " +
                             (isSearchClickable ? "magnifying-glass clickable" : "magnifying-glass"),
                         bsStyle: "default",

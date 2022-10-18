@@ -12,6 +12,9 @@ import Message from '../I18N/Message';
 import GridCard from '../misc/GridCard';
 import FitIcon from '../misc/FitIcon';
 import thumbUrl from '../maps/style/default.jpg';
+import shareIcon from '../../themes/default/svg/share-topio.svg';
+import deleteIcon from '../../themes/default/svg/delete-topio.svg';
+import settingsIcon from '../../themes/default/svg/settings-topio.svg';
 import assign from 'object-assign';
 import ConfirmModal from '../misc/ResizableModal';
 import { isFunction } from "lodash";
@@ -109,7 +112,7 @@ class ResourceCard extends React.Component {
         const availableAction = [
             {
                 visible: this.props.resource.canEdit === true,
-                glyph: 'trash',
+                icon:  <img src={deleteIcon} />,
                 disabled: this.props.resource.deleting,
                 loading: this.props.resource.deleting,
                 tooltipId: this.props.tooltips.deleteResource,
@@ -131,7 +134,7 @@ class ResourceCard extends React.Component {
             },
             {
                 visible: this.props.resource.canEdit === true,
-                glyph: 'wrench',
+                icon:  <img src={settingsIcon} />,
                 disabled: this.props.resource.updating,
                 loading: this.props.resource.updating,
                 tooltipId: this.props.tooltips.editResource,
@@ -142,7 +145,8 @@ class ResourceCard extends React.Component {
             },
             {
                 visible: this.props.shareToolEnabled === true,
-                glyph: 'share-alt',
+                //glyph: 'share-alt',
+                icon:  <img src={shareIcon} />,
                 disabled: this.props.resource && this.props.resource.updating,
                 loading: this.props.resource && this.props.resource.updating,
                 tooltipId: this.props.tooltips.shareResource,
@@ -194,19 +198,22 @@ class ResourceCard extends React.Component {
                 <ConfirmModal
                     show={this.state ? this.state.displayDeleteDialog : false}
                     onClose={this.close}
-                    title={this.props.resource.title || this.props.resource.name || <Message msgId="resources.deleteConfirmTitle" />}
+                    title={<Message msgId="manager.deleteMap" />}
                     buttons={[{
-                        bsStyle: "primary",
+                        bsStyle: "primary-accept",
                         text: <Message msgId="yes" />,
                         onClick: this.onConfirmDelete
                     }, {
+                        bsStyle: "primary-decline",
                         text: <Message msgId="no" />,
                         onClick: this.close
                     }]}
                     fitContent
                 >
                     <div className="ms-detail-body">
-                        <Message msgId="resources.deleteConfirmMessage" />
+                        <div className="delete-body">
+                            <Message msgId="resources.deleteConfirmMessage" msgParams={{title:this.props.resource.title || this.props.resource.name}}/>
+                        </div>
                     </div>
                 </ConfirmModal>
             </div>

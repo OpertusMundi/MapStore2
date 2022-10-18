@@ -223,8 +223,17 @@ div.MapSearchBar .form-control:focus {
 }
 
 .MapSearchBar .input-group {
+    border-top-left-radius: 26px !important;
+    border-bottom-left-radius: 26px !important;
+    box-shadow: none !important;
+
     .searchInput {
+        padding-left: 20px;
+        background-color: #fff;
         border: none;
+        border-top-left-radius: 26px !important;
+        border-bottom-left-radius: 26px !important;
+        box-shadow: none !important;
         outline: none !important;
         flex: 1;
         height: 100%;
@@ -294,6 +303,14 @@ div.MapSearchBar .form-control:focus {
 
     // search toolbar
     .search-toolbar-options {
+        background-color: #fff;
+        border-top-right-radius: 26px;
+        border-bottom-right-radius: 26px;
+
+        .btn{
+            background-color: #fff;
+        }
+
         .magnifying-glass {
             pointer-events: none;
 

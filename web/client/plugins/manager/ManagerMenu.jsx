@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import assign from 'object-assign';
 import { isPageConfigured } from '../../selectors/plugins';
 import tooltip from '../../components/misc/enhancers/tooltip';
+import menuIcon from '../../themes/default/svg/menu.svg';
 
 import { DropdownButton, Glyphicon, MenuItem } from 'react-bootstrap';
 
@@ -20,7 +21,7 @@ const Container = connect(() => ({
     noCaret: true,
     pullRight: true,
     bsStyle: "primary",
-    title: <Glyphicon glyph="1-menu-manage"/>,
+    title: <span><img src={menuIcon}/></span>,
     tooltipId: "manager.managerMenu",
     tooltipPosition: "bottom"
 }), {})(TDropdownButton);

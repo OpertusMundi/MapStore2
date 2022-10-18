@@ -347,12 +347,12 @@ class QueryPanel extends React.Component {
                     onClose={() => this.setState(() => ({showModal: false}))}
                     buttons={[
                         {
-                            bsStyle: 'primary',
+                            bsStyle: 'primary-accept',
                             text: <Message msgId="yes"/>,
                             onClick: this.storeAndClose
                         },
                         {
-                            bsStyle: 'primary',
+                            bsStyle: 'primary-decline',
                             text: <Message msgId="no" />,
                             onClick: this.restoreAndClose
                         }

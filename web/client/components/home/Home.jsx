@@ -67,7 +67,7 @@ class Home extends React.Component {
                     onClose={this.props.onCloseUnsavedDialog}
                     title={<Message msgId="resources.maps.unsavedMapConfirmTitle" />}
                     buttons={[{
-                        bsStyle: "primary",
+                        bsStyle: "primary-accept",
                         text: <Message msgId="resources.maps.unsavedMapConfirmButtonText" />,
                         onClick: this.goHome
                     }, {

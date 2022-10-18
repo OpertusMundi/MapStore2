@@ -9,7 +9,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Row, Col } from 'react-bootstrap';
-import src from "./attribution/geosolutions-brand.png";
+//import src from "./attribution/geosolutions-brand.png";
+import src from "../assets/img/topio logo_topio-full-blue.svg";
 import HTML from '../../components/I18N/HTML';
 import {createPlugin} from "../../utils/PluginsUtils";
 
@@ -49,6 +50,7 @@ class Footer extends React.Component {
         const { href, ...logo } = this.props.logo || {};
         const image = (
             <img
+                class="ms-home-footer"
                 src={logo.src}
                 width={logo.width || 'auto'}
                 height={logo.height || 'auto'}
@@ -59,18 +61,16 @@ class Footer extends React.Component {
             <Grid>
                 {logo && logo.src && <Row>
                     <Col xs={12} className="text-center">
-                        <div>
+                        <div className="ms-footer-logo">
                             {href ? <a target="_blank" href={href}>
                                 {image}
                             </a> : image}
                         </div>
+                        <div className="ms-footer-desc">
+                            <HTML  msgId="home.footerDescription"/>
+                        </div>
                     </Col>
                 </Row>}
-                <Row>
-                    <Col xs={12} className="text-center">
-                        <HTML msgId="home.footerDescription"/>
-                    </Col>
-                </Row>
             </Grid>
         );
     }

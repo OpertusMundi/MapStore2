@@ -102,7 +102,6 @@ const ResizableModalComp = ({
                 className={classnames('modal-dialog modal-content', sizeClassName, fullscreenClassName, dialogClassName, {'ms-fit-content': fitContent})}>
                 <span role="header">
                     <h4 className="modal-title">
-                        <div className="ms-title">{title}</div>
                         {showFullscreen && fullscreen.className[fullscreenType] &&
                             <Glyphicon
                                 className="ms-header-btn"
@@ -117,18 +116,13 @@ const ResizableModalComp = ({
                                 disabled={disabledClose}/>
                         }
                     </h4>
+                    <h4 class="dialog-title">{title}</h4>
                 </span>
                 <div role="body" className={bodyClassName}>
                     {children}
                 </div>
                 {enableFooter && (
                     <div style={{display: 'flex'}} role="footer">
-                        <div className="ms-resizable-modal-loading-spinner-container">
-                            {loading ? <LoadingSpinner/> : null}
-                        </div>
-                        <div className="ms-resizable-modal-loading-text">
-                            {loading ? loadingText : null}
-                        </div>
                         <Toolbar buttons={buttons}/>
                     </div>
                 )}

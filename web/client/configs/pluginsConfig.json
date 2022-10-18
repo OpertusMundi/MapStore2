@@ -1,6 +1,5 @@
 {
-  "plugins": [
-    {
+  "plugins": [{
       "name": "Map",
       "glyph": "1-map",
       "mandatory": true,
@@ -36,6 +35,10 @@
     },
     {
       "name": "DrawerMenu",
+      "hidden": true
+    },
+    {
+      "name": "TopioDriveMenu",
       "hidden": true
     },
     {
@@ -142,7 +145,7 @@
       "title": "plugins.HelpLink.title",
       "description": "plugins.HelpLink.description",
       "dependencies": [
-        "SidebarMenu"
+        "BurgerMenu"
       ]
     },
     {
@@ -151,22 +154,19 @@
       "title": "plugins.Share.title",
       "description": "plugins.Share.description",
       "dependencies": [
-        "SidebarMenu"
+        "BurgerMenu"
       ]
+    },
+    {
+      "name": "Version",
+      "glyph": "info-sign",
+      "title": "plugins.Version.title",
+      "description": "plugins.Version.description"
     },
     {
       "name": "BackgroundSelector",
       "title": "plugins.BackgroundSelector.title",
       "description": "plugins.BackgroundSelector.description"
-    },
-    {
-      "name": "Annotations",
-      "glyph": "comment",
-      "title": "plugins.Annotations.title",
-      "description": "plugins.Annotations.description",
-      "dependencies": [
-        "SidebarMenu"
-      ]
     },
     {
       "name": "Identify",
@@ -185,19 +185,14 @@
       "glyph": "1-position-1",
       "title": "plugins.Locate.title",
       "description": "plugins.Locate.description",
-      "dependencies": [
-        "Toolbar"
-      ]
+      "dependencies": ["Toolbar"]
     },
     {
       "name": "Home",
       "glyph": "home",
       "title": "plugins.Home.title",
       "description": "plugins.Home.description",
-      "dependencies": [
-        "OmniBar",
-        "SidebarMenu"
-      ]
+      "dependencies": ["OmniBar"]
     },
     {
       "name": "LayerDownload",
@@ -210,8 +205,7 @@
       "glyph": "filter",
       "defaultConfig": {
         "activateQueryTool": true,
-        "spatialOperations": [
-          {
+        "spatialOperations": [{
             "id": "INTERSECTS",
             "name": "queryform.spatialfilter.operations.intersects"
           },
@@ -224,8 +218,7 @@
             "name": "queryform.spatialfilter.operations.within"
           }
         ],
-        "spatialMethodOptions": [
-          {
+        "spatialMethodOptions": [{
             "id": "Viewport",
             "name": "queryform.spatialfilter.methods.viewport"
           },
@@ -249,15 +242,12 @@
       "glyph": "add-folder",
       "title": "plugins.AddGroup.title",
       "description": "plugins.AddGroup.description"
-    },
-    {
+    }, {
       "name": "FilterLayer",
       "glyph": "filter-layer",
       "title": "plugins.FilterLayer.title",
       "description": "plugins.FilterLayer.description",
-      "dependencies": [
-        "QueryPanel"
-      ]
+      "dependencies": ["QueryPanel"]
     },
     {
       "name": "Tutorial",
@@ -271,7 +261,7 @@
       "title": "plugins.Measure.title",
       "description": "plugins.Measure.description",
       "dependencies": [
-        "SidebarMenu"
+        "BurgerMenu"
       ]
     },
     {
@@ -280,7 +270,7 @@
       "title": "plugins.Print.title",
       "description": "plugins.Print.description",
       "dependencies": [
-        "SidebarMenu"
+        "BurgerMenu"
       ]
     },
     {
@@ -289,7 +279,7 @@
       "title": "plugins.MapCatalog.title",
       "description": "plugins.MapCatalog.description",
       "dependencies": [
-        "SidebarMenu"
+        "BurgerMenu"
       ]
     },
     {
@@ -298,7 +288,7 @@
       "title": "plugins.MapImport.title",
       "description": "plugins.MapImport.description",
       "dependencies": [
-        "SidebarMenu"
+        "BurgerMenu"
       ]
     },
     {
@@ -307,7 +297,7 @@
       "title": "plugins.MapExport.title",
       "description": "plugins.MapExport.description",
       "dependencies": [
-        "SidebarMenu"
+        "BurgerMenu"
       ]
     },
     {
@@ -315,11 +305,9 @@
       "glyph": "cog",
       "title": "plugins.Settings.title",
       "description": "plugins.Settings.description",
-      "children": [
-        "Version"
-      ],
+      "children": ["Version"],
       "dependencies": [
-        "SidebarMenu"
+        "BurgerMenu"
       ],
       "defaultConfig": {
         "wrap": true
@@ -339,18 +327,14 @@
       "glyph": "info-sign",
       "title": "plugins.About.title",
       "description": "plugins.About.description",
-      "dependencies": [
-        "SidebarMenu"
-      ]
+      "dependencies": ["BurgerMenu"]
     },
     {
       "name": "MousePosition",
       "glyph": "mouse",
       "title": "plugins.MousePosition.title",
       "description": "plugins.MousePosition.description",
-      "dependencies": [
-        "MapFooter"
-      ],
+      "dependencies": ["MapFooter"],
       "defaultConfig": {
         "editCRS": true,
         "showLabels": true,
@@ -367,9 +351,7 @@
       "glyph": "crs",
       "title": "plugins.CRSSelector.title",
       "description": "plugins.CRSSelector.description",
-      "dependencies": [
-        "MapFooter"
-      ],
+      "dependencies": ["MapFooter"],
       "defaultConfig": {
         "additionalCRS": {},
         "filterAllowedCRS": [
@@ -396,9 +378,7 @@
         "OmniBar",
         "SearchServicesConfig"
       ],
-      "children": [
-        "SearchByBookmark"
-      ],
+      "children": ["SearchByBookmark"],
       "defaultConfig": {
         "withToggle": [
           "max-width: 768px",
@@ -423,9 +403,7 @@
       "name": "ScaleBox",
       "title": "plugins.ScaleBox.title",
       "description": "plugins.ScaleBox.description",
-      "dependencies": [
-        "MapFooter"
-      ]
+      "dependencies": ["MapFooter"]
     },
     {
       "name": "GlobeViewSwitcher",
@@ -479,7 +457,7 @@
       "title": "plugins.Save.title",
       "description": "plugins.Save.description",
       "dependencies": [
-        "SidebarMenu",
+        "BurgerMenu",
         "SaveAs"
       ]
     },
@@ -490,21 +468,12 @@
       "hidden": true,
       "description": "plugins.SaveAs.description",
       "dependencies": [
-        "SidebarMenu"
-      ]
-    },
-    {
-      "name": "DeleteMap",
-      "glyph": "trash",
-      "title": "plugins.DeleteMap.title",
-      "hidden": true,
-      "description": "plugins.DeleteMap.description",
-      "dependencies": [
-        "SidebarMenu"
+        "BurgerMenu"
       ]
     },
     {
       "name": "BurgerMenu",
+      "hidden": true,
       "glyph": "menu-hamburger",
       "title": "plugins.BurgerMenu.title",
       "description": "plugins.BurgerMenu.description",
@@ -551,9 +520,7 @@
       "glyph": "time",
       "title": "plugins.Timeline.title",
       "description": "plugins.Timeline.description",
-      "dependencies": [
-        "Playback"
-      ]
+      "dependencies": ["Playback"]
     },
     {
       "name": "Playback",
@@ -584,40 +551,21 @@
       "name": "MapTemplates",
       "title": "Map Templates",
       "dependencies": [
-        "SidebarMenu"
+        "BurgerMenu"
       ]
-    },
-    {
+    }, {
       "name": "UserExtensions",
       "glyph": "1-user-add",
       "title": "plugins.UserExtensions.title",
       "hidden": true,
       "description": "plugins.UserExtensions.description",
-      "dependencies": [
-        "SidebarMenu"
-      ]
-    },
-    {
+      "dependencies": ["BurgerMenu"]
+    }, {
       "name": "UserSession",
       "glyph": "floppy-save",
       "title": "plugins.UserSession.title",
       "description": "plugins.UserSession.description",
-      "dependencies": [
-        "SidebarMenu"
-      ]
-    },
-    {
-      "name": "StreetView",
-      "glyph": "road",
-      "title": "plugins.StreetView.title",
-      "description": "plugins.StreetView.description",
-      "dependencies": [
-        "SidebarMenu"
-      ]
-    },
-    {
-      "name": "SidebarMenu",
-      "hidden": true
+      "dependencies": ["BurgerMenu"]
     }
   ]
 }

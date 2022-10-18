@@ -28,6 +28,16 @@
   "initialMapFilter": "",
   "ignoreMobileCss": false,
   "useAuthenticationRules": true,
+  "authenticationProviders": [
+    {
+      "type": "basic",
+      "provider": "geostore"
+    },
+    {
+      "type": "openID",
+      "provider": "keycloak"
+    }
+  ],
   "loadAfterTheme": true,
   "defaultMapOptions": {
     "cesium": {
@@ -100,6 +110,9 @@
         },
         "defaultTextAnnotation": "New"
       },
+      "theme": {
+          "selectedTheme": {"id":"default"}
+        },
       "maptype": {
         "mapType": "{context.mode === 'desktop' ? 'openlayers' : 'leaflet'}"
       },
@@ -390,6 +403,7 @@
       },
       "AutoMapUpdate",
       "HelpLink",
+      "TopioDriveMenu",
       "DrawerMenu",
       "Notifications",
       "BackgroundSelector",
@@ -780,8 +794,7 @@
         "name": "Attribution",
         "cfg": {
           "label": "Topio Maps",
-          "href": "#",
-          "src": "https://raw.githubusercontent.com/OpertusMundi/frontend-marketplace/master/src/assets/images/logo_blue.svg"
+          "href": "#"
         }
       },
       "ScrollTop",
@@ -791,16 +804,10 @@
       {
         "name": "HomeDescription",
         "cfg": {
-          "name": "Topio Maps",
-          "style": {
-            "background-image": "url(assets/img/mapstore-header.png)"
-          }
+          "name": ""
         }
       },
-      "Fork",
       "MapSearch",
-      "CreateNewMap",
-      "FeaturedMaps",
       "ContentTabs",
       {
         "name": "Maps",
@@ -836,7 +843,7 @@
         "name": "Footer",
         "cfg": {
           "logo": {
-            "src": "https://www.opertusmundi.eu/wp-content/themes/opertus/assets/images/logo.svg",
+            "src": "/dist/topio logo_topio-full-blue.svg",
             "href": "https://www.opertusmundi.eu/",
             "title": "Opertus Mundi",
             "als": "Opertus Mundi"
@@ -860,8 +867,7 @@
         "name": "Attribution",
         "cfg": {
           "label": "Topio Maps",
-          "href": "#",
-          "src": "https://raw.githubusercontent.com/OpertusMundi/frontend-marketplace/master/src/assets/images/logo_blue.svg"
+          "href": "#"
         }
       },
       "Home",
@@ -1016,8 +1022,7 @@
         "name": "Attribution",
         "cfg": {
           "label": "Topio Maps",
-          "href": "#",
-          "src": "https://raw.githubusercontent.com/OpertusMundi/frontend-marketplace/master/src/assets/images/logo_blue.svg"
+          "href": "#"
         }
       },
       "Home",
@@ -1092,8 +1097,7 @@
         "name": "Attribution",
         "cfg": {
           "label": "Topio Maps",
-          "href": "#",
-          "src": "https://raw.githubusercontent.com/OpertusMundi/frontend-marketplace/master/src/assets/images/logo_blue.svg"
+          "href": "#"
         }
       },
       "Tutorial",
@@ -1124,7 +1128,7 @@
         "name": "Footer",
         "cfg": {
           "logo": {
-            "src": "https://www.opertusmundi.eu/wp-content/themes/opertus/assets/images/logo.svg",
+            "src": "/dist/topio logo_topio-full-blue.svg",
             "href": "https://www.opertusmundi.eu/",
             "title": "Opertus Mundi",
             "als": "Opertus Mundi"
@@ -1141,7 +1145,7 @@
         "name": "Footer",
         "cfg": {
           "logo": {
-            "src": "https://www.opertusmundi.eu/wp-content/themes/opertus/assets/images/logo.svg",
+            "src": "/dist/topio logo_topio-full-blue.svg",
             "href": "https://www.opertusmundi.eu/",
             "title": "Opertus Mundi",
             "als": "Opertus Mundi"

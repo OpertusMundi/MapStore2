@@ -22,6 +22,7 @@ import { unsavedMapSelector, unsavedMapSourceSelector } from '../../selectors/co
 import ConfigUtils from '../../utils/ConfigUtils';
 import { connect } from '../../utils/PluginsUtils';
 import { userSelector, authProviderSelector } from '../../selectors/security';
+import accountIcon from '../../themes/default/svg/account-topio.svg';
 
 
 const checkUnsavedMapChanges = (action) => {
@@ -76,7 +77,7 @@ export const LoginNav = connect((state) => ({
     nav: false,
     providers: ConfigUtils.getConfigProp("authenticationProviders"),
     renderButtonText: false,
-    renderButtonContent: () => {return <Glyphicon glyph="user" />; },
+    renderButtonContent: () => {return <img src={accountIcon} />; },
 
     className: "square-button",
     renderUnsavedMapChangesDialog: ConfigUtils.getConfigProp('unsavedMapChangesDialog'),

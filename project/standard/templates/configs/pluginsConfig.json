@@ -470,10 +470,6 @@
       ]
     },
     {
-      "name": "OmniBar",
-      "hidden": true
-    },
-    {
       "name": "Login",
       "glyph": "user",
       "title": "plugins.Login.title",

@@ -14,6 +14,7 @@ import { Glyphicon } from 'react-bootstrap';
 
 import { toggleControl } from '../../actions/controls';
 import Button from '../../components/misc/Button';
+import accountIcon from '../../themes/default/svg/account-topio.svg';
 
 
 class ToggleButton extends React.Component {
@@ -28,7 +29,7 @@ class ToggleButton extends React.Component {
     };
 
     render() {
-        return <Button onClick={() => this.props.onToggle(this.props.pressed) } bsStyle={this.props.pressed ? "default" : "primary"} className={'square-button'}><Glyphicon glyph="search" /></Button>;
+        return <Button onClick={() => this.props.onToggle(this.props.pressed) } bsStyle={this.props.pressed ? "default" : "primary"} className={'square-button'}> <img src={accountIcon} /></Button>;
     }
 }
 

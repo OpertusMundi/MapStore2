@@ -45,11 +45,13 @@ const MapModal = ({ open = false, pluginsConfig = DefaultConfig, hide = () => {}
                 modalClassName="map-editor-modal"
                 buttons={[
                     {
+                        bsStyle:"primary-decline",
                         text: <Message msgId="cancel" />,
                         bsSize: 'sm',
                         onClick: hide
                     },
                     {
+                        bsStyle:"primary-accept",
                         text: <Message msgId="ok" />,
                         bsSize: 'sm',
                         onClick: save

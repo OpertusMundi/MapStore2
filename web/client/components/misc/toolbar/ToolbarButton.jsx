@@ -30,9 +30,9 @@ import Button from '../../misc/Button';
  * @prop {string} [tooltipId] @see components.misc.enhancers.tooltip
  */
 
-export default compose(tooltip, popover)(({ glyph, loading, text = "", textId, glyphClassName = "", loaderProps = {}, children, ...props} = {}) =>
+export default compose(tooltip, popover)(({ glyph, icon, loading, text = "", textId, glyphClassName = "", loaderProps = {}, children, ...props} = {}) =>
     <Button {...omit(props, ["pullRight", "confirmNo", "confirmYes"])}>
-        {glyph && !loading ? <Glyphicon glyph={glyph} className={glyphClassName}/> : null}
+        {glyph && !loading ? <Glyphicon glyph={glyph} className={glyphClassName}/> : icon}
         {textId ? <Message msgId={textId} /> : text}
         {loading ? <Loader className={`ms-loader${props.bsStyle && ' ms-loader-' + props.bsStyle || ''}${props.bsSize && ' ms-loader-' + props.bsSize || ''}`} {...loaderProps}/> : null}
         {children}

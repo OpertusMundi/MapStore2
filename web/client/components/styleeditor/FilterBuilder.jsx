@@ -12,6 +12,7 @@ import Popover from './Popover';
 import { Glyphicon } from 'react-bootstrap';
 import ButtonRB from '../misc/Button';
 import tooltip from '../misc/enhancers/tooltip';
+import filterIcon from '../../themes/default/svg/filter-topio.svg';
 
 const Button = tooltip(ButtonRB);
 
@@ -187,9 +188,7 @@ export function FilterBuilderPopover({
                 className="square-button-md no-border"
                 active={isActive}
                 tooltipId="styleeditor.openFilterBuilder">
-                <Glyphicon
-                    glyph="filter"
-                />
+                <img src="filterIcon"/>
             </Button>
         </Popover>
     );

@@ -33,6 +33,14 @@ import {loadMaps} from '../actions/maps';
 import mapsReducer from '../reducers/maps';
 import maptypeReducer from '../reducers/maptype';
 
+import ButtonB from '../components/misc/Button';
+import tooltip from '../components/misc/enhancers/tooltip';
+
+import { Col, Grid, Nav, NavItem, Row, Glyphicon } from 'react-bootstrap';
+
+
+const Button = tooltip(ButtonB);
+
 const mapsCountSelector = createSelector(
     totalCountSelector,
     count => ({ count })
@@ -65,6 +73,9 @@ const PaginationToolbar = connect((state) => {
         }
     };
 })(PaginationToolbarBase);
+
+
+//isAllowed = () => this.props.isLoggedIn;
 
 class Maps extends React.Component {
     static propTypes = {
@@ -108,11 +119,22 @@ class Maps extends React.Component {
         emptyView: {}
     };
 
+    createNewEmptyMap = () => {
+        this.context.router.history.push("/viewer/" + this.props.mapType + "/new");
+    };
+    
     render() {
-        return (<MapsGrid
+        return (<div>
+            <Button
+            tooltipId="newMap"
+            className="btn-primary-create"
+            bsStyle="primary"
+            onClick={() => this.createNewEmptyMap()}>
+                 <Message msgId="resources.maps.create" />
+            </Button>
+        <MapsGrid
             resources={this.props.maps}
             fluid={this.props.fluid}
-            title={this.props.title}
             colProps={this.props.colProps}
             viewerUrl={(map = {}) => {
                 if (map.contextName) {
@@ -126,7 +148,8 @@ class Maps extends React.Component {
             version={this.props.version}
             shareToolEnabled={this.props.shareToolEnabled}
             bottom={<PaginationToolbar />}
-        />);
+        /></div>);
+        
     }
 }
 

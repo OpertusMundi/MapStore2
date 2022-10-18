@@ -24,6 +24,8 @@ import MenuComp from './drawer/Menu';
 import Section from './drawer/Section';
 import Message from './locale/Message';
 import ButtonB from '../components/misc/Button';
+import layersIcon from '../themes/default/svg/layers-fill.svg';
+import layersIconWhite from '../themes/default/svg/layers-fill-white.svg';
 
 const Button = tooltip(ButtonB);
 
@@ -32,7 +34,7 @@ const menuSelector = createSelector([
     state => state.controls.drawer && state.controls.drawer.enabled,
     state => state.controls.drawer && state.controls.drawer.menu || "1",
     state => state.controls.queryPanel && state.controls.queryPanel.enabled && state.controls.drawer && state.controls.drawer.width || state.controls.drawer && state.controls.drawer.resizedWidth || undefined,
-    state => mapLayoutValuesSelector(state, {height: true})
+    state => mapLayoutValuesSelector(state, { height: true })
 ], (show, activeKey, dynamicWidth, layout) => ({
     show,
     activeKey,
@@ -56,9 +58,8 @@ const DrawerButton = connect(state => ({
     menuButtonStyle = {},
     buttonStyle = 'primary',
     buttonClassName = 'square-button ms-drawer-menu-button',
-    toggleMenu = () => {},
+    toggleMenu = () => { },
     disabled = false,
-    glyph = '1-layer',
     tooltipId = 'toc.drawerButton',
     tooltipPosition = 'bottom'
 }) =>
@@ -72,7 +73,8 @@ const DrawerButton = connect(state => ({
         disabled={disabled}
         tooltipId={tooltipId}
         tooltipPosition={tooltipPosition}>
-        <Glyphicon glyph={glyph}/>
+        <span><img src={layersIcon} /></span>
+        <span>Layers</span>
     </Button>
 );
 
@@ -120,7 +122,7 @@ class DrawerMenu extends React.Component {
     static defaultProps = {
         id: "mapstore-drawermenu",
         items: [],
-        toggleMenu: () => {},
+        toggleMenu: () => { },
         glyph: "1-layer",
         buttonStyle: "primary",
         menuOptions: {},
@@ -130,9 +132,24 @@ class DrawerMenu extends React.Component {
     };
 
     getTools = () => {
-        const unsorted = this.props.items
-            .map((item, index) => assign({}, item, {position: item.position || index}));
+        var items = [{
+            name: 'DrawerMenu',
+            position: 3,
+            title: 'DrawerMenu',
+            priority: 2,
+            panel: true,
+            buttonConfig: {
+                buttonClassName: "square-button no-border",
+                tooltip: "toc.layers"
+            },
+            icon: <span><img src={layersIconWhite} /></span>
+        }];
+        const unsorted = this.props.items.map((item, index) => assign({}, item, { position: item.position || index }));
+        //unsorted[0].icon.props.src = layersIconWhite;
+        //delete unsorted[0].icon
+        //unsorted.push({icon:  <span><img src={layersIconWhite}/></span>})
         return unsorted.sort((a, b) => a.position - b.position);
+        //return items
     };
 
     renderItems = () => {
@@ -142,12 +159,14 @@ class DrawerMenu extends React.Component {
                 isPanel
                 {...tool.cfg}
                 items={tool.items || []}
-                groupStyle={{style: {
-                    marginBottom: "0px",
-                    cursor: "pointer"
-                }}}
+                groupStyle={{
+                    style: {
+                        marginBottom: "0px",
+                        cursor: "pointer"
+                    }
+                }}
             />);
-            const header = tool.title ? <div className={'drawer-menu-head drawer-menu-head-' + tool.name}><Message msgId={tool.title}/></div> : null;
+            const header = tool.title ? <div className={'drawer-menu-head drawer-menu-head-' + tool.name}><Message msgId={tool.title} /></div> : null;
 
             return this.props.singleSection ?
                 <Panel icon={tool.icon} glyph={tool.glyph} buttonConfig={tool.buttonConfig} key={tool.name} eventKey={index + 1 + ""} header={header}>
@@ -162,7 +181,7 @@ class DrawerMenu extends React.Component {
     render() {
         return this.getTools().length > 0 ? (
             <div id={this.props.id}>
-                <DrawerButton {...this.props} id="drawer-menu-button"/>
+                <DrawerButton {...this.props} id="drawer-menu-button" />
                 <Menu single={this.props.singleSection} {...this.props.menuOptions} title={<Message msgId="menu" />} alignment="left">
                     {this.renderItems()}
                 </Menu>

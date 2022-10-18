@@ -8,7 +8,7 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import src from '../assets/img/mapstorelogo.png';
+import src from '../assets/img/tMaps-logo-blue.svg';
 
 import assign from 'object-assign';
 import tooltip from '../../components/misc/enhancers/tooltip';

@@ -102,8 +102,8 @@
 
         &.ms-fit-content {
             max-height: 70%;
-            height: unset;
-
+            height: 450px;
+            width: 650px;
             &.ms-xs {
                 max-height: 30%;
                 height: unset;
@@ -137,13 +137,18 @@
         }
 
         & > .modal-header {
+
+            background-color: #f2f2f2 !important;
+            border: none !important;
             @media (min-width: @screen-xs-max) {
                 height: @square-btn-size;
             }
             padding: ((@square-btn-size - @font-size-h4) / 2);
+            margin-bottom: 20px;
             border: none;
             flex-shrink: 0;
             .modal-title {
+                font-size: 25px;
                 display: flex;
                 .ms-title {
                     flex: 1;
@@ -155,15 +160,13 @@
                     }
                 }
                 .ms-header-btn {
+                    color: #190AFF;
+                    margin: auto;
                     cursor: pointer;
-                    margin-right: 10px;
                     transition: 0.3s;
                     display: inline-block;
                     &:hover {
                         transform: scale(1.2);
-                    }
-                    &:last-child {
-                        margin-right: 0;
                     }
                 }
 
@@ -173,6 +176,7 @@
         & > .modal-body {
             flex: 1 1 auto;
             padding: 0;
+            margin-top: 50px;
             display: flex;
             height: inherit;
             flex-direction: column;
@@ -230,6 +234,7 @@
             border: none;
             padding: 0;
             z-index: 10;
+            margin-bottom: 100px;
             & > div {
                 min-height: @square-btn-size;
             }
@@ -464,4 +469,28 @@
 
 .fade.in.modal{
     z-index: 9999;
+}
+
+.ms-detail-body{
+    text-align: center;
+}
+
+.delete-title{
+    font-size: 40px;
+    font-weight: 600;
+}
+.delete-body{
+    margin-top: 40px;
+}
+
+.modal-dialog{
+    border: 1px solid #190AFF !important;
+    border-radius: 20px;
+}
+
+.dialog-title{
+    text-align: center;
+    color: #333;
+    font-size: 40px;
+    font-weight: 600;
 }

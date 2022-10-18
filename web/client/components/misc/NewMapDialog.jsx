@@ -74,7 +74,7 @@ const NewMapDialog = ({
         clickOutEnabled={false}
         buttons={[{
             text: <Message msgId="cancel"/>,
-            bsStyle: 'primary',
+            bsStyle: 'primary-decline',
             onClick: () => onClose()
         }]}
         onClose={onClose}

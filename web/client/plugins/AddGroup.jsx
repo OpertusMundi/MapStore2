@@ -54,6 +54,7 @@ class AddGroup extends Component {
                 title={<Message msgId="toc.addGroup" />}
                 show={this.props.enabled}
                 buttons={[{
+                    bsStyle:"primary-decline",
                     text: <Message msgId="cancel" />,
                     onClick: () => {
                         this.props.onClose();

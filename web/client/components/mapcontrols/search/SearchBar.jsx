@@ -20,11 +20,12 @@ import SearchBarToolbar from '../../search/SearchBarToolbar';
 import { defaultSearchWrapper } from '../../search/SearchBarUtils';
 import BookmarkSelect, {BookmarkOptions} from "../searchbookmarkconfig/BookmarkSelect";
 import CoordinatesSearch, {CoordinateOptions} from "../searchcoordinates/CoordinatesSearch";
+import searchIcon from '../../../themes/default/svg/search-topio.svg';
 
 export default ({
     activeSearchTool: activeTool = 'addressSearch',
     removeIcon = '1-close',
-    searchIcon = 'search',
+    //searchIcon = 'search',
     isSearchClickable = true,
     splitTools,
     searchText = '',
@@ -84,7 +85,7 @@ export default ({
                 onChangeActiveSearchTool("addressSearch");
             }}
             >
-                <Glyphicon glyph={searchIcon}/> <Message msgId="search.addressSearch"/>
+                <img src={searchIcon} /> <Message msgId="search.addressSearch"/>
             </MenuItem>);
     }
     if (showCoordinatesSearchOption) {
@@ -181,7 +182,7 @@ export default ({
                             ...(activeTool === "coordinatesSearch" &&
                                 CoordinateOptions.removeIcon(activeTool, coordinate, onClearCoordinatesSearch, onChangeCoord))
                         }, {
-                            glyph: searchIcon,
+                            icon:  <img src={searchIcon} /> ,
                             className: "square-button-md no-border " +
                             (isSearchClickable || activeTool !== "addressSearch" ? "magnifying-glass clickable" : "magnifying-glass"),
                             bsStyle: "default",

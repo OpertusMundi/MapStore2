@@ -12,6 +12,8 @@ import PropTypes from 'prop-types';
 import { Glyphicon, SplitButton, MenuItem } from 'react-bootstrap';
 import Message from '../../components/I18N/Message';
 import tooltip from '../../components/misc/enhancers/tooltip';
+import searchIcon from '../../themes/default/svg/search-topio.svg';
+import filterIcon from '../../themes/default/svg/filter-topio.svg';
 
 const SplitButtonT = tooltip(SplitButton);
 const splitToolButtonConfig = {
@@ -60,11 +62,11 @@ const SwipeButton = (props) => {
                     onSetSwipeMode("spy");
                     onSetActive(true);
                 }}>
-                <Glyphicon glyph="search" /><Message msgId="toc.spyGlass" />
+                 <img src={accountIcon} /><Message msgId="toc.spyGlass" />
             </MenuItem>
             <MenuItem
                 onClick={() => showConfiguration()}>
-                <Glyphicon glyph="cog" /><Message msgId="toc.configureTool" />
+                 <img src={filterIcon} /><Message msgId="toc.configureTool" />
             </MenuItem>
         </SplitButtonT>
     );

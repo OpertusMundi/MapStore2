@@ -18,12 +18,21 @@
 
 
 #topiodrivemenu-menu-button {
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 12px;
+    color: #333;
+    font-size: 15px;
+    font-weight: 400;
+    width: 125px !important;
     position: absolute;
-    left: 0;
-    top: 50px;
+    left: 20px;
+    top: 80px;
     .shadow;
-    left: 0;
-    top: 60;
+}
+
+#topiodrivemenu-menu-button img{
+    margin-right: 10px;
 }
 
 #mapstore-topiodrivemenu>div>div:nth-child(2) {
@@ -41,9 +50,14 @@
 
         background-color: #F2F2F2;
 
+        .nav-tabs{
+            border: none !important;
+        }
+
         .nav-item {
 
-            width: 33%;
+            width: 25%;
+            font-weight: 400;
 
             :hover {
                 cursor: pointer;
@@ -51,16 +65,19 @@
 
             .nav-link {
                 color: #333;
-                font-size: 1.30em;
+                font-size: 14px;
             }
 
             .active {
-                color: var(--ms-link-color, #078aa3) !important;
+                color: @ms-main-topio-color !important;
+                border-bottom: 3px solid @ms-main-topio-color;
             }
         }
 
         .tab-content {
             border: none !important;
+            font-size: 12px;
+            font-weight: 400;
 
             .col-title {
                 font-size: 1.10em;
@@ -121,18 +138,18 @@
                 top: 57%;
                 -webkit-transform: translateY(-50%);
                 transform: translateY(-50%);
-                right: -12px;
-                height: 35px;
+                right: -15px;
+                height: 20px;
                 content: url(https://beta.topio.market/assets/img/left_small.45e9edcf.svg);
             }
             :not(:first-child){
-                padding-left: 20px;
+                padding-left: 22px;
             }
             li:last-child {
                 opacity: 0.5;
             }
             li {
-                font-size: 1.3888888889em;
+                font-size: 1.0888888889em;
                 font-weight: 700;
                 //opacity: .5;
                 position: relative;
@@ -176,17 +193,7 @@
         padding: 0;
     }
 
-    .navHeader {
-        &>.glyphicon {
-            display: block;
-            float: left;
-            background-color: transparent;
-            font-size: @icon-size;
-            margin: floor(((@padding-left-square - 1) / 1.230769231)
-                    /* font ratio height/width */
-                ) (@padding-left-square - 1);
-        }
-    }
+    
 
     .react-resizable-handle {
         position: absolute;
@@ -223,7 +230,6 @@
     }
 }
 
-
 .tab-content {
     margin: 20px !important;
     min-height: 50px !important;
@@ -233,4 +239,33 @@
     .ms-head {
         height: @square-btn-size *(3/2);
     }
+}
+
+.navHeader {
+    background-color: @ms-main-topio-color;
+    min-height: 70px !important;
+    &>.glyphicon {
+        display: block;
+        float: right !important;
+        margin-right: 20px !important;
+        color: #fff !important;
+        background-color: transparent;
+        font-size: 20px !important;
+        line-height: 70px !important;
+    }
+    .navButtons{
+        padding: 15px;
+        float: left !important;
+        .btn{
+            background-color: @ms-main-topio-color;
+        }
+    }
+
+    .nav-title{
+        color: #fff;
+        line-height: 70px;
+        padding-left: 10px;
+        font-size: 16px;
+    }
+
 }

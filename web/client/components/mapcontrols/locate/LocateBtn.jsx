@@ -14,6 +14,8 @@ import Message from '../../I18N/Message';
 import OverlayTrigger from '../../misc/OverlayTrigger';
 import defaultIcon from '../../misc/spinners/InlineSpinner/img/spinner.gif';
 import Button from '../../misc/Button';
+import locationIcon from '../../../themes/default/svg/location-icon-topio.svg';
+
 import('./css/locate.css');
 
 let checkingGeoLocation = false;
@@ -42,6 +44,7 @@ class LocateBtn extends React.Component {
         tooltipPlace: "left",
         bsStyle: "default",
         glyph: "1-position-1",
+        icon: locationIcon,
         btnConfig: {
             className: "square-button"
         }
@@ -75,7 +78,7 @@ class LocateBtn extends React.Component {
         const geoLocationDisabled = this.props.locate === "PERMISSION_DENIED";
         return (
             <Button id={this.props.id} disabled={geoLocationDisabled} {...this.props.btnConfig} onClick={this.onClick} bsStyle={this.getBtnStyle()} style={this.props.style}>
-                <Glyphicon glyph={this.props.glyph}/>{this.props.text}{this.props.help}
+                <span><img src={this.props.icon}></img></span>{this.props.text}{this.props.help}
             </Button>
         );
     };

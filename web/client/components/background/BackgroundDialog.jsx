@@ -277,7 +277,7 @@ export default class BackgroundDialog extends React.Component {
             buttons={this.props.loading ? [] : [
                 {
                     text: <Message msgId={this.props.editing ? 'save' : 'backgroundDialog.add'}/>,
-                    bsStyle: 'primary',
+                    bsStyle: 'primary-accept',
                     onClick: () => {
                         const backgroundId = this.props.editing ? this.props.layer.id : uuidv1();
                         const curThumbURL = this.props.layer.thumbURL || '';

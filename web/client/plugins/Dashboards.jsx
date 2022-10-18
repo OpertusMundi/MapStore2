@@ -26,6 +26,10 @@ import DashboardGrid from './dashboard/DashboardsGrid';
 import EmptyDashboardsView from './dashboard/EmptyDashboardsView';
 import PaginationToolbar from './dashboard/PaginationToolbar';
 import { DASHBOARD_DEFAULT_SHARE_OPTIONS } from '../utils/ShareUtils';
+import ButtonB from '../components/misc/Button';
+import tooltip from '../components/misc/enhancers/tooltip';
+
+const Button = tooltip(ButtonB);
 
 const dashboardsCountSelector = createSelector(
     totalCountSelector,
@@ -66,11 +70,11 @@ class Dashboards extends React.Component {
 
     static defaultProps = {
         mapType: "leaflet",
-        onMount: () => {},
-        loadDashboards: () => {},
+        onMount: () => { },
+        loadDashboards: () => { },
         fluid: false,
         title: <h3><Message msgId="resources.dashboards.titleNoCount" /></h3>,
-        mapsOptions: {start: 0, limit: 12},
+        mapsOptions: { start: 0, limit: 12 },
         colProps: {
             xs: 12,
             sm: 6,
@@ -89,17 +93,19 @@ class Dashboards extends React.Component {
     }
 
     render() {
-        return (<DashboardGrid
-            resources={this.props.resources}
-            fluid={this.props.fluid}
-            title={this.props.title}
-            colProps={this.props.colProps}
-            viewerUrl={(dashboard) => {this.context.router.history.push(`dashboard/${dashboard.id}`); }}
-            getShareUrl={dashboard => `dashboard/${dashboard.id}`}
-            shareOptions={this.props.shareOptions}
-            shareToolEnabled={this.props.shareToolEnabled}
-            bottom={<PaginationToolbar />}
-        />);
+        return (<div><Button className="btn-primary-create" bsStyle="primary" onClick={() => { this.context.router.history.push("/dashboard"); }}>
+            <Message msgId="resources.dashboards.create" />
+        </Button><DashboardGrid
+                resources={this.props.resources}
+                fluid={this.props.fluid}
+                colProps={this.props.colProps}
+                viewerUrl={(dashboard) => { this.context.router.history.push(`dashboard/${dashboard.id}`); }}
+                getShareUrl={dashboard => `dashboard/${dashboard.id}`}
+                shareOptions={this.props.shareOptions}
+                shareToolEnabled={this.props.shareToolEnabled}
+                bottom={<PaginationToolbar />}
+            />
+        </div>);
     }
 }
 
@@ -112,7 +118,7 @@ const dashboardsPluginSelector = createSelector([
 ], (mapType, searchText, resources, featuredEnabled, role) => ({
     mapType,
     searchText,
-    resources: resources.map(res => ({...res, featuredEnabled: featuredEnabled && role === 'ADMIN'})) // TODO: remove false to enable featuredEnabled
+    resources: resources.map(res => ({ ...res, featuredEnabled: featuredEnabled && role === 'ADMIN' })) // TODO: remove false to enable featuredEnabled
 }));
 
 const DashboardsPlugin = compose(
@@ -120,11 +126,11 @@ const DashboardsPlugin = compose(
         onMount: () => setDashboardsAvailable(true)
     }),
     emptyState(
-        ({resources = [], loading}) => !loading && resources.length === 0,
-        ({showCreateButton = true, emptyView}) => ({
+        ({ resources = [], loading }) => !loading && resources.length === 0,
+        ({ showCreateButton = true, emptyView }) => ({
             glyph: "dashboard",
             title: <Message msgId="resources.dashboards.noDashboardAvailable" />,
-            description: <EmptyDashboardsView showCreateButton={showCreateButton}/>,
+            description: <EmptyDashboardsView showCreateButton={showCreateButton} />,
             iconFit: true,
             imageStyle: {
                 height: emptyView?.iconHeight ?? '200px'
@@ -146,7 +152,7 @@ export default {
             name: 'dashboards',
             key: 'dashboards',
             TitleComponent:
-                connect(dashboardsCountSelector)(({ count = ""}) => <Message msgId="resources.dashboards.title" msgParams={{ count: count + "" }} />),
+                connect(dashboardsCountSelector)(({ count = "" }) => <Message msgId="resources.dashboards.title" msgParams={{ count: count + "" }} />),
             position: 2,
             tool: true,
             priority: 1

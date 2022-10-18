@@ -18,6 +18,8 @@ import SearchBarToolbar from '../../search/SearchBarToolbar';
 import AdvancedSearch from './AdvancedSearch';
 
 import { defaultSearchWrapper } from '../../search/SearchBarUtils';
+import searchIcon from '../../../themes/default/svg/search-topio.svg';
+import filterIcon from '../../../themes/default/svg/filter-topio.svg';
 
 export default ({
     loadingFilter,
@@ -25,8 +27,8 @@ export default ({
     showContextSearchOption = true,
     showAdvancedSearchPanel = false,
     removeIcon = '1-close',
-    searchIcon = 'search',
-    advancedSearchIcon = 'filter',
+    //searchIcon = 'search',
+    //advancedSearchIcon = 'filter',
     searchText = '',
     searchOptions,
     maxResults,
@@ -64,14 +66,14 @@ export default ({
                         visible: searchText !== "",
                         onClick: () => onSearchReset()
                     }, {
-                        glyph: searchIcon,
+                        icon:  <img src={searchIcon} /> ,
                         className: "square-button-md no-border magnifying-glass clickable",
                         bsStyle: "default",
                         pullRight: true,
                         visible: true,
                         onClick: () => search()
                     }, {
-                        glyph: advancedSearchIcon,
+                        icon:  <img src={filterIcon} />,
                         tooltip: <Message
                             msgId={`search.advancedSearchPanel.${showAdvancedSearchPanel ? 'hide' : 'show'}Tooltip` +
                             (isSearchFilterEmpty ? '' : 'Active')}/>,

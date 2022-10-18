@@ -75,7 +75,6 @@ export default ({
     nameFieldFilter = () => {}
 }) => {
     const categoryName = (isString(resource?.category) ? resource?.category : resource?.category?.name) || category;
-
     return (
         <Grid id={id} fluid={fluid} className={'ms-grid-container ' + className} style={style}>
             {title && <Row>

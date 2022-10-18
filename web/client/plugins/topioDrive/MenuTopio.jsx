@@ -142,7 +142,7 @@ class MenuTopio extends React.Component {
         const breadcrumbs = paths.map(path => <li><a  onClick={() => this.changeFolder(path)} >{path}</a></li>);
         const tabContent = [
             {
-                title: "Topio Drive",
+                title: "Topio Drive Files",
                 content:
                     <div className={"nav-body topio-drive-grid"}>
                         <nav className="nav-bar">
@@ -154,7 +154,7 @@ class MenuTopio extends React.Component {
                     </div>,
             },
             {
-                title: "Bought Datasets",
+                title: "Purchased Datasets",
                 content: `Bought Datasets from Topio.`,
             },
             {
@@ -163,13 +163,14 @@ class MenuTopio extends React.Component {
             },
         ];
         const header = this.props.single ?
-            (<div className="navHeader" style={{ width: "100%", minHeight: "35px" }}>
+            (<div className="navHeader" >
                 <Glyphicon glyph="1-close" className="no-border btn-default" onClick={this.props.onToggle} style={{ cursor: "pointer" }} />
+                <span class="nav-title">Catalogs</span>
                 <div className="navButtons">
                     {this.renderButtons()}
                 </div>
             </div>)
-            : (<div className="navHeader" style={{ width: "100%", minHeight: "35px" }}>
+            : (<div className="navHeader">
                 <span className="title">{this.props.title}</span>
                 <Glyphicon glyph="1-close" className="no-border btn-default" onClick={this.props.onToggle} style={{ cursor: "pointer" }} />
             </div>);

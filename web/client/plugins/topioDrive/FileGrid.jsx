@@ -1,4 +1,3 @@
-import { contextResourceSelector } from '@mapstore/selectors/context';
 import PropTypes from 'prop-types';
 import React from 'react';
 

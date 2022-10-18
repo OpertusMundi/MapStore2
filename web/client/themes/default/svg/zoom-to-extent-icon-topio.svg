@@ -1,0 +1,14 @@
+<svg id="zoom-to-extent-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Group_7847" data-name="Group 7847" transform="translate(-930.099 -608.469)">
+    <path id="Path_14484" data-name="Path 14484" d="M937.308,628.469H930.8a.7.7,0,0,1-.7-.7v-6.512a.7.7,0,0,1,1.4,0v5.814h5.814a.7.7,0,0,1,0,1.4Z" fill="#333"/>
+  </g>
+  <g id="Group_7848" data-name="Group 7848" transform="translate(-930.099 -608.469)">
+    <path id="Path_14485" data-name="Path 14485" d="M949.4,616.376a.7.7,0,0,1-.7-.7v-5.814H942.89a.7.7,0,1,1,0-1.4H949.4a.7.7,0,0,1,.7.7v6.512A.7.7,0,0,1,949.4,616.376Z" fill="#333"/>
+  </g>
+  <g id="Group_7849" data-name="Group 7849" transform="translate(-930.099 -608.469)">
+    <path id="Path_14486" data-name="Path 14486" d="M949.4,628.469H942.89a.7.7,0,0,1,0-1.4H948.7v-5.814a.7.7,0,0,1,1.4,0v6.512A.7.7,0,0,1,949.4,628.469Z" fill="#333"/>
+  </g>
+  <g id="Group_7850" data-name="Group 7850" transform="translate(-930.099 -608.469)">
+    <path id="Path_14487" data-name="Path 14487" d="M930.8,616.376a.7.7,0,0,1-.7-.7v-6.512a.7.7,0,0,1,.7-.7h6.512a.7.7,0,1,1,0,1.4h-5.814v5.814A.7.7,0,0,1,930.8,616.376Z" fill="#333"/>
+  </g>
+</svg>

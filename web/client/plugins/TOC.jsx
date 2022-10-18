@@ -59,7 +59,8 @@ import { getScales, getResolutions } from '../utils/MapUtils';
 import { getMessageById } from '../utils/LocaleUtils';
 import Message from '../components/I18N/Message';
 import assign from 'object-assign';
-import layersIcon from './toolbar/assets/img/layers.png';
+import layersIcon from '../themes/default/svg/layers-fill.svg';
+import layersIconWhite from '../themes/default/svg/layers-fill-white.svg';
 import { isObject, head, find, round } from 'lodash';
 import { setControlProperties, setControlProperty } from '../actions/controls';
 import { createWidget } from '../actions/widgets';
@@ -924,14 +925,13 @@ export default {
             tooltip: "layers",
             wrap: true,
             title: 'layers',
-            icon: <Glyphicon glyph="1-layer"/>,
+            icon: <img src={layersIcon}/>,
             priority: 1
         },
         DrawerMenu: {
             name: 'toc',
             position: 1,
-            glyph: "1-layer",
-            icon: <img src={layersIcon}/>,
+            icon: <img src={layersIconWhite}/>,
             buttonConfig: {
                 buttonClassName: "square-button no-border",
                 tooltip: "toc.layers"

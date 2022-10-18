@@ -75,6 +75,7 @@ class Metadata extends React.Component {
                 <ControlLabel>{this.props.nameFieldText}</ControlLabel>
                 <FormControl
                     key="mapName"
+                    className="map-name"
                     type="text"
                     onChange={this.changeName}
                     disabled={this.props.resource.saving}
@@ -86,6 +87,7 @@ class Metadata extends React.Component {
                 <ControlLabel>{this.props.descriptionFieldText}</ControlLabel>
                 <FormControl
                     key="mapDescription"
+                    className="map-description"
                     type="text"
                     onChange={this.changeDescription}
                     disabled={this.props.resource.saving}

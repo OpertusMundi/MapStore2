@@ -11,6 +11,7 @@ import './style/filter.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormControl, FormGroup, Glyphicon, InputGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import filterIcon from '../../themes/default/svg/filter-topio.svg';
 
 class Filter extends React.Component {
 
@@ -42,7 +43,7 @@ class Filter extends React.Component {
 
     render() {
         const icon = !this.props.filterText ?
-            <Glyphicon className="text-primary" glyph="filter"/>
+            <img src={filterIcon} />
             :
             <OverlayTrigger
                 placement="bottom"

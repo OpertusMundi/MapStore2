@@ -46,7 +46,7 @@ export default (props) => {
             buttons={props.loading ? [] : [
                 {
                     text: <Message msgId={props.editing ? 'save' : 'backgroundDialog.add'}/>,
-                    bsStyle: 'primary',
+                    bsStyle: 'primary-accept',
                     onClick: () => {
                         props.update("thumbnail", { image: thumbnail.data });
                         props.update("title", title);
