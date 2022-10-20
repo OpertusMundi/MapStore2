@@ -59,6 +59,27 @@ We also made asynchronous the script to detect valid browser. This should slight
 </script>
 ```
 
+
+### Update plugins.js to make upstream plugins use dynamic import
+
+We've updated `plugins.js` in MapStore to make most of the plugins use dynamic import. `plugins.js` of your project have to be updated separately.
+
+Please use `web\client\product\plugins.js` file as a reference listing plugins whose definition can be changed to support dynamic import.
+
+To use dynamic import for plugin, please update its definition to look like:
+
+```js
+{
+    ...
+    AnnotationsPlugin: toModulePlugin('Annotations', () => import(/* webpackChunkName: 'plugins/annotations' */ '../plugins/Annotations')),
+    ...
+}
+
+```
+
+See [Dynamic import of extension](../extensions/#dynamic-import-of-extension) to have more details about transforming extensions to use dynamic import.
+
+
 ### Version plugin has been removed
 
 We no longer maintain the Version plugin since we have moved its content inside the About plugin (see [here](https://github.com/geosolutions-it/MapStore2/issues/7934#issuecomment-1201433942) for more details)
@@ -196,7 +217,7 @@ Also, remember to update your project pom.xml with the updated dependency:
 <dependency>
     <groupId>org.mapfish.print</groupId>
     <artifactId>print-lib</artifactId>
-    <version>geosolutions-2.1-SNAPSHOT</version>
+    <version>geosolutions-2.1.0</version>
     <exclusions>
         <exclusion>
             <groupId>commons-codec</groupId>
@@ -350,6 +371,9 @@ Please refer to the [extensions](../extensions/#managing-drawing-interactions-co
 ### Using `terrain` layer type to define 3D map elevation profile
 A new `terrain` layer type has been created in order to provide more options and versatility when defining an elevation profile for the 3D map terrain.
 This `terrain` layer will substitute the former `wms` layer (with `useForElevation` attribute) used to define the elevation profile.
+
+!!! note
+    The `wms` layer (with `useForElevation` attribute) configuration is still needed to show the elevation data inside the MousePosition plugin and it will display the terrain at the same time. The `terrain` layer type allows a more versatile way of handling elevation but it will work only as terrain visualization in the 3D map viewer.
 
 The `additionalLayers` object on the `localConfig.json` file should adhere now to the [terrain layer configuration](../maps-configuration/#terrain).
 Serve the following code as an example:
