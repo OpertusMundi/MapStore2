@@ -843,7 +843,7 @@
         "name": "Footer",
         "cfg": {
           "logo": {
-            "src": "/dist/topio logo_topio-full-blue.svg",
+            "src": "dist/topio_logo_topio-full-blue.svg",
             "href": "https://www.opertusmundi.eu/",
             "title": "Opertus Mundi",
             "als": "Opertus Mundi"
@@ -1128,7 +1128,7 @@
         "name": "Footer",
         "cfg": {
           "logo": {
-            "src": "/dist/topio logo_topio-full-blue.svg",
+            "src": "dist/topio_logo_topio-full-blue.svg",
             "href": "https://www.opertusmundi.eu/",
             "title": "Opertus Mundi",
             "als": "Opertus Mundi"
@@ -1145,7 +1145,7 @@
         "name": "Footer",
         "cfg": {
           "logo": {
-            "src": "/dist/topio logo_topio-full-blue.svg",
+            "src": "dist/topio_logo_topio-full-blue.svg",
             "href": "https://www.opertusmundi.eu/",
             "title": "Opertus Mundi",
             "als": "Opertus Mundi"
