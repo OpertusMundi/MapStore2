@@ -27,7 +27,7 @@
   ],
   "browserslist": {
     "production": [
-      ">0.5%",
+      ">0.2%",
       "not dead",
       "not op_mini all",
       "not IE 11",
