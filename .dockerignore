@@ -1,0 +1,5 @@
+docma-template/
+docs/
+node_modules/
+tests/
+target
