@@ -2,4 +2,6 @@ docma-template/
 docs/
 node_modules/
 tests/
-target
+release/bin-war/target
+release/target
+

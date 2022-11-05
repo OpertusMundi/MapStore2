@@ -8,10 +8,10 @@ ENV NPM_CONFIG_PROGRESS="false" \
 
 WORKDIR /app
 
-COPY ./.git /app/.git
 COPY ./package.json /app/
 RUN npm install
 
+COPY ./.git /app/.git
 COPY ./web/ /app/web/
 COPY ./build/ /app/build/
 RUN npm run compile
@@ -33,29 +33,25 @@ RUN mvn package -Prelease -B -Dmapstore2.version=${VERSION}
 
 FROM tomcat:9-jdk11-openjdk
 
-RUN mkdir -p /usr/share/man/man1 /usr/share/man/man7
 RUN apt-get update \
     && apt-get install --yes postgresql-client \
     && apt-get clean \
     && apt-get autoclean \
     && apt-get autoremove -y \
-    && rm -rf /var/cache/apt/* \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /usr/share/man/* \
-    && rm -rf /usr/share/doc/*
+    && rm -rf /var/cache/apt/* /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/*
 
-# Tomcat specific options
 ENV CATALINA_BASE "$CATALINA_HOME"
-ENV INITIAL_MEMORY="512m"
-ENV MAXIMUM_MEMORY="512m"
-ENV JAVA_OPTS="${JAVA_OPTS} -Xms${INITIAL_MEMORY} -Xmx${MAXIMUM_MEMORY}"
 
-ARG OVR=""
-# ENV GEOSTORE_OVR_OPT="-Dgeostore-ovr=file://${CATALINA_BASE}/conf/${OVR}"
-ARG DATA_DIR="${CATALINA_BASE}/datadir"
-ENV GEOSTORE_OVR_OPT=""
-ENV JAVA_OPTS="${JAVA_OPTS} ${GEOSTORE_OVR_OPT} -Ddatadir.location=${DATA_DIR}"
-ENV TERM xterm
+#ENV INITIAL_MEMORY="512m"
+#ENV MAXIMUM_MEMORY="512m"
+#ENV JAVA_OPTS="${JAVA_OPTS} -Xms${INITIAL_MEMORY} -Xmx${MAXIMUM_MEMORY}"
+
+
+ENV TERM=xterm \
+    DATA_DIR="${CATALINA_BASE}/datadir" \
+    LOGS_DIR="${CATALINA_BASE}/logs"
+
+ENV JAVA_OPTS="${JAVA_OPTS} -Dgeostore-ovr=file://${CATALINA_BASE}/conf/geostore-ovr.properties -Ddatadir.location=${DATA_DIR}"
 
 COPY --from=maven-build /app/release/bin-war/target/mapstore.war ${CATALINA_BASE}/webapps/mapstore.war
 COPY ./docker/* ${CATALINA_BASE}/docker/
@@ -64,5 +60,5 @@ RUN mkdir -p ${DATA_DIR}
 RUN cp ${CATALINA_BASE}/docker/wait-for-postgres.sh /usr/bin/wait-for-postgres
 
 WORKDIR ${CATALINA_BASE}
-VOLUME [ "${DATA_DIR}" ]
+VOLUME [ "${DATA_DIR}", "${LOGS_DIR}" ]
 EXPOSE 8080
