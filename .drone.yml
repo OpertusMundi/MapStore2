@@ -7,6 +7,15 @@ environment:
 
 steps:
 
+- name: print-env
+  image: busybox:1
+  when:
+    event:
+    - tag
+    - push
+  commands:
+  - env
+
 - name: publish-image
   image: plugins/docker
   when:
@@ -25,4 +34,5 @@ steps:
     - "${DRONE_SEMVER_SHORT}"
     - "${DRONE_SEMVER_MAJOR}.${DRONE_SEMVER_MINOR}"
     mirror: http://registry-mirror:5000
-
+    build_args:
+    - VERSION=${DRONE_SEMVER_SHORT}

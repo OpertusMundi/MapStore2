@@ -4,7 +4,7 @@ FROM node:12.13.1-buster AS npm-build
 
 ENV NPM_CONFIG_PROGRESS="false" \
     NPM_CONFIG_SPIN="false" \
-    NODE_OPTIONS="--max-old-space-size=2560"
+    NODE_OPTIONS="--max-old-space-size=3072"
 
 WORKDIR /app
 
@@ -27,7 +27,7 @@ COPY ./product ./product
 COPY ./java ./java
 COPY ./release ./release
 
-ARG VERSION=""
+ARG VERSION="1"
 RUN mvn package -Prelease -B -Dmapstore2.version=${VERSION}
 
 
