@@ -34,31 +34,42 @@ RUN mvn package -Prelease -B -Dmapstore2.version=${VERSION}
 FROM tomcat:9-jdk11-openjdk
 
 RUN apt-get update \
-    && apt-get install --yes postgresql-client \
-    && apt-get clean \
-    && apt-get autoclean \
-    && apt-get autoremove -y \
-    && rm -rf /var/cache/apt/* /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/*
+  && apt-get install --yes postgresql-client jq \
+  && apt-get clean && apt-get autoclean && apt-get autoremove -y \
+  && rm -rf /var/cache/apt/* /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/*
 
 ENV CATALINA_BASE "$CATALINA_HOME"
 
-#ENV INITIAL_MEMORY="512m"
-#ENV MAXIMUM_MEMORY="512m"
-#ENV JAVA_OPTS="${JAVA_OPTS} -Xms${INITIAL_MEMORY} -Xmx${MAXIMUM_MEMORY}"
-
-
 ENV TERM=xterm \
-    DATA_DIR="${CATALINA_BASE}/datadir" \
-    LOGS_DIR="${CATALINA_BASE}/logs"
+  DATA_DIR="${CATALINA_BASE}/datadir" \
+  LOGS_DIR="${CATALINA_BASE}/logs"
+
+VOLUME [ "${DATA_DIR}", "${LOGS_DIR}" ]
 
 ENV JAVA_OPTS="${JAVA_OPTS} -Dgeostore-ovr=file://${CATALINA_BASE}/conf/geostore-ovr.properties -Ddatadir.location=${DATA_DIR}"
 
 COPY --from=maven-build /app/release/bin-war/target/mapstore.war ${CATALINA_BASE}/webapps/mapstore.war
-COPY ./docker/* ${CATALINA_BASE}/docker/
 
 RUN mkdir -p ${DATA_DIR}
-RUN cp ${CATALINA_BASE}/docker/wait-for-postgres.sh /usr/bin/wait-for-postgres
 
+# https://github.com/docker-library/tomcat/issues/68#issuecomment-311745802
+RUN addgroup --gid 1000 tomcat \
+  && adduser --no-create-home --disabled-login --ingroup tomcat --home ${CATALINA_BASE} --gecos "" --uid 1000 tomcat
+
+RUN chown tomcat:tomcat -R ${CATALINA_BASE}
+
+COPY --chown=1000:1000 ./docker/generate-conf-and-run-tomcat.sh /docker-command.sh
+RUN chmod ug+x /docker-command.sh
+
+USER tomcat
 WORKDIR ${CATALINA_BASE}
-VOLUME [ "${DATA_DIR}", "${LOGS_DIR}" ]
+
+ENV MAPSTORE_BASE_URL="http://localhost:8080/mapstore" \
+  GEOSTORE_DATASOURCE_URL="jdbc:postgresql://localhost:5432/mapstore" \
+  GEOSTORE_DATASOURCE_USERNAME="mapstore" \
+  GEOSTORE_DATASOURCE_PASSWORD_FILE="/secrets/datasource-password" \
+  KEYCLOAK_OIDC_JSON_FILE="/secrets/keycloak-oidc.json"
+
+CMD [ "/docker-command.sh" ]
+
 EXPOSE 8080

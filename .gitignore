@@ -26,5 +26,6 @@ debug.log
 .vscode/settings.json
 site
 
-
+/logs
+/standalone.env
 /config/

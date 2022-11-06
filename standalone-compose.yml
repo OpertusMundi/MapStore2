@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  mapstore:
+    image: "opertusmundi/mapstore2:${VERSION}"
+    build:
+      context: .
+      dockerfile: standalone.dockerfile
+      args:
+        VERSION: "${VERSION}"
+    environment:
+      MAPSTORE_BASE_URL:
+      GEOSTORE_DATASOURCE_URL:
+      GEOSTORE_DATASOURCE_USERNAME:      
+    volumes:
+    - type: bind
+      source: ./config/datasource-password
+      target: /secrets/datasource-password
+      read_only: true
+    - type: bind
+      source: ./config/keycloak-oidc.json
+      target: /secrets/keycloak-oidc.json
+      read_only: true
+    - type: bind
+      source: ./logs
+      target: /usr/local/tomcat/logs
+    - type: volume
+      source: data_dir
+      target: /usr/local/tomcat/datadir
+    ports:
+    - '18080:8080'
+
+volumes:
+  data_dir:
