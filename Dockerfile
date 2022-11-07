@@ -1,10 +1,12 @@
+# NOTE: Before docker-build run:
+#  npm install
+#  npm run compile
+#  mvn clean install -Dmapstore2.version=1.4 -Prelease  
+
 FROM tomcat:9-jdk11-openjdk AS mother
-LABEL maintainer="Alessandro Parma<alessandro.parma@geosolutionsgroup.com>"
-ARG MAPSTORE_WEBAPP_SRC="https://github.com/geosolutions-it/MapStore2/releases/latest/download/mapstore.war"
-ADD "${MAPSTORE_WEBAPP_SRC}" "/mapstore/"
 
 COPY ./docker/* /mapstore/docker/
-WORKDIR /mapstore
+COPY ./release/bin-war/target/mapstore.war /mapstore/mapstore.war
 
 FROM tomcat:9-jdk11-openjdk
 
