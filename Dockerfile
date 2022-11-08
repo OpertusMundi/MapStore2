@@ -2,6 +2,8 @@
 #  npm install
 #  npm run compile
 #  mvn clean install -Dmapstore2.version=1.4 -Prelease  
+#  docker build . -t opertusmundi/mapstore2:1.4-dev
+#  docker run --rm -p 8080:8080 opertusmundi/mapstore2:1.4-dev
 
 FROM tomcat:9-jdk11-openjdk AS mother
 
