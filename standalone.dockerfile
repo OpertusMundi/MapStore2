@@ -27,8 +27,8 @@ COPY ./product ./product
 COPY ./java ./java
 COPY ./release ./release
 
-ARG VERSION="1"
-RUN mvn package -Prelease -B -Dmapstore2.version=${VERSION}
+ARG VERSION
+RUN mvn package -DskipTests -Dmapstore2.version=${VERSION} -Prelease -B
 
 
 FROM tomcat:9-jdk11-openjdk
