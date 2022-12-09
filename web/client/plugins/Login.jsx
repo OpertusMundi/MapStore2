@@ -106,7 +106,18 @@ export default {
             }),
             tools: [UserDetails, PasswordReset, Login],
             priority: 1
-        }
+        },
+        MapHeaderBar: {
+            name: "login",
+            position: 3,
+            tool: connect((state) => ({
+                hidden: false,
+                renderButtonContent: () => {return <span><img src={accountIcon} /></span>; },
+                bsStyle: 'primary'
+            }))(LoginNav),
+            tools: [UserDetails, PasswordReset, Login],
+            priority: 2
+        },
     }),
     reducers: {security},
     epics: {

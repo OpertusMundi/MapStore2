@@ -50,7 +50,7 @@ class Footer extends React.Component {
         const { href, ...logo } = this.props.logo || {};
         const image = (
             <img
-                class="ms-home-footer"
+                className="ms-home-footer"
                 src={logo.src}
                 width={logo.width || 'auto'}
                 height={logo.height || 'auto'}

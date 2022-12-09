@@ -32,6 +32,12 @@ export default {
             position: 5,
             tool: true,
             priority: 1
+        },
+        MapHeaderBar: {
+            name: 'language',
+            position: 5,
+            tool: true,
+            priority: 1
         }
     }),
     reducers: {}

@@ -192,7 +192,6 @@ class ShapeFileUploadAndStyle extends React.Component {
     };
 
     render() {
-        console.log("Shapefile upload");
         return (
             <Grid role="body" style={{width: "300px"}} fluid>
                 {this.props.error ? this.renderError() : null}

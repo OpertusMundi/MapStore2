@@ -133,6 +133,11 @@ export default {
             position: 5,
             tool: props => <NavMenu {...props}/>,
             priority: 1
+        },
+        MapHeaderBar: {
+            position: 5,
+            tool: props => <NavMenu {...props}/>,
+            priority: 2
         }
     })
 };

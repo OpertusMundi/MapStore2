@@ -637,6 +637,10 @@
                 "defaultGroupOnTop": "The {groupTitle} group is set as default target group, therefore it must remain on top"
             }
         },
+        "topioDrive":{
+          "drawerButton": "Topio Drive",
+          "addToMap":"Add To Map"
+        },
         "print":{
             "paneltitle": "Print",
             "layout": "Layout",

@@ -94,6 +94,7 @@ class Menu extends React.Component {
         const header = this.props.single ?
             (<div className="navHeader" style={{width: "100%", minHeight: "35px"}}>
                 <Glyphicon glyph="1-close" className="no-border btn-default" onClick={this.props.onToggle} style={{cursor: "pointer"}}/>
+                <span class="nav-title">Layers</span>
                 <div className="navButtons">
                     {this.renderButtons()}
                 </div>

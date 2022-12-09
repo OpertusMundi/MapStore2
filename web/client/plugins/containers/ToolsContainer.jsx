@@ -140,7 +140,7 @@ class ToolsContainer extends React.Component {
         const toolChildren = tool.childTools || [];
 
         return this.addTooltip(
-            <Tool {...toolCfg} pluginCfg={tool.cfg} tooltip={tooltip} style={tool.style} btnSize={this.props.toolSize} bsStyle={this.props.toolStyle} help={help} key={tool.name || "tool" + i} mapType={this.props.mapType}
+            <Tool id= {tool.id}{ ...toolCfg} pluginCfg={tool.cfg} tooltip={tooltip} style={tool.style} btnSize={this.props.toolSize} bsStyle={this.props.toolStyle} help={help} key={tool.name || "tool" + i} mapType={this.props.mapType}
                 {...tool.cfg} items={tool.items || []}>
                 {tool.cfg && tool.cfg.glyph ? <Glyphicon glyph={tool.cfg.glyph}/> : tool.icon}{help} {tool.text}
                 {toolChildren.length > 0 && <ToolsContainer

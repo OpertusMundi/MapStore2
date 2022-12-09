@@ -32,6 +32,9 @@
     .MapSearchBar .input-group {
         .background-color-var(@theme-vars[main-bg]);
 
+        background: #fff !important;
+        border-top-right-radius: 26px !important;
+        border-bottom-right-radius: 26px !important;
         // search toolbar
         .search-toolbar-options {
 
@@ -70,7 +73,7 @@
 /* search */
 #search-bar-container {
     position: absolute;
-    top: 0;
+    top: 70px;
     margin-right: 5px;
     box-shadow: -1px 1px 5px 1px #5e5e5e;
     z-index: 1031;
@@ -308,7 +311,10 @@ div.MapSearchBar .form-control:focus {
         border-bottom-right-radius: 26px;
 
         .btn{
+            margin-right: 10px;
             background-color: #fff;
+            border-top-right-radius: 26px !important;
+            border-bottom-right-radius: 26px !important;
         }
 
         .magnifying-glass {
@@ -348,7 +354,9 @@ div.MapSearchBar .form-control:focus {
 }
 
 .MapSearchBar {
-    z-index: 1
+    z-index: 1;
+    border-top-right-radius: 26px;
+    border-bottom-right-radius: 26px;
 }
 
 .advanced-search-panel {

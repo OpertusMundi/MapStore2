@@ -109,6 +109,7 @@ export const plugins = {
     MapImportPlugin: toModulePlugin('MapImport', () => import(/* webpackChunkName: 'plugins/mapImport' */ '../plugins/MapImport')),
     MapLoadingPlugin: toModulePlugin('MapLoading', () => import(/* webpackChunkName: 'plugins/mapLoading' */ '../plugins/MapLoading')),
     MapPlugin: toModulePlugin('Map', () => import(/* webpackChunkName: 'plugins/map' */ '../plugins/Map')),
+    MapHeaderBarPlugin: toModulePlugin('MapHeaderBar', () => import(/* webpackChunkName: 'plugins/mapHeaderBar' */ '../plugins/MapHeaderBar')),
     MapSearchPlugin: toModulePlugin('MapSearch', () => import(/* webpackChunkName: 'plugins/mapSearch' */ '../plugins/MapSearch')),
     MapCatalogPlugin: toModulePlugin('MapCatalog', () => import(/* webpackChunkName: 'plugins/mapCatalog' */ '../plugins/MapCatalog')),
     MapTemplatesPlugin: toModulePlugin('MapTemplates', () => import(/* webpackChunkName: 'plugins/measure' */ '../plugins/MapTemplates')),

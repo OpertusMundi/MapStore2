@@ -111,8 +111,10 @@
         "defaultTextAnnotation": "New"
       },
       "theme": {
-          "selectedTheme": {"id":"default"}
-        },
+        "selectedTheme": {
+          "id": "default"
+        }
+      },
       "maptype": {
         "mapType": "{context.mode === 'desktop' ? 'openlayers' : 'leaflet'}"
       },
@@ -401,6 +403,22 @@
           }
         }
       },
+      "MapHeaderBar",
+      "NavMenu",
+      {
+        "name": "Attribution",
+        "cfg": {
+          "label": "Topio Maps",
+          "href": "#"
+        }
+      },
+      "Login",
+      {
+        "name": "Language",
+        "hideFrom": [
+          "OmniBar"
+        ]
+      },
       "AutoMapUpdate",
       "HelpLink",
       "TopioDriveMenu",
@@ -563,6 +581,7 @@
       },
       {
         "name": "Search",
+        "doNotHide": true,
         "cfg": {
           "withToggle": [
             "max-width: 768px",
@@ -618,7 +637,6 @@
         }
       },
       "OmniBar",
-      "Login",
       "Save",
       "SaveAs",
       "Expander",

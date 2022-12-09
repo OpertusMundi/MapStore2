@@ -92,7 +92,6 @@ class ContentTabs extends React.Component {
             <Grid id={this.props.id}>
                 <Row>
                     <Col>
-                        <h2><Message msgId="resources.contents.title" /></h2>
                         <ToolsContainer
                             id="content-tabs-container"
                             style={this.props.style}

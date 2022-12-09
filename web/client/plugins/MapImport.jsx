@@ -91,7 +91,9 @@ export default {
             icon: <Glyphicon glyph="upload"/>,
             action: toggleControl.bind(null, 'mapimport', null),
             priority: 2,
-            doNotHide: true
+            doNotHide: true,
+            id: "import-button",
+            className: "import-button"
         },
         SidebarMenu: {
             name: "mapimport",
@@ -102,7 +104,9 @@ export default {
             action: toggleControl.bind(null, 'mapimport', null),
             toggle: true,
             priority: 1,
-            doNotHide: true
+            doNotHide: true,
+            id: "import-button",
+            className: "import-button"
         }
     }),
     reducers: {

@@ -238,7 +238,7 @@
 
         .active {
             a {
-                color: @ms-main-topio-color !important;
+                color: @ms-main-topio-color  !important;
             }
         }
 
@@ -250,7 +250,64 @@
     }
 }
 
-#loginButton, #dropdown-basic-primary, #mapstore-manager-menu-container{
+#loginButton,
+#dropdown-basic-primary,
+#mapstore-manager-menu-container {
     background-color: #f2f2f2;
 }
 
+.add-to-map {
+    background-color: #fff !important;
+}
+
+#map {
+    top: 50px !important;
+}
+
+#map-header-navbar-container {
+    width: 100%;
+
+    .btn-group {
+        float: right;
+    }
+}
+
+#home-button,
+#mapstore-burger-menu-container {
+    color: #333;
+    background-color: #f2f2f2;
+}
+
+#mapstore-navbar-container {
+    border-bottom: none !important;
+}
+
+#content-tabs-container {
+    .nav-tabs {
+        font-size: 18px;
+        border: none;
+    }
+    
+    a {
+        color: #333;
+        border: none;
+    }
+
+    li.active > a {
+        color: @ms-main-topio-color;
+
+        >span {
+            padding-bottom: 5px;
+            border-bottom: 1px solid @ms-main-topio-color;
+        }
+    }
+}
+
+.mapstore-filter{
+    span{
+        padding: 4px;
+    }
+}
+.nav-menu{
+    top: 50px !important;
+}

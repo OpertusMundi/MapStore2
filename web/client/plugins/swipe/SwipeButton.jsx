@@ -62,7 +62,6 @@ const SwipeButton = (props) => {
                     onSetSwipeMode("spy");
                     onSetActive(true);
                 }}>
-                 <img src={accountIcon} /><Message msgId="toc.spyGlass" />
             </MenuItem>
             <MenuItem
                 onClick={() => showConfiguration()}>
