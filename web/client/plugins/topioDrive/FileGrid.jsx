@@ -11,12 +11,14 @@ class FileGrid extends React.Component {
         column: PropTypes.object,
         currentLocale: PropTypes.string,
         style: PropTypes.object,
-        changeFolder: PropTypes.func
+        changeFolder: PropTypes.func,
+        fileLoaded: PropTypes.bool
     }
 
     static defaultProps = {
         column: { xs: 12 },
         currentLocale: 'en-US',
+        fileLoaded: false
         //onLayerAdd: () => { },
         //onPropertiesChange: () => { },
         //onError: () => { },
@@ -37,6 +39,7 @@ class FileGrid extends React.Component {
                     size={file.size}
                     type={file.type}
                     changeFolder={this.props.changeFolder}
+                    fileLoaded={this.props.fileLoaded}
                     style={{ height: "215px", maxHeight: "215px" }}
                 />
             </Col>

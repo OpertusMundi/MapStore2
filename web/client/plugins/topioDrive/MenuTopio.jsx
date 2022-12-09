@@ -10,9 +10,12 @@ import PropTypes from 'prop-types';
 import { Glyphicon, Tooltip } from 'react-bootstrap';
 import Sidebar from 'react-sidebar';
 
+import axios from '../../libs/ajax';
+
 import OverlayTrigger from '../../components/misc/OverlayTrigger';
 import Message from '../../components/I18N/Message';
 import Button from '../../components/misc/Button';
+import { getToken } from '../../utils/SecurityUtils';
 
 
 import FileGrid from './FileGrid';
@@ -37,13 +40,13 @@ class MenuTopio extends React.Component {
         layout: PropTypes.object,
         resizable: PropTypes.bool,
         onResize: PropTypes.func,
-        fileSystem: PropTypes.object,
     };
 
     state = {
-        activeFolder: this.props.fileSystem
+        fileSystem: {},
+        activeFolder: {}
     }
-    
+
     static defaultProps = {
         docked: false,
         single: false,
@@ -54,7 +57,7 @@ class MenuTopio extends React.Component {
         onResize: () => { }
     };
 
-    constructor (props){
+    constructor(props) {
         super(props);
         this.changeFolder = this.changeFolder.bind(this);
     }
@@ -64,7 +67,27 @@ class MenuTopio extends React.Component {
             let style = { left: this.props.width, width: `calc(100% - ${this.props.width}px)` };
             this.props.changeMapStyle(style, "drawerMenu");
         }
+        const url = 'https://beta.topio.market/api/file-system?path=/';
+        this.getFileSystem(url).then(r=>{
+            this.setState({fileSystem: r.data.result, activeFolder: r.data.result})
+        });
     }
+
+    async getFileSystem(url) {
+        const api = axios.create({ withCredentials: true });
+
+        const token = getToken();
+
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            withCredentials: true,
+        };
+
+        const result = await api.get(url, config)
+        return result;
+    };
 
     componentDidUpdate(prevProps) {
         if (!this.props.overlapMap && prevProps.show !== this.props.show) {
@@ -105,11 +128,6 @@ class MenuTopio extends React.Component {
         });
     };
 
-    handleChange(event, newValue) {
-        //setValue(newValue);
-        console.log('in handle change')
-    }
-
     browseFiles(element, path) {
 
         if (element.name == path || path == 'My files') {
@@ -128,18 +146,19 @@ class MenuTopio extends React.Component {
     }
 
     changeFolder(newFolder) {
-        let activeFolder = this.browseFiles(this.props.fileSystem, newFolder);
+        let activeFolder = this.browseFiles(this.state.fileSystem, newFolder);
         this.setState({
             activeFolder
-            } 
+        }
         );
     }
 
     renderContent = () => {
         let paths = ["My files"];
-        if (this.state.activeFolder.path!='/')
+        if (Object.keys(this.state.activeFolder).length === 0) return;
+        if (this.state.activeFolder.path != '/')
             paths.push(...this.state.activeFolder.path.slice(1).split('/'))
-        const breadcrumbs = paths.map(path => <li><a  onClick={() => this.changeFolder(path)} >{path}</a></li>);
+        const breadcrumbs = paths.map(path => <li><a onClick={() => this.changeFolder(path)} >{path}</a></li>);
         const tabContent = [
             {
                 title: "Topio Drive Files",
@@ -150,7 +169,7 @@ class MenuTopio extends React.Component {
                                 {breadcrumbs}
                             </ul>
                         </nav>
-                        <FileGrid activeFolder={this.state.activeFolder} changeFolder={this.changeFolder}/>
+                        <FileGrid activeFolder={this.state.activeFolder} changeFolder={this.changeFolder} />
                     </div>,
             },
             {
@@ -211,7 +230,7 @@ class MenuTopio extends React.Component {
                 content: {
                     overflowY: 'auto'
                 }
-            }} sidebarClassName="nav-menu" onSetOpen={() => {
+            }} sidebarClassName="nav-menu topio-drive" onSetOpen={() => {
                 this.props.onToggle();
             }} open={this.props.show} docked={this.props.docked} sidebar={this.renderContent()}>
                 <div />

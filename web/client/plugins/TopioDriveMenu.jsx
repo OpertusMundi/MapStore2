@@ -8,11 +8,15 @@
 
 import './drawer/drawer.css';
 
+import axios from '../libs/ajax';
+
+import { getToken } from '../utils/SecurityUtils';
+
 import { partialRight } from 'lodash';
 import assign from 'object-assign';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Glyphicon, Panel, FormGroup, ControlLabel } from 'react-bootstrap';
+import {Panel } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 
@@ -127,7 +131,7 @@ class TopioDriveMenu extends React.Component {
         menuButtonStyle: PropTypes.object,
         disabled: PropTypes.bool
     };
-
+    
     static contextTypes = {
         messages: PropTypes.object,
         router: PropTypes.object
@@ -151,8 +155,6 @@ class TopioDriveMenu extends React.Component {
         disabled: false
     };
 
-
-
     getTools = () => {
         var testItems = [{
             name: 'TopioDrive',
@@ -164,7 +166,7 @@ class TopioDriveMenu extends React.Component {
                 buttonClassName: "square-button no-border",
                 tooltip: "toc.layers"
             },
-            icon:  <span><img src={catalogIconWhite}/></span>
+            icon: <span><img src={catalogIconWhite}/></span>
         }];
         const unsorted = testItems
             .map((item, index) => assign({}, item, { position: item.position || index }));
@@ -194,79 +196,17 @@ class TopioDriveMenu extends React.Component {
         });
     };
 
+
     render() {
-        const response = {
-            "messages": [],
-            "result": {
-                "size": 3117780,
-                "path": "/",
-                "name": "/",
-                "files": [],
-                "folders": [
-                    {
-                        "size": 33328,
-                        "path": "/csv",
-                        "name": "csv",
-                        "files": [
-                            {
-                                "size": 33328,
-                                "path": "/csv/DKV_Berlin.csv",
-                                "name": "DKV_Berlin.csv",
-                                "modified": "2022-04-19T05:49:19.976Z"
-                            }
-                        ],
-                        "folders": [],
-                        "count": 1,
-                        "modified": "2022-04-19T05:49:19.976Z"
-                    },
-                    {
-                        "size": 3084452,
-                        "path": "/shapefile",
-                        "name": "shapefile",
-                        "files": [
-                            {
-                                "size": 3084452,
-                                "path": "/shapefile/rivers.zip",
-                                "name": "rivers.zip",
-                                "modified": "2022-03-29T10:46:52.95Z"
-                            }
-                        ],
-                        "folders": [
-                            {
-                                "size": 2084452,
-                                "path": "/shapefile/extra",
-                                "name": "extra",
-                                "files": [
-                                    {
-                                        "size": 3084452,
-                                        "path": "/shapefile/extra/lakes.zip",
-                                        "name": "lakes.zip",
-                                        "modified": "2022-03-29T10:46:52.95Z"
-                                    }
-                                ],
-                                "folders": [],
-                                "count": 1,
-                                "modified": "2022-03-29T10:46:52.95Z"
-                            }
-                        ],
-                        "count": 1,
-                        "modified": "2022-03-29T10:46:52.95Z"
-                    }
-                ],
-                "count": 2,
-                "modified": "2022-04-19T05:49:19.976Z"
-            },
-            "success": true
-        }
-        //toggleMenu = () => {},
         return this.getTools().length > 0 ? (
             <div id={this.props.id}>
                 <DrawerButton {...this.props} id="topiodrivemenu-menu-button" />
-                <Menu fileSystem={response.result} single={this.props.singleSection} {...this.props.menuOptions} title={<Message msgId="menu" />} alignment="left">
+                <Menu single={this.props.singleSection} {...this.props.menuOptions} title={<Message msgId="menu" />} alignment="left">
                     {this.renderItems()}
                 </Menu>
             </div>
         ) : null;
+
     }
 }
 
