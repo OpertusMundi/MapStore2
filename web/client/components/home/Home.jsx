@@ -71,6 +71,7 @@ class Home extends React.Component {
                         text: <Message msgId="resources.maps.unsavedMapConfirmButtonText" />,
                         onClick: this.goHome
                     }, {
+                        bsStyle: "primary-decline",
                         text: <Message msgId="resources.maps.unsavedMapCancelButtonText" />,
                         onClick: this.props.onCloseUnsavedDialog
                     }]}

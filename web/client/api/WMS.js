@@ -13,6 +13,7 @@ import assign from 'object-assign';
 import xml2js from 'xml2js';
 import axios from '../libs/ajax';
 import { getConfigProp } from '../utils/ConfigUtils';
+import {getToken} from '../utils/SecurityUtils';
 import { getWMSBoundingBox } from '../utils/CoordinatesUtils';
 import { getAvailableInfoFormat } from "../utils/MapInfoUtils";
 const capabilitiesCache = {};
@@ -178,6 +179,7 @@ export const getRecords = (url, startPosition, maxRecords, text) => {
     });
 };
 export const describeLayers = (url, layers) => {
+    
     const parsed = urlUtil.parse(url, true);
     const describeLayerUrl = urlUtil.format(assign({}, parsed, {
         query: assign({
@@ -187,7 +189,14 @@ export const describeLayers = (url, layers) => {
             request: "DescribeLayer"
         }, parsed.query)
     }));
-    return axios.get(parseUrl(describeLayerUrl)).then((response) => {
+    const token = getToken();
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        withCredentials: false,
+    }; 
+    return axios.get(parseUrl(describeLayerUrl), config).then((response) => {
         let decriptions;
         xml2js.parseString(response.data, {explicitArray: false}, (ignore, result) => {
             decriptions = result && result.WMS_DescribeLayerResponse && result.WMS_DescribeLayerResponse.LayerDescription;

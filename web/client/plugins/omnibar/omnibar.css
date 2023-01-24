@@ -36,6 +36,7 @@
 }
 
 .navbar-dx .dropdown-menu {
+    z-index: 1050;
     margin: 0;
     padding-top: 0;
 }

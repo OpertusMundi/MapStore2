@@ -51,6 +51,7 @@
 // **************
 .ms-side-panel {
     /* needed to set right position when embedded */
+
     &.ms-absolute-dock {
         > div {
             position: absolute !important;
@@ -58,6 +59,7 @@
             width: 100% !important;
             pointer-events: none;
             > div {
+                top: 60px !important;
                 pointer-events: auto;
                 position: absolute !important;
                 transition: none !important; // See if it can be changes

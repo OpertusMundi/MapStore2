@@ -39,6 +39,8 @@ import { isVectorFormat } from '../../../../utils/VectorTileUtils';
 import { OL_VECTOR_FORMATS, applyStyle } from '../../../../utils/openlayers/VectorTileUtils';
 import { generateEnvString } from '../../../../utils/LayerLocalizationUtils';
 
+import {getToken} from '../../../../utils/SecurityUtils';
+
 /**
  * Check source and apply proxy
  * when `forceProxy` is set on layer options
@@ -59,7 +61,18 @@ const loadFunction = (options, headers) => function(image, src) {
     // fixes #3916, see https://gis.stackexchange.com/questions/175057/openlayers-3-wms-styling-using-sld-body-and-post-request
     let img = image.getImage();
     let newSrc = proxySource(options.forceProxy, src);
-
+    const token = getToken();
+    let config;
+    // If topio ogc service
+    if (src.includes('topio')) {
+        config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            responseType: 'blob',
+            withCredentials: false,
+        };
+    }
     if (typeof window.btoa === 'function' && src.length >= (options.maxLengthUrl || getConfigProp('miscSettings')?.maxURLLength || Infinity)) {
         // GET ALL THE PARAMETERS OUT OF THE SOURCE URL**
         let [url, ...dataEntries] = src.split("&");
@@ -90,11 +103,8 @@ const loadFunction = (options, headers) => function(image, src) {
             console.error(e);
         });
     } else {
-        if (headers) {
-            axios.get(newSrc, {
-                headers,
-                responseType: 'blob'
-            }).then(response => {
+        if (config) {
+            axios.get(newSrc, config).then(response => {
                 if (response.status === 200 && response.data) {
                     image.getImage().src = URL.createObjectURL(response.data);
                 } else {

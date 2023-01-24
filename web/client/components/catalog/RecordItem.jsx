@@ -234,7 +234,7 @@ class RecordItem extends React.Component {
                     this.renderThumb(record && record.thumbnail ||
                         background && ((background.name || background.source) ? defaultBackgroundThumbs[background.source][background.name] : unknown), record)}
                 title={record && this.getTitle(record.title)}
-                description={<span><div className ref={sideCardDesc => {
+                description={<span><div ref={sideCardDesc => {
                     this.sideCardDesc = sideCardDesc;
                 }}>{this.renderDescription(record)}</div></span>}
                 caption={

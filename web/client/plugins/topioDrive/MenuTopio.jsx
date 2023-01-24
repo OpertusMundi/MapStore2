@@ -19,6 +19,8 @@ import { getToken } from '../../utils/SecurityUtils';
 
 
 import FileGrid from './FileGrid';
+import CatalogueGrid from './CatalogueGrid';
+import ServiceGrid from './ServiceGrid';
 
 import Tab from "./Tab";
 
@@ -173,12 +175,19 @@ class MenuTopio extends React.Component {
                     </div>,
             },
             {
-                title: "Purchased Datasets",
-                content: `Bought Datasets from Topio.`,
+                title: "OGC Services / Subscriptions",
+                content:
+                    <div className={"nav-body topio-drive-grid"}>
+                        
+                        <CatalogueGrid  />
+                    </div>,
             },
             {
                 title: "Open Datasets",
-                content: `Open datasets available for use.`,
+                content:
+                    <div className={"nav-body topio-drive-grid"}>
+                            <ServiceGrid/>
+                    </div>,
             },
         ];
         const header = this.props.single ?

@@ -256,7 +256,7 @@ export function describeError(layer, error) {
     };
 }
 
-export function addLayerAndDescribe(layer, {zoomToLayer = false} = {}) {
+export function addLayerAndDescribe(layer, {zoomToLayer = true} = {}) {
     return {
         type: ADD_LAYER_AND_DESCRIBE,
         layer,

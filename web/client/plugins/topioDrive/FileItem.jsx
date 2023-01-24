@@ -4,19 +4,10 @@ import PropTypes from 'prop-types';
 import axios from '../../libs/ajax';
 
 import {getToken} from '../../utils/SecurityUtils';
-import SideCard from '../../components/misc/cardgrids/SideCard';
-import Toolbar from '../../components/misc/toolbar/Toolbar';
-import Moment from 'moment';
 import Button from '../../components/misc/Button';
 
-import processFiles from '../../components/import/dragZone/enhancers/processFiles';	
-import useFiles from '../../components/import/dragZone/enhancers/useFiles';	
-import StyleDialog from '../../plugins/import/Import';	
-import { getShapeFile } from '../../components/import/dragZone/enhancers/__tests__/testData'	
-import Rx from 'rxjs';	
-import { compose, createSink, mapPropsStream, setObservableConfig } from 'recompose';;
+import { compose } from 'recompose';;
 import { connect } from 'react-redux';	
-import ReactDOM from 'react-dom';	
 import ConfigUtils from '../../utils/ConfigUtils';	
 import { isAnnotation } from '../../utils/AnnotationsUtils';	
 import { geoJSONToLayer } from '../../utils/LayersUtils';	
@@ -155,7 +146,7 @@ class FileItem extends React.Component {
     }
     render() {
         var date_options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        let button = this.props.type=='file' ? <Button
+        let button = this.props.type=='file' && this.props.name && this.props.name.includes('.zip') ? <Button
             onClick={() => this.addToMap(this.props.path)}
             tooltipId="backgroundDialog.removeAdditionalParameterTooltip"
             className="square-button-md add-to-map"

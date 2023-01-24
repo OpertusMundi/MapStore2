@@ -19,6 +19,8 @@ import { getCapabilitiesUrl } from '../utils/LayersUtils';
 import { interceptOGCError } from '../utils/ObservableUtils';
 import { cleanAuthParamsFromURL } from '../utils/SecurityUtils';
 
+import {getToken} from '../utils/SecurityUtils';
+
 const proj4 = Proj4js;
 
 export const toDescribeLayerURL = ({name, search = {}, url} = {}) => {
@@ -38,7 +40,14 @@ export const toDescribeLayerURL = ({name, search = {}, url} = {}) => {
             }
         });
 };
-export const describeLayer = l => Observable.defer( () => axios.get(toDescribeLayerURL(l))).let(interceptOGCError);
+const token = getToken();
+const config = {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    withCredentials: false,
+}; 
+export const describeLayer = l => Observable.defer( () => axios.get(toDescribeLayerURL(l)), config).let(interceptOGCError);
 export const getLayerCapabilities = l => Observable.defer(() => WMS.getCapabilities(getCapabilitiesUrl(l)))
     .let(interceptOGCError)
     .map(c => WMS.parseLayerCapabilities(c, l));
