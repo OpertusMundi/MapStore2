@@ -21,6 +21,8 @@ import ErrorBox from './fragments/ErrorBox';
 import MainForm from './fragments/MainForm';
 import PermissionEditorComp from './fragments/PermissionEditor';
 
+import {onEditHook} from '../../../plugins/topioDrive/TopioApi'
+
 import withSuspense from '../../misc/withSuspense';
 const DetailsComp = withSuspense()(lazy(() => import('./fragments/Details')));
 
@@ -132,6 +134,12 @@ class SaveModal extends React.Component {
     }
 
     onSave = () => {
+        // hook on edit existing resource
+        if (this.props.resource.id != null){
+            onEditHook({id: this.props.resource.id,
+                        name: this.props.resource.metadata.name,
+                        description: this.props.resource.metadata.description});
+        }
         this.props.onSave({...this.props.resource, permission: this.props.rules});
     };
 

@@ -41,6 +41,9 @@ export const SAVE_MAP_RESOURCE = "SAVE_MAP_RESOURCE";
 export const RELOAD_MAPS = 'MAPS:RELOAD_MAPS';
 export const INVALIDATE_FEATURED_MAPS = "FEATURED_MAPS:INVALIDATE";
 
+
+import {onEditHook, onDeleteHook} from '../plugins/topioDrive/TopioApi';
+
 /**
  * mapsLoading action, type `MAPS_LIST_LOADING`
  * @memberof actions.maps
@@ -212,6 +215,11 @@ export function metadataChanged(prop, value) {
  * @return {action}            `MAP_CREATED`, with all arguments as named
  */
 export function mapCreated(resourceId, metadata, content, error) {
+    onEditHook({
+        id: resourceId,
+        name: metadata.name,
+        description: metadata.description
+    });
     return {
         type: MAP_CREATED,
         resourceId,
@@ -260,6 +268,7 @@ export function mapDeleted(resourceId, result, error) {
  * @return {action}            type `MAP_DELETING`, with the arguments as they are named
  */
 export function mapDeleting(resourceId, result, error) {
+    onDeleteHook(resourceId);
     return {
         type: MAP_DELETING,
         resourceId,
