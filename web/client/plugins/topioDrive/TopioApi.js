@@ -85,9 +85,9 @@ export const getSubscriptions = async () => {
 
 
 export const onEditHook = async (resource) => {
-
     let thumbnail;
-    const date = Math.round((new Date()).getTime() / 1000) ;
+    const currUrl = window.location.href;
+    const date = Math.round((new Date()).getTime() / 1000);
     const url = hookUrl + '?EventType=MAP_CREATED' + '&Date=' + date;
     const api = axios.create({
         withCredentials: true
@@ -101,40 +101,35 @@ export const onEditHook = async (resource) => {
         },
         withCredentials: true,
     };
-    GeoStoreApi.getResourceAttribute(resource.id, 'thumbnail').then(r => {
-        const currUrl = window.location.href;
+    GeoStoreApi.getResource(resource.id).then(r => {
+        r.Resource.Attributes.attribute.forEach(a => {
+            if (a.name == 'thumbnail') {
+                thumbnail = currUrl.replace('viewer/openlayers/new','') + a.value;
+            }
+        })
         const data = {
-                url: currUrl.includes('openlayers')  ?  currUrl : currUrl + 'viewer/openlayers/' + resource.id,
-                title: resource.name,
-                thumbnail: r.data
-        };
-        api.post(url, data, config).then(r => {
-            console.log('onEditHook result ', r);
-        });
-    }).catch(e=>{
-        const currUrl = window.location.href;
-        const data = {
-            url: currUrl.includes('openlayers')  ?  currUrl : currUrl + 'viewer/openlayers/' + resource.id,
+            url: currUrl.includes('openlayers') ? currUrl : currUrl + 'viewer/openlayers/' + resource.id,
             title: resource.name,
             thumbnail
         };
         api.post(url, data, config).then(r => {
             console.log('onEditHook result ', r);
         });
+    }).catch(e => {
         console.log(e);
-    }); 
+    });
 };
 
 
 export const onDeleteHook = async (id) => {
 
     let title;
-    const date = Math.round((new Date()).getTime() / 1000) ;
+    const date = Math.round((new Date()).getTime() / 1000);
     const url = hookUrl + '?EventType=MAP_DELETED' + '&Date=' + date;
     const api = axios.create({
         withCredentials: true
     });
-    
+
     const token = getToken();
 
     const config = {
@@ -147,13 +142,13 @@ export const onDeleteHook = async (id) => {
         const currUrl = window.location.href;
         const data = {
             title: r.Resource.name,
-            url: currUrl.includes('openlayers')  ?  currUrl : currUrl + 'viewer/openlayers/' + id,
+            url: currUrl.includes('openlayers') ? currUrl : currUrl + 'viewer/openlayers/' + id,
         };
         api.post(url, data, config).then(r => {
             console.log('onDeletehook result ', r);
         });
 
-    }).catch(e=>{
+    }).catch(e => {
         console.log(e);
-    }); 
+    });
 };
