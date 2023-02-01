@@ -24,6 +24,9 @@ import ServiceGrid from './ServiceGrid';
 
 import Tab from "./Tab";
 
+import { isLoggedIn } from '../../selectors/security';
+
+const fileSystemUrl = 'https://beta.topio.market/api/file-system?path=/';
 
 class MenuTopio extends React.Component {
     static propTypes = {
@@ -69,14 +72,10 @@ class MenuTopio extends React.Component {
             let style = { left: this.props.width, width: `calc(100% - ${this.props.width}px)` };
             this.props.changeMapStyle(style, "drawerMenu");
         }
-        const url = 'https://beta.topio.market/api/file-system?path=/';
-        this.getFileSystem(url).then(r=>{
-            this.setState({fileSystem: r.data.result, activeFolder: r.data.result})
-        });
     }
 
-    async getFileSystem(url) {
-        const api = axios.create({ withCredentials: true });
+    async getFileSystem() {
+        const api = axios.create({ withCredentials: false });
 
         const token = getToken();
 
@@ -84,14 +83,19 @@ class MenuTopio extends React.Component {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
-            withCredentials: true,
+            withCredentials: false,
         };
 
-        const result = await api.get(url, config)
+        const result = await api.get(fileSystemUrl, config)
         return result;
     };
 
     componentDidUpdate(prevProps) {
+        if (getToken() && Object.keys(this.state.fileSystem).length == 0){
+            this.getFileSystem().then(r => {
+                this.setState({ fileSystem: r.data.result, activeFolder: r.data.result })
+            });
+        }
         if (!this.props.overlapMap && prevProps.show !== this.props.show) {
             let style = this.props.show ? { left: this.props.width, width: `calc(100% - ${this.props.width}px)` } : {};
             this.props.changeMapStyle(style, "drawerMenu");
@@ -178,15 +182,15 @@ class MenuTopio extends React.Component {
                 title: "OGC Services / Subscriptions",
                 content:
                     <div className={"nav-body topio-drive-grid"}>
-                        
-                        <CatalogueGrid  />
+
+                        <CatalogueGrid />
                     </div>,
             },
             {
                 title: "Open Datasets",
                 content:
                     <div className={"nav-body topio-drive-grid"}>
-                            <ServiceGrid/>
+                        <ServiceGrid />
                     </div>,
             },
         ];

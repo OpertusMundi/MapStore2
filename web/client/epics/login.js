@@ -85,6 +85,10 @@ export const reloadMapConfig = (action$, store) =>
 export const promptLoginOnMapError = (actions$, store) =>
     actions$.ofType(LOGIN_REQUIRED)
         .switchMap(() => {
+            // set redirect url on prompt to topio login
+            if(!sessionStorage.getItem("redirect_url")){
+                sessionStorage.setItem("redirect_url", window.location.href.split('/#')[1]);
+            }
             return Rx.Observable.of(setControlProperty('LoginForm', 'enabled', true))
             // send to homepage if close is pressed on login modal
                 .merge(

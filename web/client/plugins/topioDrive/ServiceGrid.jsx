@@ -11,10 +11,10 @@ import { getToken } from '../../utils/SecurityUtils';
 
 import xml2js from 'xml2js';
 
-import {getRecords, searchAndPaginate, parseUrl} from '../../api/WMS';
-import {getCatalogRecords, getLayerFromRecord} from '../../api/catalog/WMS';
+import { getRecords, searchAndPaginate, parseUrl } from '../../api/WMS';
+import { getCatalogRecords, getLayerFromRecord } from '../../api/catalog/WMS';
 
-import {addLayer} from '../../actions/catalog';
+import { addLayer } from '../../actions/catalog';
 
 import { bindActionCreators } from 'redux';
 
@@ -44,25 +44,33 @@ class ServiceGrid extends React.Component {
     };
 
     componentDidMount() {
-        //this.getFiles();
+        this.getOpenData();
     }
 
-    async getFiles() {
+    async getOpenData() {
         const token = getToken();
-        const S1config = {
-              headers: {
-                  'Authorization': `Bearer ${token}`,
-              },
-              withCredentials: false,
-        }; 
-        const url = 'open dataset layer url';
-        axios.get(url, S1config)
-        .then(function (response){
-        })
-        .catch(function (error) {
-             console.log(error);
-            }); 
-        this.fetchRecords(url, '', 0, 100, '')
+        const api = axios.create({ withCredentials: false });
+        const config = {
+            headers: { 'Authorization': `Bearer ${token}` },
+            withCredentials: false,
+        };
+        for (let page = 0; page < 11; page++) {
+            const url = 'https://beta.topio.market/api/catalogue?page=' + page + '&size=20&orderBy=PUBLICATION_DATE&order=DESC&text=&openDataset=true';
+            api.get(url, config)
+                .then(function (response) {
+                    const items = response.data.result.items;
+                    //console.log(items);
+                    items.map(i => {
+                        if (i.ingestionInfo) {
+                            console.log(i);
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+        /* this.fetchRecords(url, '', 0, 100, '')
         .then ((response) => {
             const service = response.service;
             const catalogRecords = getCatalogRecords(response, {...response.layerOptions, url: url })
@@ -73,11 +81,11 @@ class ServiceGrid extends React.Component {
          })
          .catch(function (error) {
               console.log(error);
-             }); 
-        
+             });  */
+
     };
 
-    fetchRecords = (url, config,  startPosition, maxRecords, text) => {
+    fetchRecords = (url, config, startPosition, maxRecords, text) => {
         const S1api = axios.create();
         const cached = capabilitiesCache[url];
         /* if (cached && new Date().getTime() < cached.timestamp + (getConfigProp('cacheExpire') || 60) * 1000) {
@@ -86,9 +94,9 @@ class ServiceGrid extends React.Component {
             });
         } */
         //return axios.get(parseUrl(url)).then((response) => {
-            return S1api.get(parseUrl(url), config).then((response) => {
+        return S1api.get(parseUrl(url), config).then((response) => {
             let json;
-            xml2js.parseString(response.data, {explicitArray: false}, (ignore, result) => {
+            xml2js.parseString(response.data, { explicitArray: false }, (ignore, result) => {
                 json = result;
             });
             const records = json.WMS_Capabilities.Capability.Layer.Layer;
@@ -101,7 +109,7 @@ class ServiceGrid extends React.Component {
     };
 
     renderServiceItem = (service) => {
-        
+
         let Service = this.props.service || ServiceItem;
         return (
 
@@ -122,29 +130,29 @@ class ServiceGrid extends React.Component {
 
     render() {
 
-            const contents = [];
-            /*
-                <Col xs={12} className="mapstore-topioDrive-head-title-container text-center no-border">
-                    <div className="mapstore-topioDrive-head-title" title='Topio Drive'>&nbsp;&nbsp;Topio Drive</div>
-                </Col> */
-            return (
-                <Grid className="folder-grid" fluid >
-                    <Row >
-                        <Col xs={4}>
-                            <div className="col-title name">Name</div>
-                        </Col>
-                        <Col xs={4}>
-                            <div className="col-title">Type</div>
-                        </Col>
-                        <Col xs={4}>
-                            <div className="col-title">Modified</div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        {contents.map(this.renderServiceItem)}
-                    </Row>
-                </Grid>
-            );
+        const contents = [];
+        /*
+            <Col xs={12} className="mapstore-topioDrive-head-title-container text-center no-border">
+                <div className="mapstore-topioDrive-head-title" title='Topio Drive'>&nbsp;&nbsp;Topio Drive</div>
+            </Col> */
+        return (
+            <Grid className="folder-grid" fluid >
+                <Row >
+                    <Col xs={4}>
+                        <div className="col-title name">Name</div>
+                    </Col>
+                    <Col xs={4}>
+                        <div className="col-title">Type</div>
+                    </Col>
+                    <Col xs={4}>
+                        <div className="col-title">Modified</div>
+                    </Col>
+                </Row>
+                <Row>
+                    {contents.map(this.renderServiceItem)}
+                </Row>
+            </Grid>
+        );
     }
 
 

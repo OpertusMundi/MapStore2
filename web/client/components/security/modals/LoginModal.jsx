@@ -16,7 +16,8 @@ import { getMessageById } from '../../../utils/LocaleUtils';
 import '../css/security.css';
 import Button from '../../misc/Button';
 import google from './assets/google.svg';
-import keycloak from './assets/keycloak.svg';
+//import keycloak from './assets/keycloak.svg';
+import keycloak from '../../../product/assets/img/topio_logo_topio-full-blue.svg';
 import withTooltip from '../../misc/enhancers/tooltip';
 
 
@@ -30,7 +31,7 @@ const LoginItem = withTooltip(({provider, onLogin}) => {
     const {title, provider: providerName, imageURL} = provider;
     const logo = imageURL ?? logos[providerName];
     const text = title;
-    return <a style={{margin: 20}} onClick={() => onLogin(provider)}>{logo ? <img src={logo} alt={text} style={{minHeight: 50}} /> : text ?? providerName}</a>;
+    return <a style={{margin: 20}} onClick={() => onLogin(provider)}>{logo ? <img src={logo} alt={text} style={{width: 100}} /> : text ?? providerName}</a>;
 });
 /**
  * A Modal window to show password reset form
@@ -96,7 +97,7 @@ class LoginModal extends React.Component {
         const openIdProviders = this.props.providers.filter(({type}) => type === "openID");
         if (openIdProviders.length > 0) {
             return <>
-                <Separator><Message msgId={formProviders.length > 0 ? "user.orSignInWith" : "user.signInWith"}/></Separator>
+                <Separator><Message msgId={formProviders.length > 0 ? "user.signInWith" : "user.signInWith"}/></Separator>
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
                     {openIdProviders.map((provider) => <LoginItem key={provider.provider} provider={provider} tooltip={provider?.tooltip ?? provider?.provider} onLogin={this.props.openIDLogin} />)}
                 </div>
@@ -107,18 +108,11 @@ class LoginModal extends React.Component {
 
     getFooter = () => {
         return (<span role="footer">
-            <Button
-                ref="submit"
-                value={getMessageById(this.context.messages, "user.signIn")}
-                bsStyle="primary"
-                bsSize={this.props.buttonSize}
-                className="pull-left"
-                onClick={this.loginSubmit}
-                key="submit">{getMessageById(this.context.messages, "user.signIn")}</Button>
             {this.props.includeCloseButton ? <Button
                 key="closeButton"
                 ref="closeButton"
                 bsSize={this.props.buttonSize}
+                bsStyle={"primary-decline"}
                 onClick={this.handleOnHide}><Message msgId="close"/></Button> : <span/>}
         </span>);
     };
@@ -130,8 +124,9 @@ class LoginModal extends React.Component {
             </Modal.Header>
             <Modal.Body>
                 <>
-                    {this.getForm()}
-                    {this.getOpenIDProviders()}
+                    <div className="login-topio">
+                         {this.getOpenIDProviders()}
+                    </div>
                 </>
             </Modal.Body>
             <Modal.Footer>

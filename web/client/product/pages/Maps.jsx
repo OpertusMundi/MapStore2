@@ -16,6 +16,7 @@ import {resetControls} from '../../actions/controls';
 import {loadMaps} from '../../actions/maps';
 import Page from '../../containers/Page';
 import ConfigUtils from '../../utils/ConfigUtils';
+import {getCookieValue} from '../../utils/CookieUtils';
 
 import("../assets/css/maps.css");
 
@@ -43,6 +44,10 @@ class MapsPage extends React.Component {
         mode: 'desktop',
         reset: () => {}
     };
+    
+    static contextTypes = {
+        router: PropTypes.object
+    };
 
     state = {};
 
@@ -56,6 +61,11 @@ class MapsPage extends React.Component {
     }
 
     onLoaded = (pluginsAreLoaded) => {
+        if(getCookieValue("tokens_key") && sessionStorage.getItem("redirect_url")){
+            const redirect_url =  sessionStorage.getItem("redirect_url")
+            sessionStorage.removeItem("redirect_url");
+            this.context.router.history.push(redirect_url);
+        }
         if (pluginsAreLoaded && !this.state.pluginsAreLoaded) {
             this.setState({pluginsAreLoaded: true}, () => {
                 this.props.loadMaps();
