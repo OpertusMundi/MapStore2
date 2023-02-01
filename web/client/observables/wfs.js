@@ -31,8 +31,8 @@ export const toDescribeURL = ({ name, search = {}, url, describeFeatureTypeURL} 
                 ...parsed.query,
 
                 service: "WFS",
-                version: "1.1.0",
-                typeName: name,
+                version: "2.0.0",
+                typeNames: name,
                 outputFormat: 'application/json',
                 request: "DescribeFeatureType"
             }

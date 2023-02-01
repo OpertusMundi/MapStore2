@@ -8,8 +8,10 @@ import Button from '../../components/misc/Button';
 
 import xml2js from 'xml2js';
 
-import {searchAndPaginate, parseUrl} from '../../api/WMS';
-import {getCatalogRecords, getLayerFromRecord} from '../../api/catalog/WMS';
+import {searchAndPaginate as searchAndPaginateWMS , parseUrl} from '../../api/WMS';
+import {getCatalogRecords as getCatalogRecordsWMS , getLayerFromRecord as getLayerFromRecordWMS} from '../../api/catalog/WMS';
+import {searchAndPaginate as searchAndPaginateWFS, getCatalogRecords as getCatalogRecordsWFS, getLayerFromRecord as getLayerFromRecordWFS} from '../../api/catalog/WFS';
+import {getCapabilitiesURL} from '../../api/WFS';
 import {addLayer} from '../../actions/catalog';
 
 import { bindActionCreators } from 'redux';
@@ -20,6 +22,17 @@ import { Row, Col, Glyphicon } from 'react-bootstrap';
 
 const capabilitiesCache = {};
 
+const api = axios.create();
+
+const token = getToken();
+
+const config = {
+      headers: {
+          'Authorization': `Bearer ${token}`,
+      },
+      withCredentials: false,
+}; 
+
 
 class ServiceItem extends React.Component {
     static propTypes = {
@@ -28,25 +41,11 @@ class ServiceItem extends React.Component {
         updated: PropTypes.string,
         type: PropTypes.string,
     };
+    
 
-
-    async addToMap(url) {
-        const token = getToken();
-        const api = axios.create();
-        const config = {
-              headers: {
-                  'Authorization': `Bearer ${token}`,
-              },
-              withCredentials: false,
-        }; 
+    async addWMSRecord(url){
         const topioUrl = url.split('?')[0];
         const layerName = url.split('layers=')[1];
-        const cached = capabilitiesCache[url];
-        /* if (cached && new Date().getTime() < cached.timestamp + (getConfigProp('cacheExpire') || 60) * 1000) {
-            return new Promise((resolve) => {
-                resolve(searchAndPaginate(cached.data, startPosition, maxRecords, text));
-            });
-        } */
         const parsedUrl = parseUrl(topioUrl);
         api.get(parsedUrl, config).then((response) => {
             let json;
@@ -58,10 +57,10 @@ class ServiceItem extends React.Component {
                 data: json
             };
 
-            const paginateResponse  =  searchAndPaginate(json, 0, 100, layerName);
+            const paginateResponse  =  searchAndPaginateWMS(json, 0, 100, layerName);
 
-            const catalogRecords = getCatalogRecords(paginateResponse, { ...paginateResponse.layerOptions, url: topioUrl })
-            getLayerFromRecord(catalogRecords[0], { ...paginateResponse.layerOptions }, true)
+            const catalogRecords = getCatalogRecordsWMS(paginateResponse, { ...paginateResponse.layerOptions, url: topioUrl })
+            getLayerFromRecordWMS(catalogRecords[0], { ...paginateResponse.layerOptions }, true)
                 .then((result) => {
                     if (result.title){
                         result.title = this.props.title;
@@ -69,7 +68,46 @@ class ServiceItem extends React.Component {
                     this.props.addLayer(result, true);
                 });
         });
-        
+    }
+
+    async addWFSRecord(url){
+        const topioUrl = url.split('?')[0];
+        const layerName = url.split('typeName=')[1];
+       /*  if (cached && new Date().getTime() < cached.timestamp + (ConfigUtils.getConfigProp('cacheExpire') || 60) * 1000) {
+            return new Promise((resolve) => {
+                resolve(searchAndPaginateWFS(cached.data, startPosition, maxRecords, text, info));
+            });
+        } */
+        api.get(getCapabilitiesURL(topioUrl, {version:"2.0.0"}), config).then((response) => {
+            let json;
+            xml2js.parseString(response.data, { explicitArray: false, stripPrefix: true }, (ignore, result) => {
+                json = { ...result, url: topioUrl };
+            });
+            /* capabilitiesCache[url] = {
+                timestamp: new Date().getTime(),
+                data: json
+            }; */
+            const paginateResponse  = searchAndPaginateWFS(json, 0, 100, layerName);
+
+            const catalogRecords = getCatalogRecordsWFS(paginateResponse, { ...paginateResponse.layerOptions, url: topioUrl })
+            getLayerFromRecordWFS(catalogRecords[0], { ...paginateResponse.layerOptions }, true)
+                .then((result) => {
+                    if (result.title){
+                        result.title = this.props.title;
+                    }
+                    this.props.addLayer(result, true);
+                });
+        });
+    }
+
+
+    async addToMap(url) {
+        if (url.includes('wms')){
+            this.addWMSRecord(url)
+        }
+        else if (url.includes('wfs')){
+            this.addWFSRecord(url);
+        } 
     };
 
 

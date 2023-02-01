@@ -35,12 +35,12 @@ const buildRequest = (layer, { map = {}, point, currentLocale, params, maxItems 
         request: addAuthenticationToSLD({
             point, // THIS WILL NOT BE PASSED TO FINAL REQUEST, BUT USED IN getRetrieveFlow
             service: 'WFS',
-            version: '1.1.1',
+            version: '2.0.0',
             request: 'GetFeature',
             outputFormat: 'application/json',
             exceptions: 'application/json',
             id: layer.id,
-            typeName: layer.name,
+            typeNames: layer.name,
             srs: normalizeSRS(map.projection) || 'EPSG:4326',
             feature_count: maxItems,
             ...assign({ params })

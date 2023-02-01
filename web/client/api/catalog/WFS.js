@@ -23,10 +23,10 @@ import { get, castArray } from 'lodash';
 const capabilitiesCache = {};
 
 
-const searchAndPaginate = (json = {}, startPosition, maxRecords, text) => {
+export const searchAndPaginate = (json = {}, startPosition, maxRecords, text) => {
 
     const layers = castArray(get(json, '["wfs:WFS_Capabilities"].FeatureTypeList.FeatureType', []));
-
+    
     const filteredLayers = layers
         .map((featureType) => {
             const {

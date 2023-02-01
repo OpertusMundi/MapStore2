@@ -8,8 +8,11 @@
 import axios from '../libs/ajax';
 import urlUtil from 'url';
 import assign from 'object-assign';
+import { getToken } from '../utils/SecurityUtils';
+
 
 export const toDescribeURL = (url, typeName) => {
+    console.log('to describe url');
     const parsed = urlUtil.parse(url, true);
     return urlUtil.format(
         {
@@ -19,8 +22,8 @@ export const toDescribeURL = (url, typeName) => {
                 ...parsed.query,
 
                 service: "WFS",
-                version: "1.1.0",
-                typeName,
+                version: "2.0.0",
+                typeNames: typeName,
                 outputFormat: 'application/json',
                 request: "DescribeFeatureType"
             }
@@ -67,10 +70,18 @@ export const getFeatureURL = (url, typeName, { version = "1.1.0", ...params } = 
 };
 
 export const getFeature = (url, typeName, params, config) => {
-    return axios.get(getFeatureURL(url, typeName, params), config);
+    const token = getToken();
+    const newConfig = {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        withCredentials: false,
+    }; 
+    return axios.get(getFeatureURL(url, typeName, params), newConfig);
 };
 
 export const getCapabilities = function(url) {
+    
     return axios.get(getCapabilitiesURL(url));
 };
 /**
@@ -99,6 +110,13 @@ export const describeFeatureTypeOGCSchemas = function(url, typeName) {
 };
 
 export const describeFeatureType = function(url, typeName) {
-    return axios.get(toDescribeURL(url, typeName)).then(({data}) => data);
+    const token = getToken();
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        withCredentials: false,
+    }; 
+    return axios.get(toDescribeURL(url, typeName), config).then(({data}) => data);
 };
 
