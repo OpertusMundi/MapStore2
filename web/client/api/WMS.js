@@ -122,7 +122,18 @@ export const getCapabilities = (url, raw) => {
     return new Promise((resolve) => {
         require.ensure(['../utils/ogc/WMS'], () => {
             const {unmarshaller} = require('../utils/ogc/WMS');
-            resolve(axios.get(parseUrl(getCapabilitiesUrl)).then((response) => {
+            let config;
+            // If topio ogc service
+            if (url.includes('topio')) {
+                const token = getToken();
+                config = {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    withCredentials: false,
+                };
+            }
+            resolve(axios.get(parseUrl(getCapabilitiesUrl), config).then((response) => {
                 if (raw) {
                     let json;
                     xml2js.parseString(response.data, {explicitArray: false}, (ignore, result) => {
@@ -189,13 +200,16 @@ export const describeLayers = (url, layers) => {
             request: "DescribeLayer"
         }, parsed.query)
     }));
-    const token = getToken();
-    const config = {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
-        withCredentials: false,
-    }; 
+    let config;
+    if (url.includes('topio')){
+        const token = getToken();
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            withCredentials: false,
+        }; 
+    }
     return axios.get(parseUrl(describeLayerUrl), config).then((response) => {
         let decriptions;
         xml2js.parseString(response.data, {explicitArray: false}, (ignore, result) => {

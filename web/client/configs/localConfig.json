@@ -64,11 +64,6 @@
     {
       "urlPattern": ".*rest/config.*",
       "method": "bearer"
-    },
-    {
-      "urlPattern": "http(s)?\\:\\/\\/gs-stable\\.geo-solutions\\.it(\\:443|\\:80)?\\/geoserver/.*",
-      "authkeyParamName": "authkey",
-      "method": "authkey"
     }
   ],
   "monitorState": [
@@ -127,36 +122,42 @@
             "isNew": true,
             "autoload": false
           },
-          "selectedService": "gs_stable_csw",
+          "selectedService": "gs_topio_wms",
           "services": {
             "gs_topio_wms": {
               "url": "https://geodata.gov.gr/geoserver/wms",
               "type": "wms",
-              "title": "My Topio Maps WMS ",
+              "title": "Topio Maps WMS ",
               "autoload": true
             },
             "gs_topio_wfs": {
               "url": "https://geodata.gov.gr/geoserver/wfs",
               "type": "wfs",
-              "title": "My Topio Maps WFS ",
+              "title": "Topio Maps WFS ",
               "autoload": false
             },
             "gs_stable_csw": {
               "url": "https://gs-stable.geo-solutions.it/geoserver/csw",
               "type": "csw",
-              "title": "Open Topio Maps CSW",
+              "title": "GeoSolutions GeoServer CSW",
               "autoload": true
             },
             "gs_stable_wms": {
               "url": "https://gs-stable.geo-solutions.it/geoserver/wms",
               "type": "wms",
-              "title": "Open Topio Maps WMS",
+              "title": "GeoSolutions GeoServer WMS",
+              "autoload": false
+            },
+            "gs_stable_wfs": {
+              "url": "https://gs-stable.geo-solutions.it/geoserver/wfs",
+              "type": "wms",
+              "title": "GeoSolutions GeoServer WFS",
               "autoload": false
             },
             "gs_stable_wmts": {
               "url": "https://gs-stable.geo-solutions.it/geoserver/gwc/service/wmts",
               "type": "wmts",
-              "title": "Open Topio Maps WMTS",
+              "title": "GeoSolutions GeoServer WMTS",
               "autoload": false
             }
           },
@@ -943,6 +944,17 @@
         "cfg": {
           "selectedService": "GeoSolutions GeoServer CSW",
           "services": {
+
+            "Topio Maps WMS": {
+              "url": "https://geodata.gov.gr/geoserver/wms",
+              "type": "wms",
+              "title": "Topio Maps WMS"
+            },
+            "Topio Maps WFS": {
+              "url": "https://geodata.gov.gr/geoserver/wfs",
+              "type": "wfs",
+              "title": "Topio Maps WFS"
+            },
             "GeoSolutions GeoServer CSW": {
               "url": "https://gs-stable.geo-solutions.it/geoserver/csw",
               "type": "csw",

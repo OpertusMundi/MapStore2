@@ -23,7 +23,7 @@
 
 
 #drawer-menu-button:hover {
-    background: transparent;
+    opacity: 80%;
 }
 
 #drawer-menu-button:active{

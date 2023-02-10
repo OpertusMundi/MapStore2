@@ -70,14 +70,16 @@ export const getFeatureURL = (url, typeName, { version = "1.1.0", ...params } = 
 };
 
 export const getFeature = (url, typeName, params, config) => {
-    const token = getToken();
-    const newConfig = {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
-        withCredentials: false,
-    }; 
-    return axios.get(getFeatureURL(url, typeName, params), newConfig);
+    if (url.includes('topio')){
+        const token = getToken();
+        config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            withCredentials: false,
+        }; 
+    }
+    return axios.get(getFeatureURL(url, typeName, params), config);
 };
 
 export const getCapabilities = function(url) {
@@ -110,13 +112,16 @@ export const describeFeatureTypeOGCSchemas = function(url, typeName) {
 };
 
 export const describeFeatureType = function(url, typeName) {
+    let config;
     const token = getToken();
-    const config = {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
-        withCredentials: false,
-    }; 
+    if (url.includes('topio')){
+        config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            withCredentials: false,
+        }; 
+    }
     return axios.get(toDescribeURL(url, typeName), config).then(({data}) => data);
 };
 

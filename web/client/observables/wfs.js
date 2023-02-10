@@ -19,6 +19,8 @@ import { getCapabilitiesUrl } from '../utils/LayersUtils';
 import { interceptOGCError } from '../utils/ObservableUtils';
 import requestBuilder from '../utils/ogc/WFS/RequestBuilder';
 
+import {getToken} from '../utils/SecurityUtils';
+
 const {getFeature, query, sortBy, propertyName} = requestBuilder({ wfsVersion: "1.1.0" });
 
 export const toDescribeURL = ({ name, search = {}, url, describeFeatureTypeURL} = {}) => {
@@ -272,8 +274,20 @@ export const getLayerJSONFeature = ({ search = {}, url, name } = {}, filter, {so
 export const describeFeatureType = ({layer}) =>
     Rx.Observable.defer(() =>
         axios.get(toDescribeURL(layer))).let(interceptOGCError);
-export const getLayerWFSCapabilities = ({layer}) =>
-    Rx.Observable.defer( () => axios.get(toLayerCapabilitiesURL(layer)))
+export const getLayerWFSCapabilities = ({layer}) => {
+    const url = toLayerCapabilitiesURL(layer);
+    const token = getToken();
+    let config;
+    // If topio ogc service
+    if (url.includes('topio')) {
+        config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            withCredentials: false,
+        };
+    }
+    Rx.Observable.defer( () => axios.get(url, config))
         .let(interceptOGCError)
         .switchMap( response => Rx.Observable.bindNodeCallback( (data, callback) => parseString(data, {
             tagNameProcessors: [stripPrefix],
@@ -281,7 +295,7 @@ export const getLayerWFSCapabilities = ({layer}) =>
             mergeAttrs: true
         }, callback))(response.data)
         );
-
+    }
 export default {
     getJSONFeature,
     getLayerJSONFeature,

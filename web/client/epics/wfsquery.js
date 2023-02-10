@@ -9,6 +9,8 @@ import Rx from 'rxjs';
 
 import axios from '../libs/ajax';
 
+import { getToken } from '../utils/SecurityUtils';
+
 import {
     changeSpatialAttribute,
     SELECT_VIEWPORT_SPATIAL_METHOD,
@@ -96,6 +98,17 @@ export const featureTypeSelectedEpic = (action$, store) =>
     action$.ofType(FEATURE_TYPE_SELECTED)
         .filter(action => action.url && action.typeName)
         .switchMap(action => {
+            let config;
+            if (action.url.includes('topio')){
+                const token = getToken();
+                config = {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    withCredentials: false,
+                }; 
+                
+            }
             const state = store.getState();
             if (isDescribeLoaded(state, action.typeName)) {
                 const info = extractInfo(layerDescribeSelector(state, action.typeName));
@@ -105,7 +118,7 @@ export const featureTypeSelectedEpic = (action$, store) =>
 
             const selectedLayer = selectedLayerSelector(state);
             if (selectedLayer && selectedLayer.type === 'vector') {
-                return Rx.Observable.defer( () =>axios.get(action.url))
+                return Rx.Observable.defer( () =>axios.get(action.url, config))
                     .map((response) => {
 
                         var originalData = {
@@ -134,8 +147,9 @@ export const featureTypeSelectedEpic = (action$, store) =>
                     .mergeAll();
 
             }
+            console.log('out vector config ', config);
 
-            return Rx.Observable.defer( () => axios.get(ConfigUtils.filterUrlParams(action.url, authkeyParamNameSelector(store.getState())) + '?service=WFS&version=1.1.0&request=DescribeFeatureType&typeName=' + action.typeName + '&outputFormat=application/json'))
+            return Rx.Observable.defer( () => axios.get(ConfigUtils.filterUrlParams(action.url, authkeyParamNameSelector(store.getState())) + '?service=WFS&version=1.1.0&request=DescribeFeatureType&typeName=' + action.typeName + '&outputFormat=application/json', config))
                 .map((response) => {
                     if (typeof response.data === 'object' && response.data.featureTypes && response.data.featureTypes[0]) {
                         const info = extractInfo(response.data);

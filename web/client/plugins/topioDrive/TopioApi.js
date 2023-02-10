@@ -5,17 +5,36 @@ import {
 } from '../../utils/SecurityUtils';
 
 import GeoStoreApi from '../../api/GeoStoreDAO';
+import {
+    searchAndPaginate as searchAndPaginateWMS,
+    parseUrl
+} from '../../api/WMS';
+import {
+    getCatalogRecords as getCatalogRecordsWMS,
+    getLayerFromRecord as getLayerFromRecordWMS
+} from '../../api/catalog/WMS';
+import {
+    searchAndPaginate as searchAndPaginateWFS,
+    getCatalogRecords as getCatalogRecordsWFS,
+    getLayerFromRecord as getLayerFromRecordWFS
+} from '../../api/catalog/WFS';
+import {
+    getCapabilitiesURL
+} from '../../api/WFS';
+
+import xml2js from 'xml2js';
 
 const fileSystemUrl = 'https://beta.topio.market/api/file-system?path=/';
 const hookUrl = 'https://beta.topio.market/api/webhooks/topio-maps';
 
 const token = getToken();
 
+const capabilitiesCache = {};
+
 export const getFileSystem = async () => {
     const api = axios.create({
         withCredentials: true
     });
-
 
     const config = {
         headers: {
@@ -83,6 +102,86 @@ export const getSubscriptions = async () => {
     return result
 };
 
+export const addWMSRecord = async (url, layerName = '') => {
+    const api = axios.create();
+    let config;
+    if (url.includes('topio')) {
+        config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            withCredentials: false,
+        };
+    }
+    const topioUrl = url.split('?')[0];
+    const parsedUrl = parseUrl(topioUrl);
+    api.get(parsedUrl, config).then((response) => {
+        let json;
+        xml2js.parseString(response.data, {
+            explicitArray: false
+        }, (ignore, result) => {
+            json = result;
+        });
+        capabilitiesCache[topioUrl] = {
+            timestamp: new Date().getTime(),
+            data: json
+        };
+
+        const paginateResponse = searchAndPaginateWMS(json, 0, 100, layerName);
+
+        const catalogRecords = getCatalogRecordsWMS(paginateResponse, {
+            ...paginateResponse.layerOptions,
+            url: topioUrl
+        })
+        getLayerFromRecordWMS(catalogRecords[0], {
+                ...paginateResponse.layerOptions
+            }, true)
+            .then((result) => {
+                return result;
+            });
+    });
+}
+
+export const addWFSRecord = async (url, layerName = '') => {
+    const api = axios.create();
+    const topioUrl = url.split('?')[0];
+    /*  if (cached && new Date().getTime() < cached.timestamp + (ConfigUtils.getConfigProp('cacheExpire') || 60) * 1000) {
+         return new Promise((resolve) => {
+             resolve(searchAndPaginateWFS(cached.data, startPosition, maxRecords, text, info));
+         });
+     } */
+    api.get(getCapabilitiesURL(topioUrl, {
+        version: "2.0.0"
+    }), config).then((response) => {
+        let json;
+        xml2js.parseString(response.data, {
+            explicitArray: false,
+            stripPrefix: true
+        }, (ignore, result) => {
+            json = {
+                ...result,
+                url: topioUrl
+            };
+        });
+        /* capabilitiesCache[url] = {
+            timestamp: new Date().getTime(),
+            data: json
+        }; */
+        const paginateResponse = searchAndPaginateWFS(json, 0, 100, layerName);
+
+        const catalogRecords = getCatalogRecordsWFS(paginateResponse, {
+            ...paginateResponse.layerOptions,
+            url: topioUrl
+        })
+        getLayerFromRecordWFS(catalogRecords[0], {
+                ...paginateResponse.layerOptions
+            }, true)
+            .then((result) => {
+                return result;
+            });
+    });
+}
+
 
 export const onEditHook = async (resource) => {
     let thumbnail;
@@ -104,7 +203,7 @@ export const onEditHook = async (resource) => {
     GeoStoreApi.getResource(resource.id).then(r => {
         r.Resource.Attributes.attribute.forEach(a => {
             if (a.name == 'thumbnail') {
-                thumbnail = currUrl.replace('viewer/openlayers/new','') + a.value;
+                thumbnail = currUrl.replace('viewer/openlayers/new', '') + a.value;
             }
         })
         const data = {

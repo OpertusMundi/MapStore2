@@ -20,7 +20,7 @@ import { getToken } from '../../utils/SecurityUtils';
 
 import FileGrid from './FileGrid';
 import CatalogueGrid from './CatalogueGrid';
-import ServiceGrid from './ServiceGrid';
+import OpenServiceGrid from './OpenServiceGrid';
 
 import Tab from "./Tab";
 
@@ -190,7 +190,7 @@ class MenuTopio extends React.Component {
                 title: "Open Datasets",
                 content:
                     <div className={"nav-body topio-drive-grid"}>
-                        <ServiceGrid />
+                        <OpenServiceGrid />
                     </div>,
             },
         ];

@@ -185,10 +185,10 @@ export function FilterBuilderPopover({
                 />
             }>
             <Button
-                className="square-button-md no-border"
+                className="square-button-md no-border "
                 active={isActive}
                 tooltipId="styleeditor.openFilterBuilder">
-                <img src="filterIcon"/>
+                <img className='filterBuilder' src={filterIcon}/>
             </Button>
         </Popover>
     );
