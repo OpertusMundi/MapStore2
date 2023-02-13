@@ -955,6 +955,11 @@
               "type": "wfs",
               "title": "Topio Maps WFS"
             },
+            "City of Athens WFS": {
+              "url": "http://gis.cityofathens.gr/geoserver/wfs",
+              "type": "wfs",
+              "title": "City of Athens WFS"
+            },
             "GeoSolutions GeoServer CSW": {
               "url": "https://gs-stable.geo-solutions.it/geoserver/csw",
               "type": "csw",
