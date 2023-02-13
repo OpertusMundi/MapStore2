@@ -30,7 +30,7 @@ class EmptyDashboards extends React.Component {
 
     render() {
         return (<div style={{width: "100%", textAlign: "center"}}>{this.props.loggedIn && this.props.showCreateButton
-            ? (<Button bsStyle="primary" onClick={() => { this.context.router.history.push("/dashboard"); }}>
+            ? (<Button bsStyle="primary btn-primary-create" onClick={() => { this.context.router.history.push("/dashboard"); }}>
                 <Message msgId="resources.dashboards.createANewOne" />
             </Button>)
             : null}</div>);

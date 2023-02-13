@@ -29,7 +29,7 @@ class EmptyGeostories extends React.Component {
 
     render() {
         return (<div style={{width: "100%", textAlign: "center"}}>{this.props.loggedIn && this.props.showCreateButton
-            ? (<Button bsStyle="primary" onClick={() => { this.context.router.history.push("/geostory/newgeostory"); }}>
+            ? (<Button bsStyle="primary btn-primary-create" onClick={() => { this.context.router.history.push("/geostory/newgeostory"); }}>
                 <Message msgId="resources.geostories.createANewOne" />
             </Button>)
             : null}</div>);
