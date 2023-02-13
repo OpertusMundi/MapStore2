@@ -22,6 +22,9 @@ import {
     getCapabilitiesURL
 } from '../../api/WFS';
 
+
+import thumbUrl from '../../components/maps/style/default.jpg';
+
 import xml2js from 'xml2js';
 
 const fileSystemUrl = 'https://beta.topio.market/api/file-system?path=/';
@@ -184,8 +187,9 @@ export const addWFSRecord = async (url, layerName = '') => {
 
 
 export const onEditHook = async (resource) => {
-    let thumbnail;
-    const currUrl = window.location.href;
+    const currUrl = window.location.href.split('#/')[0];
+    // set default thumbnail
+    let thumbnail = thumbUrl;
     const date = Math.round((new Date()).getTime() / 1000);
     const url = hookUrl + '?EventType=MAP_CREATED' + '&Date=' + date;
     const api = axios.create({
@@ -203,11 +207,11 @@ export const onEditHook = async (resource) => {
     GeoStoreApi.getResource(resource.id).then(r => {
         r.Resource.Attributes.attribute.forEach(a => {
             if (a.name == 'thumbnail') {
-                thumbnail = currUrl.replace('viewer/openlayers/new', '') + a.value;
+                thumbnail = currUrl + a.value;
             }
         })
         const data = {
-            url: currUrl.includes('openlayers') ? currUrl : currUrl + 'viewer/openlayers/' + resource.id,
+            url: currUrl + '#/viewer/openlayers/' + resource.id,
             title: resource.name,
             thumbnail
         };
@@ -222,7 +226,6 @@ export const onEditHook = async (resource) => {
 
 export const onDeleteHook = async (id) => {
 
-    let title;
     const date = Math.round((new Date()).getTime() / 1000);
     const url = hookUrl + '?EventType=MAP_DELETED' + '&Date=' + date;
     const api = axios.create({

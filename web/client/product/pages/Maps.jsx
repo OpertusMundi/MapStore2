@@ -13,10 +13,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {resetControls} from '../../actions/controls';
+import {onShowLogin} from '../../actions/login';
 import {loadMaps} from '../../actions/maps';
 import Page from '../../containers/Page';
 import ConfigUtils from '../../utils/ConfigUtils';
 import {getCookieValue} from '../../utils/CookieUtils';
+import { getToken} from '../../utils/SecurityUtils';
 
 import("../assets/css/maps.css");
 
@@ -61,10 +63,14 @@ class MapsPage extends React.Component {
     }
 
     onLoaded = (pluginsAreLoaded) => {
+        const token = getToken();
         if(getCookieValue("tokens_key") && sessionStorage.getItem("redirect_url")){
             const redirect_url =  sessionStorage.getItem("redirect_url")
             sessionStorage.removeItem("redirect_url");
             this.context.router.history.push(redirect_url);
+        }
+        else if(!token){
+            this.props.onShowLogin();
         }
         if (pluginsAreLoaded && !this.state.pluginsAreLoaded) {
             this.setState({pluginsAreLoaded: true}, () => {
@@ -92,5 +98,6 @@ export default connect((state) => ({
         ConfigUtils.getDefaults().geoStoreUrl,
         ConfigUtils.getDefaults().initialMapFilter || "*"
     ),
+    onShowLogin ,
     reset: resetControls
 })(MapsPage);
