@@ -63,16 +63,16 @@ class MapsPage extends React.Component {
     }
 
     onLoaded = (pluginsAreLoaded) => {
-        const token = getToken();
-        if(getCookieValue("tokens_key") && sessionStorage.getItem("redirect_url")){
+        const tokens_key = getCookieValue("tokens_key");
+        if(tokens_key && sessionStorage.getItem("redirect_url")){
             const redirect_url =  sessionStorage.getItem("redirect_url")
             sessionStorage.removeItem("redirect_url");
             this.context.router.history.push(redirect_url);
         }
-        else if(!token){
-            this.props.onShowLogin();
-        }
         if (pluginsAreLoaded && !this.state.pluginsAreLoaded) {
+            if (!tokens_key){
+                this.props.onShowLogin();
+            }
             this.setState({pluginsAreLoaded: true}, () => {
                 this.props.loadMaps();
             });
